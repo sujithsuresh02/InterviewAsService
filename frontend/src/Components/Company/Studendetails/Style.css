@@ -1,0 +1,10 @@
+/* Style.css */
+.table {
+  border-collapse: collapse;
+
+}
+
+.table th {
+  background-color:"red";
+}
+
