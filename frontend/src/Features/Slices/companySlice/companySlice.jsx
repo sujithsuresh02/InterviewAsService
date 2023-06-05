@@ -2,8 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import myAxios from "../../../api/company/addRequestSlice.api";
 
 export const addRequest = createAsyncThunk("company/addRequest", async (values) => {
-  try {
-    const response = await myAxios.post("/add_request",  values);
+  try { 
+    console.log(values ,"tokensss");
+    const response = await myAxios.post("/add_request",values)
     console.log(response);
     console.log('reducer response');
     return response.data;
@@ -27,6 +28,8 @@ const addRequestlice = createSlice({
 
       })
       .addCase(addRequest.fulfilled, (state, action) => {
+         console.log(action);
+         console.log('action job detailss');
           state.response=action.payload
       })
       .addCase(addRequest.rejected, (state, action) => {

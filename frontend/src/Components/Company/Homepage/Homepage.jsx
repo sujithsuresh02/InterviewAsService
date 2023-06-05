@@ -4,10 +4,8 @@ import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
-import Header from "../../Common/Header/Header";
  import Cards from "./Card";
 import Image from "../../../Images/Hiring-2048x1449.webp";
-import Footer from "../../Common/Footer/Footer";
 
 function Homepage() {
   const theme = useTheme();

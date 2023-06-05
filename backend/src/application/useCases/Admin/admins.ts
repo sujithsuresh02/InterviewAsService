@@ -72,6 +72,7 @@ export const performAdminLogin = async (
   const payload = {
     id: matchedAccount.id,
     name: matchedAccount.name,
+    role: "admin",
   };
 
   const accessToken = adminDbService.generateAcessesToken(payload);
@@ -85,8 +86,34 @@ export const performAdminLogin = async (
 };
 
 export const getFullRequest = async (
-  adminDbRepostory: ReturnType<adminDbInterface>,
+  adminDbRepostory: ReturnType<adminDbInterface>
 ) => {
-  const response =  await adminDbRepostory.getAllRequest();
- return response
+  const response = await adminDbRepostory.getAllRequest();
+  return response;
+};
+
+export const getFullStudentDetils = async (
+  adminDbRepostory: ReturnType<adminDbInterface>,
+  id: string
+) => {
+  const response = await adminDbRepostory.getStudentDetails(id);
+  return response;
+};
+
+export const getFullDemoRequest = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = await adminDbRepostory.getFullDemoRequest();
+  console.log(response);
+  console.log("from usecase");
+
+  return response;
+};
+
+export const sendConfirmMail = async (
+  email: string,
+  adminDbService: ReturnType<adminServicesInterface>
+) => {
+  const response = await adminDbService.sendConfirmationMail(email);
+  return response
 };

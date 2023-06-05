@@ -4,8 +4,8 @@ import Sidebar from "../../Components/Admin/Dashboard/Sidebar"
 export default function Viewstudentsdetails() {
   return (
     <React.Fragment>
-        <Sidebar/>
-        <Student/>
+        <Sidebar allTables={ <Student/>}/>
+       
     </React.Fragment>
   )
 }

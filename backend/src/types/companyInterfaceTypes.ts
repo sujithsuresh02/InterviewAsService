@@ -6,7 +6,7 @@ export interface addRequestFormData {
     optional: string;
     numberOfVacancy: number;
     TotalStudentsCount: number;
-    studentName: string;
+    companyId:string|undefined
   }
 
   export interface CVDetails {
@@ -29,3 +29,13 @@ export interface addRequestFormData {
     certifications?: string;
   }
   
+
+  export interface demoDetails{
+    fullName:string,
+    company: string,
+    role: string,
+    emailId: string,
+    contactNumber:string,
+    learnAboutUs:string,
+    message?: string|null,
+  }

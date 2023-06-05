@@ -4,8 +4,8 @@ import Sidebar from "../../Components/Admin/Dashboard/Sidebar"
 export default function Timeslotpage() {
   return (
     <React.Fragment>
-      <Sidebar/>
-        <Addtimeslot/>
+        <Sidebar allTables={ <Addtimeslot/>}/>
+       
     </React.Fragment>
   )
 }

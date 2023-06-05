@@ -1,49 +1,54 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Landingpage from "../src/Pages/Landingpage/Landingpage";
-import Students from "./Components/Company/Studendetails/Students";
-import AddRequest from "./Components/Company/Addrequest/Request";
-import Viewrequests from "../src/Pages/Admin/Viewrequests";
-import Dashboard from "../src/Pages/Admin/Dashboard";
-import Viewstudents from "../src/Pages/Admin/Viewstudentsdetails";
-import Adminsignup from "../src/Pages/Admin/Signup";
-import AdminLoginpage from "../src/Pages/Admin/Loginpage";
-import Addtimeslotpage from "./Pages/Admin/Timeslotpage";
-import SignupForm from "./Components/Common/auth/Signupform";
-import Loginform from "./Components/Common/auth/Login";
-import Secondingpage from "./Pages/Landingpage/Secondingpage";
-import Homepage from "./Pages/Company/homepage";
-import AddRequestPage from "./Pages/Company/AddRequestPage";
-import StudentDetailspage from "./Pages/Company/StudentDetailspage";
+import AdminRoutes from "./Routes/AdminRoutes/admin";
+import CompanyRoutes from "./Routes/CompanyRoutes/company";
+import SecondLandingpage from "./Pages/Landingpage/SecondLandinggpage";
+import BecomeInterViwer from "./Pages/Landingpage/BecomeInterViwer";
+import ScrollToTop from "./Components/Common/ScrollUp";
+import Demopage from "./Pages/Landingpage/Demopage";
+import LoginForm from "./Components/Common/auth/CommonLogin";
+import SignupForm from "./Components/Common/auth/CommonSignup";
+import Interviwer from "./Routes/InterviewerRoute/Interviwer";
+import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'react-toastify';
+import { useSelector, } from "react-redux";
+import {Navigate} from "react-router-dom"
 
 function App() {
+
+  const refreshToken = useSelector((state) => state?.Login?.refreshToken);
+  console.log(refreshToken,"app .jsx");
   return (
+    <React.Fragment>
+      <ToastContainer />
+      <Toaster/>
     <Router>
-      <Routes>
+    <ScrollToTop/>
+<Routes>
         <Route
           exact
           path="/interview_as_service"
           expect
-          element={<Secondingpage />}
+          element={<SecondLandingpage />}
         />
         <Route exact path="/" expect element={<Landingpage />} />
+        <Route exact path="/become_interviewexpert" expect element={<BecomeInterViwer />} />
+        <Route exact path="/demo" expect element={<Demopage />} />
+        <Route path="/login" element={refreshToken ? <Navigate to="/company" />: <LoginForm/>}
+      />
+        <Route exact path="/signup/:token" expect element={<SignupForm />} />
 
-        {/* <Route path="/signup"  element={SignupForm}/> */}
-        <Route path="/login" element={Loginform} />
 
-        {/*==================================> Company====================================>  */}
-        <Route path="/company" element={<Homepage />} />
-        <Route path="/company/student_details" element={<StudentDetailspage />} />
-        <Route path="/company/add_request" element={<AddRequestPage />} />
-        {/* {<================================== Admin  =========================================>} */}
-        <Route path="/Admin" element={<Dashboard />} />
-        <Route path="/Admin/login" element={<AdminLoginpage />} />
-        <Route path="/Admin/signup" element={<Adminsignup />} />
-        <Route path="/Admin/view_request" element={<Viewrequests />} />
-        <Route path="/Admin/student_details" element={<Viewstudents />} />
-        <Route path="/Admin/addtime_slot" element={<Addtimeslotpage />} />
-      </Routes>
+
+
+        <Route path="/company/*" element={<CompanyRoutes />} />
+        <Route path="/Admin/*" element={<AdminRoutes />} />
+        <Route path="/interviewer/*" element={<Interviwer />} />
+     
+   </Routes>
     </Router>
+    </React.Fragment>
   );
 }
 

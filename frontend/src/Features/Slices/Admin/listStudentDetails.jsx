@@ -5,7 +5,7 @@ export const getStudentDetails = createAsyncThunk(
   "viewStudentsData",
   async (id) => {
     try {
-      const response = await myAxios.get("/student_details/${id}");
+      const response = await myAxios.get(`/student_details/${id}`);
       console.log(response);
       return response.data;
     } catch (error) {

@@ -27,6 +27,15 @@ export const initaddRequestModal = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    companyId: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: 'companies',
+        key: 'id',
+        
+      },
+    },
 
   });
 };

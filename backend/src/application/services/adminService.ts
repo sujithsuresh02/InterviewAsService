@@ -10,13 +10,16 @@ import { adminServicesImplementation } from "../../frameworks/services/adminServ
 
     const generateAcessesToken = (payload:any) => Service.generateAcessesToken(payload);
     const generateRefreshTokenToken = (payload:any) => Service.generateRefreshTokenToken(payload);
-  
+    const sendConfirmationMail=(email:string)=>{
+      return Service.sendEmailConfirmation(email)
+    }
 
 return{
     encryptPassword,
     comparePassword,
     generateAcessesToken,
-    generateRefreshTokenToken
+    generateRefreshTokenToken,
+    sendConfirmationMail
 }
 
 

@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 
 export const initCompanyModel = (sequelize: Sequelize) => {
-  return sequelize.define('Companies', {
+  return sequelize.define('companies', {
 
     id: {
       type: DataTypes.BIGINT,
@@ -28,7 +28,7 @@ export const initCompanyModel = (sequelize: Sequelize) => {
 
  
   export const initStudentModel = (sequelize: Sequelize) => {
-  return sequelize.define('Students', {
+  return sequelize.define('students', {
 
     id: {
       type: DataTypes.BIGINT,
@@ -54,7 +54,7 @@ export const initCompanyModel = (sequelize: Sequelize) => {
 
 
 export const initInterviewerModel = (sequelize: Sequelize) => {
-  return sequelize.define('Interviewers', {
+  return sequelize.define('interviewers', {
 
     id: {
       type: DataTypes.BIGINT,

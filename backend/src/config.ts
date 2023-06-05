@@ -11,6 +11,8 @@ interface ConfigKeys {
   PORT:Number
   JWT_SECRET:any,
   OPEN_API_KEY:any 
+  EMAIL:string,
+  EMAIL_PASSWORD:string
 }
 const configKeys: ConfigKeys = {
   database: process.env.database || 'defaultDatabaseName',
@@ -20,7 +22,10 @@ const configKeys: ConfigKeys = {
   db_port: parseInt(process.env.db_port || '5432', 10),
   PORT: parseInt(process.env.PORT||"5000",10),
   JWT_SECRET: process.env.JWT_SECRET,
-  OPEN_API_KEY:process.env.OPEN_API_KEY||""
+  OPEN_API_KEY:process.env.OPEN_API_KEY||"",
+  EMAIL:process.env.EMAIL||"",
+  EMAIL_PASSWORD:process.env.EMAIL_PASSWORD||""
+
 };
 
 export default configKeys;

@@ -17,10 +17,21 @@ import { adminFormValues } from "../../../types/adminInterfaceType";
    const getAllRequest=async ()=>{
     return  await implementationRepository.getFullRequest();
    }
+
+   const getStudentDetails=async (id :string)=>{
+    return  await implementationRepository.getStudentDetails(id);
+   }
+
+   const getFullDemoRequest=()=>{
+    return implementationRepository.getDemoRequest()
+  }
+ 
        return{
         registerAdmin,
         getCompanyByEmail,
-        getAllRequest
+        getAllRequest,
+        getStudentDetails,
+        getFullDemoRequest,
        }
   }
 

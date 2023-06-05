@@ -1,6 +1,12 @@
+
+
+
+
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import { useEffect } from 'react';
+import { useMediaQuery } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,14 +18,19 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
+// import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { Button, Grid } from '@mui/material';
-
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useDispatch } from 'react-redux';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import PeopleIcon from '@mui/icons-material/People';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import {Link} from "react-router-dom"
+ import {logout} from "../../../Features/Slices/Admin/adminLogin"
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -62,10 +73,11 @@ const AppBar = styled(MuiAppBar, {
   }),
   ...(open && {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    width:`calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
+  
     }),
   }),
 }));
@@ -87,26 +99,45 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+
+
+
+
+const SideBar = ({allTables}) => {
+    const dispatch = useDispatch()
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  let phoneview= useMediaQuery(theme.breakpoints.down("md"))
+  const [open, setOpen] = React.useState(true);
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
+  
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}  > 
-        <Toolbar sx={{bgcolor:"white"}}>
+  
+ useEffect(() => {
+ 
+   if(phoneview){
+    setOpen(false)
+  }
+ },[])
+ 
+  
+ const handlelogout=()=>{
+dispatch(logout())
+ }
+return (
+    <Box sx={{ display: 'flex'}}>
+      <CssBaseline  />
+      <AppBar position="fixed" open={open}  >
+        <Toolbar >
           <IconButton
-        
-            color="black"
+            color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -117,76 +148,75 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Grid container>
-          <Grid item xs={12} md={12} sm={12} lg={12} display={"flex"} justifyContent={"end"}>
-          <Button sx={{bgcolor:'gray',color:'black'}} > Logout</Button>
-          </Grid>
-          </Grid>
-         
-       
+          <Typography variant="h6" noWrap component="div">
+           
+          </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} >
-        <DrawerHeader > 
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Drawer variant="permanent" open={open} sx={{ marginTop: '2rem' }}>
+  <DrawerHeader>
+    <IconButton onClick={handleDrawerClose}>
+      {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+    </IconButton>
+  </DrawerHeader>
+  <Divider />
+  <List>
+    <Link to={"/admin"} style={{textDecoration:"none"}}>
+      <ListItemButton sx={{ marginTop: "25px" }}>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="DashBoard" sx={{ color: "grey", textDecoration: "none" }} />
+      </ListItemButton>
+    </Link>
+    <Link to={"/admin/view_request"} style={{textDecoration:"none"}}>
+      <ListItemButton sx={{ marginTop: "25px" }}>
+        <ListItemIcon>
+          <PostAddIcon />
+        </ListItemIcon>
+        <ListItemText primary="View Request" sx={{ color: "grey" }}/>
+      </ListItemButton>
+    </Link>
+    <Divider />
+    <Link to={"/admin/addtime_slot"} style={{textDecoration:"none"}}>
+      <ListItemButton sx={{ marginTop: "25px" }}>
+        <ListItemIcon>
+          <AccessTimeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Add TimeSlot"sx={{ color: "grey"}} />
+      </ListItemButton>
+    </Link>
+    <Link to={"/admin/student_details"}style={{textDecoration:"none"}}>
+      <ListItemButton sx={{ marginTop: "25px" }}>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="View Students" sx={{ color: "grey" }}/>
+      </ListItemButton>
+    </Link>
+    <Link to={"/admin/view_demo"} style={{textDecoration:"none"}}>
+      <ListItemButton sx={{ marginTop: "25px" }}>
+        <ListItemIcon>
+          <EventAvailableIcon />
+        </ListItemIcon>
+        <ListItemText primary="Demo Requests" sx={{ color: "grey"}}/>
+      </ListItemButton>
+    </Link>
+    <ListItemButton sx={{ marginTop: "25px" }} onClick={handlelogout}>
+      <ListItemIcon>
+        <ExitToAppIcon />
+      </ListItemIcon>
+      <ListItemText primary="Logout" sx={{ color: "grey" }}  />
+    </ListItemButton>
+  </List>
+</Drawer>
+
+      <Box component="main" sx={{ flexGrow: 1, p: 3 ,overflowX:"auto"}}>
         <DrawerHeader />
-        
+        {allTables}
       </Box>
     </Box>
   );
 }
+
+export default SideBar

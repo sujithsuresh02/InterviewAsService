@@ -2,22 +2,24 @@ import { initCompanyModel } from "../models/auth";
 import { initStudentModel } from "../models/auth";
 import { initInterviewerModel } from "../models/auth";
 import { sequelize } from "../Connection/connection";
-import { QueryTypes } from 'sequelize';
-
+import { QueryTypes } from "sequelize";
+import { demoDetails } from "../../../../types/companyInterfaceTypes";
+import { initDemoDetailsModel } from "../models/Demo";
 export const companyDbRepositoryImplementation = () => {
-  const Companies = initCompanyModel(sequelize);
-  const Interviewer = initInterviewerModel(sequelize);
-  const Student = initStudentModel(sequelize);
-  
+  const companies = initCompanyModel(sequelize);
+  const interviewer = initInterviewerModel(sequelize);
+  const student = initStudentModel(sequelize);
+  const Demos = initDemoDetailsModel(sequelize);
   // Add the synchronization code here
-  sequelize.sync()
+  sequelize
+    .sync()
     .then(() => {
-      console.log('Database synchronized successfully!');
+      console.log("Database synchronized successfully!");
     })
     .catch((error) => {
-      console.error('Error synchronizing database:', error);
+      console.error("Error synchronizing database:", error);
     });
-  
+
   const registerCompany = async (signupDetails: {
     role: string;
     name: string;
@@ -26,23 +28,22 @@ export const companyDbRepositoryImplementation = () => {
   }) => {
     try {
       const { role, name, email, password } = signupDetails;
-  console.log("role");
-  console.log(role);
-  
-  
+      console.log("role");
+      console.log(role);
+
       let tableName;
       switch (role) {
-        case 'Company':
-          tableName = Companies;
+        case "Company":
+          tableName = companies;
           break;
-        case 'Interviewer':
-          tableName = Interviewer;
+        case "Interviewer":
+          tableName = interviewer;
           break;
-        case 'Student':
-          tableName = Student;
+        case "Student":
+          tableName = student;
           break;
         default:
-          console.error('Invalid role');
+          console.error("Invalid role");
           return;
       }
 
@@ -51,45 +52,77 @@ export const companyDbRepositoryImplementation = () => {
         email,
         password,
       });
- console.log(result);
- 
-      console.log('siguped successfully!');
+      console.log(result);
+
+      console.log("siguped successfully!");
       return result;
     } catch (error) {
-      console.error('Error creating company:', error);
+      console.error("Error creating company:", error);
     }
   };
 
-const getCompanyByEmail = async (email: string) => {
-  try {
-    const query = `
-      SELECT *, 'Interviewer' AS role FROM "Interviewers" WHERE email = :email
+  const getCompanyByEmail = async (email: string) => {
+    try {
+      const query = `
+      SELECT *, 'interviewer' AS role FROM "interviewers" WHERE email = :email
       UNION ALL
-      SELECT *, 'company' AS role FROM "Companies" WHERE email = :email
+      SELECT *, 'company' AS role FROM "companies" WHERE email = :email
       UNION ALL
-      SELECT *, 'student' AS role FROM "Students" WHERE email = :email;
+      SELECT *, 'student' AS role FROM "students" WHERE email = :email;
     `;
 
-    const result = await sequelize.query(query, {
-      replacements: { email },
-      type: QueryTypes.SELECT,
-    });
+      const result = await sequelize.query(query, {
+        replacements: { email },
+        type: QueryTypes.SELECT,
+      });
 
-    // console.log('Result on getByEmail implementation');
-    // console.log(result);
+      console.log("Result on getByEmail implementation");
+      console.log(result);
 
-    return result;
-  } catch (error) {
-    console.error('Error retrieving user by email:', error);
-    throw error;
-  }
-};
+      return result;
+    } catch (error) {
+      console.error("Error retrieving user by email:", error);
+      throw error;
+    }
+  };
 
-  
-  
+  const getByEmailSignup = async (email: string, role: string) => {
+    try {
+      let query;
+
+      console.log(role);
+
+      if (role === "Company") {
+        query = `
+        SELECT * FROM "companies" WHERE email = :email
+        
+      `;
+      } else {
+        query = `
+        SELECT *FROM "interviewers" WHERE email = :email
+       
+      `;
+      }
+
+      const result = await sequelize.query(query, {
+        replacements: { email },
+        type: QueryTypes.SELECT,
+      });
+
+      console.log("Result on getByEmail implementation");
+      console.log(result);
+
+      return result;
+    } catch (error) {
+      console.error("Error retrieving user by email:", error);
+      throw error;
+    }
+  };
+
   return {
     registerCompany,
     getCompanyByEmail,
+    getByEmailSignup,
   };
 };
 

@@ -1,7 +1,8 @@
 // import { companyDbImplementation } from "../../frameworks/database/Postgres/repositories/companyRepostoriesImplementation";
 import { companyImplementation } from "../../../frameworks/database/Postgres/repositories/company/companyRepostories";
 import { addRequestFormData } from "../../../types/companyInterfaceTypes";
-import { studentDetails } from "../../../types/companyInterfaceTypes";
+import { studentDetails,demoDetails } from "../../../types/companyInterfaceTypes";
+
 export const companyDbInterface= (
   implementationRepository: ReturnType<companyImplementation>
 ) => {
@@ -15,9 +16,18 @@ export const companyDbInterface= (
   const insertStudentDetails=(studentDetails:studentDetails,addRequestId:BigInt)=>{
     return implementationRepository.createStudentDetails(studentDetails,addRequestId)
   }
+
+  const postDemo=(demoDetails:demoDetails)=>{
+    console.log('interface');
+    
+    return implementationRepository.postDemoRequest(demoDetails)
+  }
+
+
   return {
     addRequests,
-    insertStudentDetails
+    insertStudentDetails,
+    postDemo,
   };
 
 

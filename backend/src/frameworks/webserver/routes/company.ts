@@ -16,7 +16,9 @@ const companyRouter = () => {
  )
 
  
-   router.post("/add_request",upload.single('cv'), controller.addRequest)
+   router.post("/add_request",controller.addRequest)
+   router.post("/upload_cv",upload.single('cv'), controller.uploadCv)
+
   return router;
 };
 export default companyRouter;

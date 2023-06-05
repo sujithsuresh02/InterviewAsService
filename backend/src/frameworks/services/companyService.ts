@@ -65,7 +65,6 @@ export const companyServiceImplementation = () => {
           max_tokens: 1000,
         })
         .then((response) => {
-          console.log(response);
 
           const jsonString: any = response.data.choices[0].text?.trim();
           console.log(jsonString);

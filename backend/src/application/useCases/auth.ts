@@ -14,12 +14,12 @@ export const companyRegister = async (
   authService: ReturnType<AuthServiceInterface>
 ) => {  
  
-  // signupDetails.email = signupDetails.email.toLowerCase();
-  // const isExistingEmail = await companyRepository.getCompanyByEmail(signupDetails.email);
-  // if (isExistingEmail) {
-  //   console.log("existing email: ")
-  //   throw new AppError("existing email", HttpStatus.UNAUTHORIZED);
-  // }
+  signupDetails.email = signupDetails.email.toLowerCase();
+  const isExistingEmail = await companyRepository.getByEmailSignup(signupDetails.email,signupDetails.role);
+  if (isExistingEmail.length >0) {
+    console.log("existing email: ")
+    throw new AppError("existing email", HttpStatus.UNAUTHORIZED);
+  }
 
   if(signupDetails.password.length<=3){
     console.log("password length is 0: ")
@@ -28,6 +28,7 @@ export const companyRegister = async (
   signupDetails.password = await authService.encryptPassword(signupDetails.password);
   const registerResponse = await companyRepository.registerCompany (signupDetails);
   console.log("controllers usecase ")
+
   return {
     registerResponse
   };
@@ -43,7 +44,11 @@ export const companyRegister = async (
   ) => {
 
     const signupedperson:any= await companyRepository.getCompanyByEmail(loginDetails.email)
-    if(!signupedperson){
+    console.log(signupedperson);
+    console.log('signupedperson');
+    console.log(signupedperson===null);
+    
+    if(signupedperson.length===0){
       throw new AppError("You Are Entered Incorrect Email",HttpStatus.UNAUTHORIZED)
     }
     let matchedAccount = null;
@@ -56,7 +61,7 @@ export const companyRegister = async (
       }
     }
     if(!matchedAccount){
-      throw new AppError("Sorry, your password was incorrect. Please check your password",HttpStatus.UNAUTHORIZED,)
+      throw new AppError("your password was incorrect. Please check your password",HttpStatus.UNAUTHORIZED,)
     }
      console.log(matchedAccount);
      
@@ -65,7 +70,8 @@ export const companyRegister = async (
    
     const payload = {
       id: matchedAccount.id,
-      name: matchedAccount.name
+      name: matchedAccount.name,
+      role:matchedAccount.role
     };
     
     const accessToken = authService.generateAcessesToken (payload)

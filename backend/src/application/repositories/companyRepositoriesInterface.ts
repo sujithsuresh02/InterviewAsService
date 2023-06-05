@@ -18,9 +18,14 @@ export const companyDbRepository = (
 
   const getCompanyByEmail= async (email: string) =>
   await repository.getCompanyByEmail (email);
+
+ const getByEmailSignup=async(email:string,role:string)=>{
+ return await repository.getByEmailSignup (email,role);
+ }
   return {
     registerCompany,
-    getCompanyByEmail
+    getCompanyByEmail,
+    getByEmailSignup
   };
 };
 export type CompanyDbInterface = typeof companyDbRepository;
