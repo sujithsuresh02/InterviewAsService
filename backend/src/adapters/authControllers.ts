@@ -4,8 +4,8 @@ import { AuthServiceInterface } from "../application/services/authserviceinterfa
 import { AuthService } from "../frameworks/services/authserviceimplementaion";
 import { CompanyDbInterface } from "../application/repositories/companyRepositoriesInterface";
 import { companyDbImplementation } from "../frameworks/database/Postgres/repositories/companyRepostoriesImplementation";
-
-import { companyRegister,performLogin } from "../application/useCases/auth";
+import { GoogleUserInteface } from "../types/authinterface";
+import { companyRegister,performLogin ,googleUserLogin} from "../application/useCases/auth";
 const authcontroller = (
   authServiceInterface: AuthServiceInterface,
   authServiceImplementation: AuthService,
@@ -58,9 +58,29 @@ const authcontroller = (
         loggedInDetails,
       });
   });
+
+
+  const loginWithGoogle = asyncHandler(async (req: Request, res: Response) => {
+    console.log(req.body);
+    
+    const userDetails: GoogleUserInteface | any = req.body;
+    const user: GoogleUserInteface = {
+      name: userDetails?.currentUser?.displayName,
+      email: userDetails?.currentUser?.email,
+    };
+    console.log(user);
+    
+    const token = await googleUserLogin(user, dbRepositoryCompany, authService);
+    res.json({
+      status: 'success',
+      message: 'user verified',
+      token,
+    });
+  })
   return {
     registerCompany,
-    login
+    login,
+    loginWithGoogle
   };
 };
 export default authcontroller;

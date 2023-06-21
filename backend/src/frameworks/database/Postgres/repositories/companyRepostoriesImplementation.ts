@@ -21,10 +21,10 @@ export const companyDbRepositoryImplementation = () => {
     });
 
   const registerCompany = async (signupDetails: {
-    role: string;
+    role?: string|null;
     name: string;
     email: string;
-    password: string;
+    password?: string|null;
   }) => {
     try {
       const { role, name, email, password } = signupDetails;
@@ -61,7 +61,7 @@ export const companyDbRepositoryImplementation = () => {
     }
   };
 
-  const getCompanyByEmail = async (email: string) => {
+  const getByEmail = async (email: string) => {
     try {
       const query = `
       SELECT *, 'interviewer' AS role FROM "interviewers" WHERE email = :email
@@ -121,7 +121,7 @@ export const companyDbRepositoryImplementation = () => {
 
   return {
     registerCompany,
-    getCompanyByEmail,
+    getByEmail,
     getByEmailSignup,
   };
 };

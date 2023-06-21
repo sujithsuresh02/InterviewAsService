@@ -8,11 +8,13 @@ import { Viewrequestpage } from "../../Pages/Admin/Viewrequests";
 import Loginpage from "../../Pages/Admin/Loginpage";
 import Signuppage from "../../Pages/Admin/Signup";
 import ViewDemoPage from "../../Pages/Admin/ViewDemoPage";
+import Subscriptionplans from "../../Pages/Admin/SubscriptionPlans";
+import ViewSubscriptionPlans from "../../Pages/Admin/Viewplans";
+import EditplansPage from "../../Pages/Admin/EditplansPage";
 function AdminRoutes() {
   const adminRefreshToken = useSelector(
     (state) => state.adminLogin.refreshToken
   );
-
 
   return (
     <>
@@ -59,27 +61,57 @@ function AdminRoutes() {
             )
           }
         />
-        <Route path="/login" element={
-            adminRefreshToken ? (
-                <Navigate to="/admin" />
-            ) : (
-                <Loginpage />
-            )
-          } />
+        <Route
+          path="/login"
+          element={adminRefreshToken ? <Navigate to="/admin" /> : <Loginpage />}
+        />
 
-        <Route path="/signup"  element={
+        <Route
+          path="/signup"
+          element={
+            adminRefreshToken ? <Navigate to="/admin" /> : <Signuppage />
+          }
+        />
+        <Route
+          path="/view_demo"
+          element={
             adminRefreshToken ? (
-                <Navigate to="/admin" />
+              <ViewDemoPage />
             ) : (
-                <Signuppage />
+              <Navigate to="/admin/login" />
             )
-          } />
-           <Route path="/view_demo"  element={
-            adminRefreshToken?(
-           <ViewDemoPage/>):(
-            <Navigate to="/admin/login" />
-           )
-          } />
+          }
+        />
+        <Route
+          path="/view_plans"
+          element={
+            adminRefreshToken ? (
+              <ViewSubscriptionPlans />
+            ) : (
+              <Navigate to="/admin/login" />
+            )
+          }
+        />
+        <Route
+          path="/add_plans"
+          element={
+            adminRefreshToken ? (
+              <Subscriptionplans />
+            ) : (
+              <Navigate to="/admin/login" />
+            )
+          }
+        />
+        <Route
+          path="/edit_plans/:id"
+          element={
+            adminRefreshToken ? (
+              <EditplansPage />
+            ) : (
+              <Navigate to="/admin/login" />
+            )
+          }
+        />
       </Routes>
     </>
   );

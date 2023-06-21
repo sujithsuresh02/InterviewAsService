@@ -4,10 +4,10 @@ export const companyDbRepository = (
   repository: ReturnType<companyDbImplementation>
 ) => {
   const registerCompany = async (signupDetails: {
-    role:string;
+    role?:string|any;
     name: string;
     email: string;
-    password: string;
+    password?: string| null;
   }) => {
     console.log("mm");
     console.log(signupDetails);
@@ -16,15 +16,15 @@ export const companyDbRepository = (
     return await repository.registerCompany(signupDetails);
   };
 
-  const getCompanyByEmail= async (email: string) =>
-  await repository.getCompanyByEmail (email);
+  const getByEmail= async (email: string) =>
+  await repository.getByEmail (email);
 
  const getByEmailSignup=async(email:string,role:string)=>{
  return await repository.getByEmailSignup (email,role);
  }
   return {
     registerCompany,
-    getCompanyByEmail,
+    getByEmail,
     getByEmailSignup
   };
 };

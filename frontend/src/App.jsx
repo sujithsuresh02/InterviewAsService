@@ -10,44 +10,67 @@ import Demopage from "./Pages/Landingpage/Demopage";
 import LoginForm from "./Components/Common/auth/CommonLogin";
 import SignupForm from "./Components/Common/auth/CommonSignup";
 import Interviwer from "./Routes/InterviewerRoute/Interviwer";
-import { Toaster } from 'react-hot-toast';
-import { ToastContainer } from 'react-toastify';
-import { useSelector, } from "react-redux";
-import {Navigate} from "react-router-dom"
-
+import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import NotFound from "./Components/Common/Pagenotfound";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallback } from "./Errorboundaries/Errorfallback";
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 function App() {
-
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
-  console.log(refreshToken,"app .jsx");
+  console.log(refreshToken, "app .jsx");
   return (
     <React.Fragment>
-      <ToastContainer />
-      <Toaster/>
-    <Router>
-    <ScrollToTop/>
-<Routes>
-        <Route
-          exact
-          path="/interview_as_service"
-          expect
-          element={<SecondLandingpage />}
-        />
-        <Route exact path="/" expect element={<Landingpage />} />
-        <Route exact path="/become_interviewexpert" expect element={<BecomeInterViwer />} />
-        <Route exact path="/demo" expect element={<Demopage />} />
-        <Route path="/login" element={refreshToken ? <Navigate to="/company" />: <LoginForm/>}
-      />
-        <Route exact path="/signup/:token" expect element={<SignupForm />} />
-
-
-
-
-        <Route path="/company/*" element={<CompanyRoutes />} />
-        <Route path="/Admin/*" element={<AdminRoutes />} />
-        <Route path="/interviewer/*" element={<Interviwer />} />
+      <ErrorBoundary
      
-   </Routes>
-    </Router>
+        fallbackRender={ErrorFallback}
+        onReset={() => alert("Error boundary reset")}
+      >
+         <PayPalScriptProvider>
+        <ToastContainer />
+        <Toaster />
+        <Router>
+          <ScrollToTop />
+          <Routes>
+            {/* Common  Landing page Routes  */}
+            <Route
+              exact
+              path="/interview_as_service"
+              expect
+              element={<SecondLandingpage />}
+            />
+            <Route exact path="/" expect element={<Landingpage />} />
+            <Route
+              exact
+              path="/become_interviewexpert"
+              expect
+              element={<BecomeInterViwer />}
+            />
+            <Route exact path="/demo" expect element={<Demopage />} />
+            <Route
+              path="/login"
+              element={
+                refreshToken ? <Navigate to="/company" /> : <LoginForm />
+              }
+            />
+            <Route
+              exact
+              path="/signup/:token"
+              expect
+              element={<SignupForm />}
+            />
+
+            {/* {Other Interface Errors} */}
+            <Route path="/company/*" element={<CompanyRoutes />} />
+            <Route path="/Admin/*" element={<AdminRoutes />} />
+            <Route path="/interviewer/*" element={<Interviwer />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+        </PayPalScriptProvider>
+      </ErrorBoundary>
     </React.Fragment>
   );
 }

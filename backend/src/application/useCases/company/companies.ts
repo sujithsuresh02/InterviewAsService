@@ -5,6 +5,8 @@ import { CVDetails } from "../../../types/companyInterfaceTypes";
 import { CompanysDbInterface } from "../../repositories/companyRepositories/companyRepostories";
 import { CompanyDbServiceInterface } from "../../services/companyServiceInterface";
 import { demoDetails } from "../../../types/companyInterfaceTypes";
+import { adminDbInterface } from "../../../application/repositories/Admin/adminRepostories";
+
 export const postRequest = async (
   data: addRequestFormData,
   CompanyDbRepository: ReturnType<CompanysDbInterface>,
@@ -62,3 +64,12 @@ let demoInsertionResponse= await CompanyDbRepository.postDemo(demoDetails)
 return demoInsertionResponse
 
 };
+
+
+
+export const getAllPlans=async(adminDbRepostory: ReturnType<adminDbInterface>)=>{
+
+   const response= await adminDbRepostory.getFullPlans()
+   return response
+   
+}

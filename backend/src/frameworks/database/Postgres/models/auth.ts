@@ -72,7 +72,7 @@ export const initInterviewerModel = (sequelize: Sequelize) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   });
 };

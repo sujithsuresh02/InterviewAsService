@@ -15,6 +15,8 @@ const authRouter=()=>{
   
  router.post('/signup',controller.registerCompany)
   router.post ('/login',controller.login)
+  router.post ('/sign_in_with_google',controller.loginWithGoogle)
+
 
     return router
 }

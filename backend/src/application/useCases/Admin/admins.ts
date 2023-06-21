@@ -1,7 +1,7 @@
 import { HttpStatus } from "../../../types/httpStatus";
 import AppError from "../../../utils/appError";
 import { adminDbInterface } from "../../repositories/Admin/adminRepostories";
-import { adminFormValues } from "../../../types/adminInterfaceType";
+import { Plans, adminFormValues, editPlans } from "../../../types/adminInterfaceType";
 import { adminServicesInterface } from "../../services/adminService";
 
 export const adminsRegister = async (
@@ -117,3 +117,30 @@ export const sendConfirmMail = async (
   const response = await adminDbService.sendConfirmationMail(email);
   return response
 };
+
+export const postPlans=async(planDta:Plans,adminDbRepostory: ReturnType<adminDbInterface>)=>{
+
+
+  const response= await adminDbRepostory.postSubscriptionPlans(planDta)
+ return response
+}
+
+
+export const getAllPlans=async(adminDbRepostory: ReturnType<adminDbInterface>)=>{
+
+   const response=await adminDbRepostory.getFullPlans()
+  return response
+}
+
+
+export const deletePlans=async(id:string,adminDbRepostory: ReturnType<adminDbInterface>)=>{
+
+ const response=await adminDbRepostory.deletePlans(id)
+ return response
+}
+
+export const editPlan=async(editedData:editPlans,adminDbRepostory: ReturnType<adminDbInterface>)=>{
+
+ const response= await adminDbRepostory.editPlan(editedData)
+return response
+}

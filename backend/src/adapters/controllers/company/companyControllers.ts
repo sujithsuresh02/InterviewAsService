@@ -6,7 +6,12 @@ import {
   postRequest,
   postRequestWithCVDetails,
   postDemoRequest,
-} from "../../../application/useCases/company/companies";
+ getAllPlans
+
+} 
+from "../../../application/useCases/company/companies";
+import { adminDbImplementation } from "../../../frameworks/database/Postgres/repositories/Admin/adminImplementation";
+import { adminDbInterface } from "../../../application/repositories/Admin/adminRepostories";
 import { addRequestFormData } from "../../../types/companyInterfaceTypes";
 import { CVDetails } from "../../../types/companyInterfaceTypes";
 import { CompanyDbServiceInterface } from "../../../application/services/companyServiceInterface";
@@ -15,11 +20,16 @@ const companyController = (
   companyDbInterface: CompanysDbInterface,
   companiesDbImplementation: companyImplementation,
   companyServiceInterface: CompanyDbServiceInterface,
-  companyServiceImplementation: companyDbServiceImplementation
+  companyServiceImplementation: companyDbServiceImplementation,
+  adminRepositoryInterface:adminDbInterface,
+  adminRepositoryImplementation:adminDbImplementation,
 ) => {
   const CompanyDbRepository = companyDbInterface(companiesDbImplementation());
   const CompanyServiceRepository = companyServiceInterface(
     companyServiceImplementation()
+  );
+  const adminDbRepostory = adminRepositoryInterface(
+    adminRepositoryImplementation()
   );
   interface MyRequest extends Request {
     id?: String;
@@ -99,10 +109,26 @@ const companyController = (
     }
   });
 
+  const getFullPlans = asyncHandler(
+    async (req: Request, res: Response) => {
+      
+     
+      const fullPlans :any= await getAllPlans(adminDbRepostory)
+  
+      if(fullPlans){
+        res.json({
+          fullPlans
+        })
+      }
+    }
+  );
+
+
   return {
     addRequest,
     uploadCv,
     postDemo,
+    getFullPlans
   };
 };
 export default companyController;

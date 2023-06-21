@@ -4,6 +4,9 @@ import { companyDbInterface } from "../../../application/repositories/companyRep
 import companyController from "../../../adapters/controllers/company/companyControllers";
 import { companyServiceImplementation } from "../../services/companyService";
 import { companyServiceInterface } from "../../../application/services/companyServiceInterface";
+import { adminRepositoryImplementation } from "../../database/Postgres/repositories/Admin/adminImplementation";
+import { adminRepositoryInterface } from "../../../application/repositories/Admin/adminRepostories";
+adminRepositoryImplementation
 const LandingRouter = () => {
   const router = express.Router();
 
@@ -12,6 +15,10 @@ const LandingRouter = () => {
     companiesDbImplementation,
     companyServiceInterface,
     companyServiceImplementation,
+    adminRepositoryInterface,
+    adminRepositoryImplementation,
+ 
+
  )
 
  

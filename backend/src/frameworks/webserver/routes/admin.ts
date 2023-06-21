@@ -18,6 +18,10 @@ const adminRouter = () => {
   router.get("/student_details/:id", controller.getStudentCVDetails);
   router.get("/view_demo", controller.getDemoRequest);
   router.get("/confirm_mail/:email",controller.sendConfirmationMail);
+  router.post("/add_plans",controller.postSubscriptionPlans);
+  router.get("/view_plans",controller.getFullPlans);
+  router.delete("/delete_plan/:id",controller.deletePlan);
+  router.put("/edit_plans",controller.editPlans);
   return router;
 };
 export default adminRouter;

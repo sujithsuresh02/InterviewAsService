@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import CompanyHomepage from "../../Pages/Company/Homepage";
 import AddRequestPage from "../../Pages/Company/AddRequestPage";
 import StudentDetailsPage from "../../Pages/Company/StudentDetailsPage";
-
+import ListingPlans from "../../Pages/Company/ListingPlans";
+import Checkout from "../../Pages/Company/checkout";
 function CompanyRoutes() {
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
  console.log(refreshToken,"router");
@@ -20,6 +21,14 @@ function CompanyRoutes() {
       <Route
         path="/student_details"
         element={refreshToken ? <StudentDetailsPage /> : <Navigate to="/" />}
+      />
+      <Route
+        path="/plans"
+        element={refreshToken ? <ListingPlans /> : <Navigate to="/" />}
+      />
+      <Route
+        path="/checkout/:id"
+        element={refreshToken ? < Checkout/> : <Navigate to="/" />}
       />
     </Routes>
   );

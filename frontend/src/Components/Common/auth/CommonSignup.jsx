@@ -21,6 +21,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate,useParams } from "react-router-dom";
 import { postSignup } from "../../../Features/Slices/signupSlice";
+import { googleSignIn } from "../../../Features/Slices/loginSlice";
 
 const SignupForm = () => {
   const { token } = useParams();
@@ -87,7 +88,7 @@ console.log(token);
     try {
       const userDetails = await SignInWithGoogle();
       console.log('details');
-      // const result = await dispatch(googleAddAsyncUser(userDetails));
+      // const result = await dispatch(googleSignIn(userDetails));
   //  console.log(result);
       // Handle the authentication result here
     } catch (error) {

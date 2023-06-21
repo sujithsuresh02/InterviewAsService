@@ -13,7 +13,19 @@ export const postLogin = createAsyncThunk("login", async (values) => {
   }
 });
 
-// Your slice and reducer code goes here...
+export const googleSignIn = createAsyncThunk(
+  'users/googleSignIn',
+  async (payload) => {
+    try {
+      const response = await myAxios.post('/sign_in_with_google', payload);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+);
+
 
 const initialState = {
   loginDetails: [],
@@ -36,6 +48,14 @@ const loginSlice = createSlice({
       .addCase(postLogin.fulfilled, (state, action) => {
         console.log(action?.payload);
         console.log("action");
+        state.loginDetails = action?.payload?.data?.loggedInDetails;
+        state.refreshToken =
+          action?.payload?.data?.loggedInDetails?.refreshToken;
+        state.accessToken = action?.payload?.data?.loggedInDetails?.accessToken;
+      })
+      .addCase(googleSignIn.fulfilled,(state,action)=>{
+        console.log(action?.payload);
+        console.log("action googglr sign in");
         state.loginDetails = action?.payload?.data?.loggedInDetails;
         state.refreshToken =
           action?.payload?.data?.loggedInDetails?.refreshToken;

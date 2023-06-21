@@ -9,6 +9,7 @@ import loginSlice, { postLogin } from '../../../Features/Slices/loginSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SignInWithGoogle } from '../../../Firebase/Firebase';
+import { googleSignIn } from '../../../Features/Slices/loginSlice';
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,8 +49,9 @@ const LoginForm = () => {
   const handleGoogleSignIn = async () => {
     try {
       const userDetails = await SignInWithGoogle();
+      console.log(userDetails);
       console.log('details');
-      // const result = await dispatch(googleAddAsyncUser(userDetails));
+      const result = await dispatch(googleSignIn(userDetails?.user?.auth));
   //  console.log(result);
       // Handle the authentication result here
     } catch (error) {

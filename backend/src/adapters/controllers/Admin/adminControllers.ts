@@ -10,12 +10,18 @@ import {
 } from "../../../application/repositories/Admin/adminRepostories";
 import { adminServicesImplementation } from "../../../frameworks/services/adminServices";
 import { adminServicesInterface } from "../../../application/services/adminService";
+import { Plans, editPlans } from "../../../types/adminInterfaceType";
 import {
   getFullRequest,
   getFullStudentDetils,
   getFullDemoRequest,
   sendConfirmMail,
+  postPlans,
+  getAllPlans,
+deletePlans,
+editPlan
 } from "../../../application/useCases/Admin/admins";
+import { UUID } from "crypto";
 const adminsController = (
   adminRepositoryInterface: adminDbInterface,
   adminRepositoryImplementation: adminDbImplementation,
@@ -73,11 +79,104 @@ const adminsController = (
     }
   );
 
+  const postSubscriptionPlans = asyncHandler(
+    async (req: Request, res: Response) => {
+      console.log(req.body);
+      console.log("controllers");
+
+      const {
+        features,
+        interviews,
+        planName,
+        price,
+        validity,
+      } = req.body;
+  
+     const  plansData :Plans={
+      features,
+      interviews,
+      planName,
+      price,
+      validity,
+     }
+      const response= await postPlans(plansData,adminDbRepostory)
+  
+      if(response){
+        res.json({
+          status:"Success",
+          message :"Plan Added Successfully"
+        })
+      }
+    }
+  );
+  
+  const getFullPlans = asyncHandler(
+    async (req: Request, res: Response) => {
+      
+     
+      const fullPlans= await getAllPlans(adminDbRepostory)
+  
+      if(fullPlans){
+        res.json({
+          fullPlans
+        })
+      }
+    }
+  );
+
+  const deletePlan=asyncHandler(async(req:Request,res:Response)=>{
+
+    console.log(req.params.id);
+    const Id:string=req.params.id
+     const response :any = await deletePlans(Id,adminDbRepostory)
+
+ if(response){
+
+   res.json({
+    id:Id,
+    status:'Success',
+    message:"Plan Deleted Successfully"
+   })
+ }
+  })
+
+   const editPlans=asyncHandler(async(req:Request,res:Response)=>{
+ console.log(req.body);
+ 
+    const {
+      features,
+      interviews,
+      planName,
+      price,
+      validity,
+      planId
+    } = req.body;
+
+   const  plansData :editPlans={
+    features,
+    interviews,
+    planName,
+    price,
+    validity,
+    planId
+   }
+    const editedResponse= await editPlan( plansData,adminDbRepostory)
+      if(editedResponse){
+        res.json({
+          status:"Success",
+          message:"Plans Updated  Successfully"
+        })
+      }
+   })
   return {
     getAllRequest,
     getStudentCVDetails,
     getDemoRequest,
     sendConfirmationMail,
+    postSubscriptionPlans,
+    getFullPlans,
+    deletePlan,
+    editPlans
   };
 };
 

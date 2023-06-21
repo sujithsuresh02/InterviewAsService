@@ -12,13 +12,12 @@ import {
 } from "@mui/material";
 import Drawercomp from "./Drawer";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link ,useLocation} from "react-router-dom";
+import {  Link ,useLocation} from "react-router-dom";
 import { logout } from "../../../Features/Slices/loginSlice";
 
 let PAGES=[]
 function Header() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [value, setvalue] = useState(0);
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
   const role=   useSelector((state) => state?.Login?.loginDetails?.matchedAccount?.role)

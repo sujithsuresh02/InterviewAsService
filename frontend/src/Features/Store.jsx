@@ -10,6 +10,8 @@ import GetStudentDetails from "../Features/Slices/Admin/listStudentDetails"
 import DemoDetails from "../Features/Slices/DemoSlice/DemoSlice"
 import GetDemoRequest from "../Features/Slices/Admin/getDemoRequest"
 import  ConfirmationMail from "./Slices/Admin/SendConfirmmailSlice";
+import Addplans from "../Features/Slices/Admin/addPlans";
+import Plans from "../Features/Slices/companySlice/Subscriptionplans"
 // Load state from localStorage/
 const loadState = () => {
   try {
@@ -46,7 +48,9 @@ const store = configureStore({
     cvUploadDetails: CvUploads,
     demo:DemoDetails,
     getDemo:GetDemoRequest,
-    sendConfirmMail:ConfirmationMail
+    sendConfirmMail:ConfirmationMail,
+    addplansDetails:Addplans,
+    plans:Plans
 
   },
   preloadedState: persistedState,

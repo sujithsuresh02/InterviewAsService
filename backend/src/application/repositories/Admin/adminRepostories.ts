@@ -1,6 +1,7 @@
 
+import { UUID } from "crypto";
 import { adminDbImplementation } from "../../../frameworks/database/Postgres/repositories/Admin/adminImplementation"
-import { adminFormValues } from "../../../types/adminInterfaceType";
+import { Plans, adminFormValues, editPlans } from "../../../types/adminInterfaceType";
   export const adminRepositoryInterface=(
     implementationRepository: ReturnType<adminDbImplementation>
   )=>{
@@ -25,6 +26,21 @@ import { adminFormValues } from "../../../types/adminInterfaceType";
    const getFullDemoRequest=()=>{
     return implementationRepository.getDemoRequest()
   }
+
+  const postSubscriptionPlans =(plandata:Plans)=>{
+    return implementationRepository.addSubscriptionPlans(plandata)
+  }
+  const getFullPlans =()=>{
+    return implementationRepository.getAllPlans()
+  }
+  const deletePlans =(id:string)=>{
+    return implementationRepository.deletePlans(id)
+  }
+ 
+  const editPlan =(editedData:editPlans)=>{
+    return implementationRepository.editPlans(editedData)
+  }
+ 
  
        return{
         registerAdmin,
@@ -32,6 +48,10 @@ import { adminFormValues } from "../../../types/adminInterfaceType";
         getAllRequest,
         getStudentDetails,
         getFullDemoRequest,
+        postSubscriptionPlans,
+        getFullPlans,
+        deletePlans,
+        editPlan
        }
   }
 
