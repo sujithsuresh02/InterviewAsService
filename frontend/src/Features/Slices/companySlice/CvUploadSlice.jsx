@@ -3,10 +3,10 @@ import myAxios from "../../../api/company/addRequestSlice.api";
 
 export const cvUpload = createAsyncThunk("company/cvUpload", async (values) => {
   try {
-     console.log(values);
+    console.log(values);
     const response = await myAxios.post("/upload_cv", values);
     console.log(response);
-    console.log('reducer response');
+    console.log("reducer response");
     return response.data;
   } catch (error) {
     console.log(error);
@@ -15,26 +15,37 @@ export const cvUpload = createAsyncThunk("company/cvUpload", async (values) => {
 });
 
 const initialState = {
-CvCount:{}
+  CvCount: {},
 };
 
 const cvUploadSlice = createSlice({
   name: "cvUpload",
-  initialState, 
-  reducers: {},
+  initialState,
+  reducers: {
+    resetUploadedCvCount: (state) => {
+      return {
+        ...state,
+        CvCount: {
+          ...state.CvCount,
+          TotalUploadedCv: {
+            uploadedCVsCount: 1,
+            TotalStudentsCount: null,
+          },
+        },
+      };
+    },
+  },
+
   extraReducers: (builder) => {
     builder
-      .addCase(cvUpload.pending, (state) => {
-
-      })
+      .addCase(cvUpload.pending, (state) => {})
       .addCase(cvUpload.fulfilled, (state, action) => {
         console.log(action);
-        console.log('action cv');
-          state.CvCount=action.payload
+        console.log("action cv");
+        state.CvCount = action.payload;
       })
-      .addCase(cvUpload.rejected, (state, action) => {
-      });
+      .addCase(cvUpload.rejected, (state, action) => {});
   },
 });
-
+export const { resetUploadedCvCount } = cvUploadSlice.actions;
 export default cvUploadSlice.reducer;

@@ -1,21 +1,54 @@
 import React from "react";
 import { Typography, Button, Box, Divider } from "@mui/material";
-import { useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { PayPalButtons } from '@paypal/react-paypal-js';
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import { onApproveOrder } from "../../../Features/Slices/Paypalslice/Paypalslice";
+import { createSubscriptions } from "../../../Features/Slices/Paypalslice/Paypalslice";
+
 const CheckoutPage = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
+const navigate=useNavigate()
   const plansDetails = useSelector((state) => state?.plans?.plans);
-
+  const orderid = useSelector((state) => state?.paypal?.orderId?.orderId);
+  //  console.log(orderid,"order");
   let plans = {};
   const matchedPlan = plansDetails.find((plan) => plan.id === id);
-  console.log(matchedPlan);
   if (matchedPlan) {
     plans = { ...matchedPlan };
   }
+  const packDetails = plans;
+  const createOrder = async (packDetails) => {
+    try {
+      const response = await dispatch(createSubscriptions(packDetails));
+      console.log(response);
+      console.log("resposne from first dispatch");
+      return response?.payload?.data?.orderId;
+    } catch (error) {
+      console.error("Error creating PayPal order:", error);
+    }
+  };
 
-  const handleBuyNowClick = () => {
-    console.log("Buy Now clicked");
+  const onApprove = async (orderid) => {
+    try {
+      console.log(orderid);
+      console.log("second dispatch");
+      const result = await dispatch(onApproveOrder(orderid));
+       if(result?.payload?.data?.status==="success"){
+        navigate('/company/success')
+       }
+      console.log("Payment captured successfully");
+    } catch (error) {
+      console.error("Error capturing PayPal order:", error);
+      onError(error);
+    }
+  };
+
+  const onError = (err) => {
+    if(err){
+      navigate('/copamy/checkout')
+    }
   };
 
   return (
@@ -73,7 +106,11 @@ const CheckoutPage = () => {
               Continue Shopping
             </Button>
           </Link>
-          <PayPalButtons createOrder={createOrder} onApprove={onApprove} onCancel={onCancel} />
+          <PayPalButtons
+            createOrder={(data, actions) => createOrder(packDetails)}
+            onApprove={(data, actions) => onApprove(data.orderID)}
+            onError={(error) => onError(error)}
+          />
         </Box>
       </Box>
     </Box>

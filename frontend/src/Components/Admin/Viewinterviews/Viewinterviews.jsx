@@ -1,0 +1,170 @@
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { viewScheduledInterviews } from "../../../Features/Slices/Admin/Interviews";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Button,
+  Box,
+  Grid,
+  useMediaQuery,
+} from "@mui/material";
+import {toast} from "react-hot-toast"
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import { cancelInterview } from "../../../Features/Slices/Admin/Interviews";
+const Viewinterviews = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const theme = useTheme();
+  console.log(theme);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const Data = useSelector(
+    (state) => state?.interviews?.getallScheduledInterviews?.response
+  );
+  useEffect(() => {
+    dispatch(viewScheduledInterviews());
+  }, [dispatch, viewScheduledInterviews]);
+
+  const handleClick = (interviewToken) => {
+    navigate(`/meeting/${interviewToken}`);
+  };
+
+  const handleReschduleInterview=(interviewId)=>{
+
+  
+  }
+
+
+  const handleCancelInterview=(interviewId)=>{
+    console.log(interviewId);
+    dispatch(cancelInterview({interviewId:interviewId})).then((response)=>{
+      toast.success(response?.payload?.data?.message)
+    })
+  }
+
+  return (
+    <TableContainer sx={{ overflowX: "hidden" }}>
+      <Typography
+        variant="h5"
+        position="relative"
+        top="2rem"
+        textAlign="center"
+        sx={{ left: "35px" }}
+      >
+        View All Interviews
+      </Typography>
+
+      <TableContainer
+        component={Paper}
+        sx={{
+          width: isSmallScreen ? "100%" : "100%",
+          margin: "0 auto",
+          border: "1px solid #ccc",
+          marginTop: "3rem",
+          overflowX: "auto",
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow style={{ background: "#f9f9f9" }}>
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                CompanyName
+              </TableCell>
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                StudentName
+              </TableCell>
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                InterviewerName
+              </TableCell>
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                JobRole
+              </TableCell>
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                InterviewDate
+              </TableCell>
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                InterviewTime
+              </TableCell>
+
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                Action{" "}
+              </TableCell>
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                Action{" "}
+              </TableCell>
+              <TableCell style={{ border: "1px solid #ccc" }}>
+                meeting{" "}
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Data?.length>0 ?
+              Data?.map((row) => (
+                <TableRow key={row.interview_id}>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    {row.company_name}
+                  </TableCell>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    {row.student_name}
+                  </TableCell>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    {row.interviewer_name}
+                  </TableCell>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    {row.jobRole}
+                  </TableCell>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    {row.interview_date}
+                  </TableCell>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    {row.interview_time}
+                  </TableCell>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => handleCancelInterview(row.interview_id)}
+                    >
+                      Cancel Interview
+                    </Button>
+                  </TableCell>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    <Button
+                      variant="outlined"
+                      color="warning"
+                      onClick={() => handleReschduleInterview(row.interviewToken)}
+                    >
+                      Reshedule Interview
+                    </Button>
+                  </TableCell>
+                  <TableCell style={{ border: "1px solid #ccc" }}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => handleClick(row.interview_id)}
+                    >
+                      Start Interview
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )):
+              <Box display={"flex"} justifyContent={"end"}>
+              <Typography variant="h4">There Is No  Scheduled Interviews</Typography>
+              </Box>
+              }
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </TableContainer>
+  );
+};
+
+export default Viewinterviews;

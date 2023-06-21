@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Landingpage from "../src/Pages/Landingpage/Landingpage";
 import AdminRoutes from "./Routes/AdminRoutes/admin";
@@ -17,61 +17,71 @@ import { Navigate } from "react-router-dom";
 import NotFound from "./Components/Common/Pagenotfound";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "./Errorboundaries/Errorfallback";
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import Paypalkeys from "./paypalKeys/paypalkeys";
+import Room from "./Components/Zegacloud/Room";
+
 function App() {
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
   console.log(refreshToken, "app .jsx");
-  return (
-    <React.Fragment>
-      <ErrorBoundary
-     
-        fallbackRender={ErrorFallback}
-        onReset={() => alert("Error boundary reset")}
-      >
-         <PayPalScriptProvider>
-        <ToastContainer />
-        <Toaster />
-        <Router>
-          <ScrollToTop />
-          <Routes>
-            {/* Common  Landing page Routes  */}
-            <Route
-              exact
-              path="/interview_as_service"
-              expect
-              element={<SecondLandingpage />}
-            />
-            <Route exact path="/" expect element={<Landingpage />} />
-            <Route
-              exact
-              path="/become_interviewexpert"
-              expect
-              element={<BecomeInterViwer />}
-            />
-            <Route exact path="/demo" expect element={<Demopage />} />
-            <Route
-              path="/login"
-              element={
-                refreshToken ? <Navigate to="/company" /> : <LoginForm />
-              }
-            />
-            <Route
-              exact
-              path="/signup/:token"
-              expect
-              element={<SignupForm />}
-            />
 
-            {/* {Other Interface Errors} */}
-            <Route path="/company/*" element={<CompanyRoutes />} />
-            <Route path="/Admin/*" element={<AdminRoutes />} />
-            <Route path="/interviewer/*" element={<Interviwer />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Router>
-        </PayPalScriptProvider>
-      </ErrorBoundary>
-    </React.Fragment>
+  const initialOptions = {
+    "client-id": Paypalkeys.client_id,
+    currency: Paypalkeys.currency,
+    intent: Paypalkeys.intent,
+  };
+
+  return (
+    <PayPalScriptProvider options={initialOptions}>
+      <React.Fragment>
+        <ErrorBoundary
+          fallbackRender={ErrorFallback}
+          onReset={() => alert("Error boundary reset")}
+        >
+          <ToastContainer />
+          <Toaster />
+          <Router>
+            <ScrollToTop />
+            <Routes>
+              {/* Common  Landing page Routes  */}
+              <Route
+                exact
+                path="/interview_as_service"
+                expect
+                element={<SecondLandingpage />}
+              />
+              <Route exact path="/" expect element={<Landingpage />} />
+              <Route
+                exact
+                path="/become_interviewexpert"
+                expect
+                element={<BecomeInterViwer />}
+              />
+              <Route exact path="/demo" expect element={<Demopage />} />
+              <Route
+                path="/login"
+                element={
+                  refreshToken ? <Navigate to="/company" /> : <LoginForm />
+                }
+              />
+              <Route
+                exact
+                path="/signup/:token"
+                expect
+                element={<SignupForm />}
+              />
+
+              <Route path="/meeting/:interviewToken" element={<Room />} />
+              {/* {Other Interface Errors} */}
+              <Route path="/company/*" element={<CompanyRoutes />} />
+              <Route path="/Admin/*" element={<AdminRoutes />} />
+              <Route path="/interviewer/*" element={<Interviwer />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
+        </ErrorBoundary>
+      </React.Fragment>
+    </PayPalScriptProvider>
   );
 }
 

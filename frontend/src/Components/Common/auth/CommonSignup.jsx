@@ -27,9 +27,9 @@ const SignupForm = () => {
   const { token } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const state = useSelector((state) => state?.demo?.DemoDetails?.ValidationToken);
-  console.log(state);
-  console.log("signupstate");
+  const demoTokens = useSelector((state) => state?.demoDetails?.DemoTokens);
+  const interviewerToken = useSelector((state) => state?.becomeInterviewExpert?.interviewExperts);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -100,14 +100,29 @@ console.log(token);
 
 
 
+  let tokenExists = false;
+ 
+  demoTokens.some((obj) => {
+  if (obj?.ValidationToken === token) {
+    tokenExists = true;
+    return true; 
+  }
+  return false; 
+});
 
-  useEffect(() => {
-    if (state === token) {
-    return 
-    } else {
-      navigate("/");
+if (!tokenExists) {
+  interviewerToken.some((obj) => {
+    if (obj?.Token === token) {
+      tokenExists = true;
+      return true;
     }
+    return false; 
   });
+}
+
+if (tokenExists) {
+  console.log("Token exists!");
+
   return (
     <Grid
       container
@@ -230,7 +245,9 @@ console.log(token);
         </Paper>
       </Grid>
     </Grid>
-  );
+  )} else {
+    navigate("/");
+  }
 };
 
 export default SignupForm;

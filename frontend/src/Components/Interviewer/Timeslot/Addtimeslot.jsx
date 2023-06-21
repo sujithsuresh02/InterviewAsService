@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Typography,
@@ -12,17 +12,23 @@ import {
   TableBody,
   Paper,
   Grid,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTheme } from "@mui/material/styles";
+import {
+  addAvabilityTimeSlot,
+  getAllInterviewerAvailableTime,
+} from "../../../Features/Slices/Interviewer/Interviewer";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 const StyledContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "start",
-  marginTop: "5rem",
+  marginTop: "11rem",
   height: "50vh",
   flexDirection: "column",
 }));
@@ -36,11 +42,17 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const InterviewerAvailability = () => {
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-    const isMediumDownScreen = useMediaQuery(
-      theme.breakpoints.between("sm", "md")
-    );
+  const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const avilableTimeslots = useSelector(
+    (state) => state?.interviwer?.getallTimeslots?.resposne
+  );
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isMediumDownScreen = useMediaQuery(
+    theme.breakpoints.between("sm", "md")
+  );
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimes, setSelectedTimes] = useState([]);
 
@@ -62,9 +74,13 @@ const InterviewerAvailability = () => {
     setSelectedTimes(updatedTimes);
   };
 
+  useEffect(() => {
+    dispatch(getAllInterviewerAvailableTime());
+  },[ dispatch]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    console.log(selectedTimes, "inside submit");
     if (selectedTimes.length === 0) {
       return;
     }
@@ -77,9 +93,10 @@ const InterviewerAvailability = () => {
       times: formattedTimes,
     };
 
-    // Send the availabilityData to the server or perform any other actions
-    console.log("Availability Data:", availabilityData);
-
+    dispatch(addAvabilityTimeSlot(availabilityData)).then((resposne) => {
+      toast.success(resposne?.payload?.data?.message);
+      dispatch(getAllInterviewerAvailableTime())
+    });
     setSelectedDate(null);
     setSelectedTimes([]);
   };
@@ -107,52 +124,51 @@ const InterviewerAvailability = () => {
   };
 
   return (
-    <Box>
-    {/* <Grid item xs={12} sm={12} md={12} lg={12} display={"flex"} alignItems={"center"} maxWidth={"100%"}>
-    <Typography variant="h4" gutterBottom>
-     Add Available Time Slots
-    </Typography>
-    </Grid> */}
-    <StyledContainer>
-       
-      <Grid container spacing={4}>
+    <Box marginTop={"10rem"}>
+      <Grid container>
+        
         <Grid item xs={12} sm={12} md={6} lg={6}>
-          <TableContainer component={Paper}>
+        <Typography variant="h5" textAlign={"center"}> Available Timeslot</Typography>
+
+          <TableContainer component={Paper} >
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>ID</TableCell>
                   <TableCell>Date</TableCell>
                   <TableCell>Day of Week</TableCell>
                   <TableCell>Times</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>{selectedDate?.toLocaleDateString()}</TableCell>
-                  <TableCell>
-                    {selectedDate?.toLocaleDateString("en-US", {
-                      weekday: "long",
-                    })}
-                  </TableCell>
-                  <TableCell>
-                    {selectedTimes
-                      .map((time) => `${time}-${time + 1}`)
-                      .join(", ")}
-                  </TableCell>
-                </TableRow>
+                {avilableTimeslots &&
+                  avilableTimeslots.map((Times) => (
+                    <TableRow key={Times.id}>
+                      <TableCell>{Times.id}</TableCell>
+                      <TableCell>{Times.date}</TableCell>
+                      <TableCell>{Times.dayOfWeek}</TableCell>
+                      <TableCell>{Times.timeSlots}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
         </Grid>
+
         <Grid
           item
           xs={12}
           sm={12}
           md={6}
           lg={6}
-          sx={{ display: "flex", justifyContent:isSmallScreen? "start":"end" }}
+          sx={{
+            display: "flex",
+            justifyContent: isSmallScreen ? "start" : "center",
+            marginLeft: "0",
+            marginRight: "0",
+          }}
         >
-          <StyledBox>
+          <StyledBox height={"fit-content"}>
             <Typography variant="h5" gutterBottom>
               Interviewer Availability
             </Typography>
@@ -210,7 +226,6 @@ const InterviewerAvailability = () => {
           </StyledBox>
         </Grid>
       </Grid>
-    </StyledContainer>
     </Box>
   );
 };

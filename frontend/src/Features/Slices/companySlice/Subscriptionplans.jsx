@@ -12,7 +12,7 @@ export const FullPlans = createAsyncThunk("getallPlans", async () => {
 });
 
 const initialState = {
-  plans:{}
+  planDetails:[]
 };
 
 const gePlanSlice = createSlice({

@@ -11,11 +11,13 @@ import ViewDemoPage from "../../Pages/Admin/ViewDemoPage";
 import Subscriptionplans from "../../Pages/Admin/SubscriptionPlans";
 import ViewSubscriptionPlans from "../../Pages/Admin/Viewplans";
 import EditplansPage from "../../Pages/Admin/EditplansPage";
+import ViewexpertsRequests from "../../Pages/Admin/ViewexpertsRequests";
+import InterviewPage from "../../Pages/Admin/InterviewPage";
+import CancelledinterviewsPage from "../../Pages/Admin/Cancelledinterviews";
 function AdminRoutes() {
   const adminRefreshToken = useSelector(
     (state) => state.adminLogin.refreshToken
   );
-
   return (
     <>
       <Routes>
@@ -107,6 +109,36 @@ function AdminRoutes() {
           element={
             adminRefreshToken ? (
               <EditplansPage />
+            ) : (
+              <Navigate to="/admin/login" />
+            )
+          }
+        />
+        <Route
+          path="/view_interviewers"
+          element={
+            adminRefreshToken ? (
+              <ViewexpertsRequests />
+            ) : (
+              <Navigate to="/admin/login" />
+            )
+          }
+        />
+        <Route
+          path="/interviews"
+          element={
+            adminRefreshToken ? (
+              <InterviewPage />
+            ) : (
+              <Navigate to="/admin/login" />
+            )
+          }
+        />
+        <Route
+          path="/cancelled_interviews"
+          element={
+            adminRefreshToken ? (
+              <CancelledinterviewsPage />
             ) : (
               <Navigate to="/admin/login" />
             )

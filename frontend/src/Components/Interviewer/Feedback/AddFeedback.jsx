@@ -1,89 +1,143 @@
-import React from 'react';
-import { Typography, Grid, Box, Button, TextField, Paper } from '@mui/material';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-
+import React, { useEffect, useState } from "react";
+import { Typography, Grid, Box, Button, TextField, Paper } from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { updateFeedback } from "../../../Features/Slices/Interviewer/Interviewer";
+import { toast } from "react-hot-toast";
 const FeedbackDetailsPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [matchingInterviews, setMatchingInterviews] = useState();
+
+  const { interviewId } = useParams();
+
+  const interview = useSelector(
+    (state) => state?.interviwer?.interviewerScheduledInterviews?.resposne
+  );
+
+  useEffect(() => {
+    const matchedInterviews = interview.filter(
+      (interview) => interview.interview_id === interviewId
+    );
+    setMatchingInterviews(matchedInterviews[0]);
+  }, [interview]);
   const formik = useFormik({
     initialValues: {
-      codingScore: '',
-      technicalScore: '',
-      communicationScore: '',
-      feedbackDescription: '',
-      interviewStatus: '',
+      codingScore: "",
+      technicalScore: "",
+      communicationScore: "",
+      feedbackDescription: "",
+      TotalInterviewScore:""
     },
     validationSchema: Yup.object({
-      codingScore: Yup.string().required('Coding Score is required'),
-      technicalScore: Yup.string().required('Technical Score is required'),
-      communicationScore: Yup.string().required('Communication Score is required'),
-      feedbackDescription: Yup.string().required('Detailed Feedback Description is required'),
-      interviewStatus: Yup.string().required('Interview Status is required'),
+      codingScore: Yup.string().required("Coding Score is required"),
+      technicalScore: Yup.string().required("Technical Score is required"),
+      communicationScore: Yup.string().required(
+        "Communication Score is required"
+      ),
+      feedbackDescription: Yup.string().required(
+        "Detailed Feedback Description is required"
+      ),
+      TotalInterviewScore:Yup.string().required("Total InterviewScore Is Required")
     }),
     onSubmit: (values) => {
-      console.log(values);
+      const data = {
+        interviewId: matchingInterviews.interview_id,
+        codingScore: values.codingScore,
+        technicalScore: values.technicalScore,
+        communicationScore: values.communicationScore,
+        feedbackDescription: values.feedbackDescription,
+        TotalInterviewScore:values.TotalInterviewScore
+      };
+      console.log(data);
+      dispatch(updateFeedback(data)).then((resposne) => {
+        const msg = resposne?.payload?.data?.message;
+        navigate("/interviewer/completed_interviews")
+        toast.success(msg);
+      });
+      formik.resetForm()
     },
   });
 
-  // Dummy data for student details
-  const studentDetails = {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    phone: '123-456-7890',
-    experience: '3 years',
-    skills: 'React, JavaScript, HTML, CSS',
-    education: "Bachelor's Degree in Computer Science",
-    projects: 'Project 1, Project 2, Project 3',
-    address: '123 Street, City, State, Country',
-    sex: 'Male',
-    age: '25',
-  };
-
   return (
-    <Box sx={{ p: 3, textAlign: 'center' ,marginTop:"5rem" }}>
+    <Box sx={{ p: 3, textAlign: "center", marginTop: "5rem" }}>
       <Typography variant="h5" sx={{ mb: 3 }}>
         Student Details
       </Typography>
 
-      <Paper elevation={3} sx={{ p: 3, mb: 3, width: '100%', margin: '0 auto' }}>
+      <Paper
+        elevation={3}
+        sx={{ p: 3, mb: 3, width: "100%", margin: "0 auto" }}
+      >
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: '1.2rem' ,textAlign:'start' }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.2rem",
+                textAlign: "start",
+              }}
+            >
               Personal Information
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem',textAlign:'start' }}>
-              <strong>Name:</strong> {studentDetails.name}
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", textAlign: "start" }}
+            >
+              <strong>Name:</strong> {matchingInterviews?.student_name}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem',textAlign:'start' }}>
-              <strong>Email:</strong> {studentDetails.email}
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", textAlign: "start" }}
+            >
+              <strong>Email:</strong> {matchingInterviews?.studentEmail}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem',textAlign:'start' }}>
-              <strong>Phone:</strong> {studentDetails.phone}
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", textAlign: "start" }}
+            >
+              <strong>Phone:</strong> {matchingInterviews?.studentPhoneNumber}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem' ,textAlign:'start'}}>
-              <strong>Experience:</strong> {studentDetails.experience}
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", textAlign: "start" }}
+            >
+              <strong>Experience:</strong> {matchingInterviews?.experience}
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: '1.2rem',textAlign:'start' }}>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.2rem",
+                textAlign: "start",
+              }}
+            >
               Additional Information
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem',textAlign:'start' }}>
-              <strong>Skills:</strong> {studentDetails.skills}
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", textAlign: "start" }}
+            >
+              <strong>Skills:</strong> {matchingInterviews?.skills}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem',textAlign:'start' }}>
-              <strong>Education:</strong> {studentDetails.education}
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", textAlign: "start" }}
+            >
+              <strong>Education:</strong>{" "}
+              {matchingInterviews?.studentQualification}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem' ,textAlign:'start'}}>
-              <strong>Projects:</strong> {studentDetails.projects}
-            </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem',textAlign:'start' }}>
-              <strong>Address:</strong> {studentDetails.address}
-            </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem' ,textAlign:'start'}}>
-              <strong>Sex:</strong> {studentDetails.sex}
-            </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem',textAlign:'start' }}>
-              <strong>Age:</strong> {studentDetails.age}
+
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", textAlign: "start" }}
+            >
+              <strong>Address:</strong> {matchingInterviews?.address}
             </Typography>
           </Grid>
         </Grid>
@@ -96,6 +150,7 @@ const FeedbackDetailsPage = () => {
         <Grid item xs={12} sm={4}>
           <TextField
             label="Coding Score"
+            placeholder="Enter coding score out of 10"
             fullWidth
             name="codingScore"
             value={formik.values.codingScore}
@@ -107,23 +162,53 @@ const FeedbackDetailsPage = () => {
         <Grid item xs={12} sm={4}>
           <TextField
             label="Technical Score"
+            placeholder="Enter Technical score out of 10"
             fullWidth
             name="technicalScore"
             value={formik.values.technicalScore}
             onChange={formik.handleChange}
-            error={formik.touched.technicalScore && formik.errors.technicalScore}
-            helperText={formik.touched.technicalScore && formik.errors.technicalScore}
+            error={
+              formik.touched.technicalScore && formik.errors.technicalScore
+            }
+            helperText={
+              formik.touched.technicalScore && formik.errors.technicalScore
+            }
           />
         </Grid>
+
         <Grid item xs={12} sm={4}>
           <TextField
             label="Communication Score"
             fullWidth
             name="communicationScore"
+            placeholder="Enter communicationScore out of 10"
             value={formik.values.communicationScore}
             onChange={formik.handleChange}
-            error={formik.touched.communicationScore && formik.errors.communicationScore}
-            helperText={formik.touched.communicationScore && formik.errors.communicationScore}
+            error={
+              formik.touched.communicationScore &&
+              formik.errors.communicationScore
+            }
+            helperText={
+              formik.touched.communicationScore &&
+              formik.errors.communicationScore
+            }
+          />
+        </Grid>
+        <Grid item xs={12} >
+        <TextField
+            label="Total Interview Score"
+            fullWidth
+            name="TotalInterviewScore"
+            value={formik.values.TotalInterviewScore}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.TotalInterviewScore &&
+              formik.errors.TotalInterviewScore
+            }
+            helperText={
+              formik.touched.TotalInterviewScore &&
+              formik.errors.TotalInterviewScore
+            }
           />
         </Grid>
         <Grid item xs={12}>
@@ -134,19 +219,15 @@ const FeedbackDetailsPage = () => {
             name="feedbackDescription"
             value={formik.values.feedbackDescription}
             onChange={formik.handleChange}
-            error={formik.touched.feedbackDescription && formik.errors.feedbackDescription}
-            helperText={formik.touched.feedbackDescription && formik.errors.feedbackDescription}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Interview Status"
-            fullWidth
-            name="interviewStatus"
-            value={formik.values.interviewStatus}
-            onChange={formik.handleChange}
-            error={formik.touched.interviewStatus && formik.errors.interviewStatus}
-            helperText={formik.touched.interviewStatus && formik.errors.interviewStatus}
+            error={
+              formik.touched.feedbackDescription &&
+              formik.errors.feedbackDescription
+            }
+            rows={4}
+            helperText={
+              formik.touched.feedbackDescription &&
+              formik.errors.feedbackDescription
+            }
           />
         </Grid>
       </Grid>

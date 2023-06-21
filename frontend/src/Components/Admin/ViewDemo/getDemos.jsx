@@ -11,7 +11,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { Box ,Button} from '@mui/material';
 import { getFullDemos } from '../../../Features/Slices/Admin/getDemoRequest';
 import { emailConfirmation } from '../../../Features/Slices/Admin/SendConfirmmailSlice';
-
+import {toast} from "react-hot-toast"
 // import Pagination from '@mui/material/Pagination';
 
 const UserTable = () => {
@@ -32,7 +32,9 @@ const handleClick = (email) => {
   console.log(email);
   console.log('id');
   dispatch(emailConfirmation(email)).then((response) => {
-    console.log(response.payload.message);
+    console.log(response);
+    toast.success(response?.payload?.message)
+    
   });
 };
   

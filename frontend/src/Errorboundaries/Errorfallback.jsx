@@ -3,8 +3,6 @@ import { Box, styled } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import ErrorIcon from '@mui/icons-material/Error';
 import Button from '@mui/material/Button';
-import Header from '../Components/Common/Header/Header';
-import Footer from '../Components/Common/Footer/Footer';
 const FallbackContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -24,8 +22,7 @@ export const ErrorFallback = ({ error,resetErrorBoundary }) => {
 
 
   return (
-    <Box>
-      <Header/>
+   
     <FallbackContainer>
       <ErrorIcon fontSize="large" color="error" />
       <h2>Oops! Something went wrong.</h2>
@@ -35,8 +32,7 @@ export const ErrorFallback = ({ error,resetErrorBoundary }) => {
         Reset
       </Button>
     </FallbackContainer>
-    <Footer/>
-    </Box>
+  
   );
 };
 

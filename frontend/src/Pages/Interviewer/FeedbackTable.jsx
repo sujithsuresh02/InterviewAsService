@@ -5,7 +5,7 @@ import Footer from "../../Components/Common/Footer/Footer";
 export default function FeedbackTable() {
   return (
     <React.Fragment>
-      <Header />
+      <Header   />
       <StudentTable/>
       <Footer />
     </React.Fragment>

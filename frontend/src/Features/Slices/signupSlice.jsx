@@ -9,13 +9,12 @@ export const postSignup = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error?.response?.data?.message, "this slic eerror");
-      throw error;
     }
   }
 );
 
 const initialState = {
-  signupDetails: {},
+ SignupToken:[],
 };
 
 const signupSlice = createSlice({
@@ -26,7 +25,8 @@ const signupSlice = createSlice({
     builder
       .addCase(postSignup.pending, (state) => {})
       .addCase(postSignup.fulfilled, (state, action) => {
-        state.signupDetails = action.payload;
+        console.log(action,"signup action");
+        state.SignupToken.push(action.payload?.result)
       })
       .addCase(postSignup.rejected, (state, action) => {});
   },

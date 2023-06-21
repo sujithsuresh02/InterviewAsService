@@ -12,7 +12,7 @@ export const postDemoPage = createAsyncThunk("/demo", async (values) => {
 });
 
 const initialState = {
-  DemoDetails: [],
+ DemoTokens:[],
 };
 
  const demoSlice = createSlice({
@@ -27,7 +27,7 @@ const initialState = {
       })
       .addCase(postDemoPage.fulfilled, (state, action) => {
         const results = action?.payload?.data?.result;
-        state.DemoDetails=results
+        state.DemoTokens.push(results)
       })
       .addCase(postDemoPage.rejected, (state, action) => {
         console.log(action);

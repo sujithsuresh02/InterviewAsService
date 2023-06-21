@@ -1,24 +1,50 @@
-
-import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import myAxios from "../../../api/company/addRequestSlice.api";
 
-
- export  const createOrder = async ({data, actions}) => {
+export const createSubscriptions = createAsyncThunk(
+  "createsubscriptio",
+  async (packs) => {
     try {
-      // Make a POST request to your backend API for creating a PayPal order
-      const response = await myAxios.post('/my-server/create-paypal-order', {
-        cart: [
-          {
-            sku: 'YOUR_PRODUCT_STOCK_KEEPING_UNIT',
-            quantity: 'YOUR_PRODUCT_QUANTITY',
-          },
-        ],
-      });
-
-      // Return the order ID from the response
-      return response.data.id;
+      console.log(packs,"slice first");
+      const response = await myAxios.post("/create-paypal-subscription",packs);
+      return response;
     } catch (error) {
-      console.error('Error creating PayPal order:', error);
-      throw new Error('Failed to create PayPal order');
+      console.log(error);
     }
-  };
+  }
+);
+export const onApproveOrder = createAsyncThunk(
+  "onApproveOrder",
+  async (orderId) => {
+    try {
+      const response = await myAxios.get(`/capture-paypal-subscription/${orderId}`);
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+ const initialState={
+    orderId:{},
+    orderVerfication:{}
+ }
+const paypalSlice = createSlice({
+  name: "Subscription",
+  initialState,
+  reducers:{},
+  extraReducers: (builder) => {
+    builder.addCase(createSubscriptions.pending, (state) => {});
+    builder.addCase(createSubscriptions.fulfilled, (state,action) => {
+      console.log(action, "action create order packkk");
+      state.orderId=action?.payload?.data});
+    builder.addCase(onApproveOrder.fulfilled, (state,action) => {
+      console.log(action,"second action");
+     state.orderVerfication=action?.payload?.data
+    });
+    builder.addCase(createSubscriptions.rejected, (state) => {});
+  },
+});
+
+export default paypalSlice.reducer;

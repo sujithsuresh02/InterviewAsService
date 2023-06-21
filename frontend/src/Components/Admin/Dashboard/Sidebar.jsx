@@ -178,12 +178,12 @@ return (
       </ListItemButton>
     </Link>
     <Divider />
-    <Link to={"/admin/addtime_slot"} style={{textDecoration:"none"}}>
+    <Link to={"/admin/interviews"} style={{textDecoration:"none"}}>
       <ListItemButton sx={{ marginTop: "25px" }}>
         <ListItemIcon>
           <AccessTimeIcon />
         </ListItemIcon>
-        <ListItemText primary="Add TimeSlot"sx={{ color: "grey"}} />
+        <ListItemText primary="view Interviews"sx={{ color: "grey"}} />
       </ListItemButton>
     </Link>
     <Link to={"/admin/student_details"}style={{textDecoration:"none"}}>
@@ -200,6 +200,30 @@ return (
           <EventAvailableIcon />
         </ListItemIcon>
         <ListItemText primary="Demo Requests" sx={{ color: "grey"}}/>
+      </ListItemButton>
+    </Link>
+    <Link to={"/admin/add_plans"} style={{textDecoration:"none"}}>
+      <ListItemButton sx={{ marginTop: "25px" }}>
+        <ListItemIcon>
+          <EventAvailableIcon />
+        </ListItemIcon>
+        <ListItemText primary="add plans" sx={{ color: "grey"}}/>
+      </ListItemButton>
+    </Link>
+    <Link to={"/admin/view_plans"} style={{textDecoration:"none"}}>
+      <ListItemButton sx={{ marginTop: "25px" }}>
+        <ListItemIcon>
+          <EventAvailableIcon />
+        </ListItemIcon>
+        <ListItemText primary="View Plans" sx={{ color: "grey"}}/>
+      </ListItemButton>
+    </Link>
+    <Link to={"/admin/view_interviewers"} style={{textDecoration:"none"}}>
+      <ListItemButton sx={{ marginTop: "25px" }}>
+        <ListItemIcon>
+          <EventAvailableIcon />
+        </ListItemIcon>
+        <ListItemText primary="Interviewers " sx={{ color: "grey"}}/>
       </ListItemButton>
     </Link>
     <ListItemButton sx={{ marginTop: "25px" }} onClick={handlelogout}>

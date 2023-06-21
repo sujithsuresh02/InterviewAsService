@@ -13,7 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { subscribedPlanEdit } from "../../../Features/Slices/Admin/addPlans";
-import {toast} from 'react-hot-toast'
+import { toast } from "react-hot-toast";
 
 const validationSchema = Yup.object().shape({
   planName: Yup.string().required("Plan Name is required"),
@@ -32,22 +32,23 @@ const EditPlans = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const editPlans = useSelector(
-    (state) => state?.addplansDetails?.FullPlanDetails
+    (state) =>state?.AdminPlanDetails?.FullPlanDetails?.fullPlans
   );
-
+  console.log(id);
+console.log(editPlans,"edited");
   const matchedPlan = editPlans.find((plan) => plan.id === id);
   console.log(matchedPlan);
   if (matchedPlan) {
     plans = { ...matchedPlan };
   }
-
+console.log(plans,"plans");
   const formik = useFormik({
     initialValues: {
-      planName: plans ? plans.planName : "",
-      price: plans ? plans.price : "",
-      validity: plans ? plans.validity : "",
-      interviews: plans ? plans.interviews : "",
-      features: plans ? plans.features : "",
+      planName: plans.planName || "",
+      price: plans.price || "",
+      validity: plans.validity || "",
+      interviews: plans.interviews || "",
+      features: plans.features || "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -59,7 +60,7 @@ const EditPlans = () => {
         const result = response?.payload?.data;
         if (result?.status === "Success") {
           navigate("/admin/view_plans");
-          toast.success(result.message)
+          toast.success(result.message);
         }
       });
     },

@@ -1,6 +1,7 @@
-
-import React from 'react';
-import { Button, Typography, styled } from '@mui/material';
+import React, { useEffect } from "react";
+import { Button, Typography, styled } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   TableHead,
@@ -11,96 +12,106 @@ import {
   TablePagination,
   TableRow,
   Paper,
-} from '@mui/material';
+} from "@mui/material";
+import { getAllScheduledInterviews } from "../../../Features/Slices/Interviewer/Interviewer";
 
 const StyledTableContainer = styled(TableContainer)({
-  maxWidth: '100%',
-  marginTop:"9rem",
+  maxWidth: "100%",
+  marginTop: "9rem",
+  height:"80vh"
 });
 
 const StyledTableHeaderCell = styled(TableCell)(({ theme }) => ({
-  backgroundColor: 'gray', // Header background color
+  backgroundColor: "gray",
   color: theme.palette.common.white,
-  fontWeight: 'bold',
+  fontWeight: "bold",
   fontSize: 16,
-  border: '1px solid #ddd', // Border color
+  border: "1px solid #ddd",
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(even)': {
+  "&:nth-of-type(even)": {
     backgroundColor: theme.palette.action.hover,
   },
-  '&:hover': {
+  "&:hover": {
     backgroundColor: theme.palette.action.hover,
   },
-  border: '1px solid #ddd', // Border color
+  border: "1px solid #ddd",
 }));
 
 const StyledTableCell = styled(TableCell)({
-  border: '1px solid #ddd', // Border color
+  border: "1px solid #ddd",
 });
 
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+}));
 
-const StudentTable = ({ students }) => {
-  const studentData = [
-    {
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      phone: '1234567890',
-      experience: '2 years',
-      skills: 'JavaScript, HTML, CSS',
-      education: 'Bachelor of Science',
-      projects: 'Project A, Project B',
-      address: '123 Street, City',
-      sex: 'Male',
-      age: '25',
-      certifications: 'Certification A, Certification B',
-    },
-    {
-      name: 'Jane Smith',
-      email: 'janesmith@example.com',
-      phone: '9876543210',
-      experience: '3 years',
-      skills: 'Python, SQL, Data Analysis',
-      education: 'Master of Computer Science',
-      projects: 'Project C, Project D',
-      address: '456 Avenue, Town',
-      sex: 'Female',
-      age: '28',
-      certifications: 'Certification C, Certification D',
-    },
-    // Add more student objects as needed
-  ];
-  
+const StudentTable = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const scheduledInterveiws = useSelector(
+    (state) => state?.interviwer?.interviewerScheduledInterviews?.resposne
+  );
+
+  useEffect(() => {
+    dispatch(getAllScheduledInterviews());
+  }, [getAllScheduledInterviews, dispatch]);
+
+  const handleAddFeedback = (interviewId) => {
+    navigate(`/interviewer/add_feedback/${interviewId}`);
+  };
+
+
+  const handleStartMeeting=(interviewToken)=>{
+  navigate(`/meeting/${interviewToken}`)
+  }
   return (
-    
     <StyledTableContainer component={Paper}>
-      <Typography variant='h4' textAlign={"center"}>
-     FeedBack
+      <Typography variant="h4" textAlign={"center"}>
+      Upcoming Interviews
       </Typography>
-      <Table  sx={{marginTop:"2rem"}}>
-        <TableHead >
+      <Table sx={{ marginTop: "2rem" }}>
+        <TableHead>
           <TableRow>
-            <StyledTableHeaderCell>Name</StyledTableHeaderCell>
-            <StyledTableHeaderCell>Email</StyledTableHeaderCell>
-            <StyledTableHeaderCell>Phone</StyledTableHeaderCell>
-            <StyledTableHeaderCell>Experience</StyledTableHeaderCell>
-            <StyledTableHeaderCell>Address</StyledTableHeaderCell>
-            <StyledTableHeaderCell>Feedback</StyledTableHeaderCell>
-        
+            <StyledTableHeaderCell>InterviwewId</StyledTableHeaderCell>
+            <StyledTableHeaderCell>StudentName</StyledTableHeaderCell>
+            <StyledTableHeaderCell>JobRole</StyledTableHeaderCell>
+            <StyledTableHeaderCell>StydentEmail</StyledTableHeaderCell>
+            <StyledTableHeaderCell>InterviewTime</StyledTableHeaderCell>
+            <StyledTableHeaderCell>InterviewDate</StyledTableHeaderCell>
+            <StyledTableHeaderCell>Meeting</StyledTableHeaderCell>
+            <StyledTableHeaderCell>Feeedback</StyledTableHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {studentData.map((student) => (
-            <StyledTableRow key={student.id}>
-              <StyledTableCell>{student.name}</StyledTableCell>
-              <StyledTableCell>{student.email}</StyledTableCell>
-              <StyledTableCell>{student.phone}</StyledTableCell>
-              <StyledTableCell>{student.address}</StyledTableCell>
-              <StyledTableCell>{student.experience}</StyledTableCell>
-              <StyledTableCell><Button>Add Feedback</Button></StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {scheduledInterveiws &&
+            scheduledInterveiws.map((interview) => (
+              <StyledTableRow key={interview.interview_id}>
+                <StyledTableCell>{interview.interview_id}</StyledTableCell>
+                <StyledTableCell>{interview.student_name}</StyledTableCell>
+                <StyledTableCell>{interview.jobRole}</StyledTableCell>
+                <StyledTableCell>{interview.studentEmail}</StyledTableCell>
+                <StyledTableCell>{interview.interview_time}</StyledTableCell>
+                <StyledTableCell>{interview.interview_date}</StyledTableCell>
+                <TableCell>
+                <StyledButton variant="contained" onClick={() => handleStartMeeting(interview.interviewToken)}>
+                 Join Meeting
+                </StyledButton>
+              </TableCell>
+                <StyledTableCell>
+                  <Button
+                    onClick={() => handleAddFeedback(interview.interview_id)}
+                  >
+                    Add Feedback
+                  </Button>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
         </TableBody>
       </Table>
     </StyledTableContainer>
@@ -108,4 +119,3 @@ const StudentTable = ({ students }) => {
 };
 
 export default StudentTable;
-

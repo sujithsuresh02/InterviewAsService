@@ -33,14 +33,13 @@ const LoginForm = () => {
       dispatch(postLogin(values)).then((response) => {
         let role = response?.payload?.data?.loggedInDetails?.matchedAccount?.role;
         if (role === 'company') {
-          toast.success('Logged in as a company'); // Show success toast
+          toast.success('Logged in as a company'); 
           navigate('/company');
         } else if (role === 'interviewer') {
-          toast.success('Logged in as an interviewer'); // Show success toast
+          toast.success('Logged in as an interviewer'); 
           navigate('/interviewer');
           loginSlice
         } else {
-          // Handle other roles
         }
       });
     },

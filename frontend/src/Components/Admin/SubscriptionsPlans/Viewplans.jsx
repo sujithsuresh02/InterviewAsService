@@ -1,3 +1,4 @@
+import React ,{ useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,24 +8,28 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, Button } from "@mui/material";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  deletePlans,
-  getFullPlans,
-} from "../../../Features/Slices/Admin/addPlans";
+import {  useNavigate } from "react-router-dom";
+import { getFullPlans } from "../../../Features/Slices/Admin/addPlans";
+import { deletePlans } from "../../../Features/Slices/Admin/addPlans"; 
 const Viewplans = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
+   
   const FullPlans = useSelector(
-    (state) => state?.addplansDetails?.FullPlanDetails
+    (state) => state?.AdminPlanDetails?.FullPlanDetails?.fullPlans
   );
+  useEffect(() => {
+    console.log("entered into ");
+    dispatch(getFullPlans());
+  }, [getFullPlans,dispatch]); 
+
+
+ 
   console.log(FullPlans);
   console.log("full state");
-  useEffect(() => {
-    dispatch(getFullPlans());
-  }, [getFullPlans, dispatch]);
 
   const handleEdit = (planId) => {
     navigate(`/admin/edit_plans/${planId}`);
@@ -60,7 +65,7 @@ const Viewplans = () => {
           </TableHead>
           <TableBody>
             {FullPlans &&
-              FullPlans.map((plan) => (
+              FullPlans?.map((plan) => (
                 <TableRow key={plan.id}>
                   <TableCell>{plan.id}</TableCell>
                   <TableCell>{plan.planName}</TableCell>

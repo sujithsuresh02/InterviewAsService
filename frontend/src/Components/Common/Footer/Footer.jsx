@@ -8,7 +8,7 @@ import Image from  '../../../Images/Yaksha-Logo-PNG (2).webp'
 
 function Footer() {
   return (
-    <Box bgcolor="black"  marginTop={15} p={4} sx={{width:"100%"}}>
+    <Box bgcolor="black"  marginTop={2} p={4} sx={{width:"100%"}}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={3}>
           <img src={Image} alt="" />
