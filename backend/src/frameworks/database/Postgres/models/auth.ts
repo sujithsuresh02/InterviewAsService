@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-
+import { UUIDV4} from 'sequelize';
 export const initCompanyModel = (sequelize: Sequelize) => {
   return sequelize.define('companies', {
 
@@ -20,6 +20,10 @@ export const initCompanyModel = (sequelize: Sequelize) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    ValidationToken: {
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
     },
   });
 
@@ -48,6 +52,11 @@ export const initCompanyModel = (sequelize: Sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    ValidationToken: {
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
+    },
+   
   });
 
 };
@@ -73,6 +82,10 @@ export const initInterviewerModel = (sequelize: Sequelize) => {
     password: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    ValidationToken: {
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
     },
   });
 };

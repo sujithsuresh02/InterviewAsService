@@ -1,7 +1,7 @@
 
 import { UUID } from "crypto";
 import { adminDbImplementation } from "../../../frameworks/database/Postgres/repositories/Admin/adminImplementation"
-import { Plans, adminFormValues, editPlans } from "../../../types/adminInterfaceType";
+import { Plans, adminFormValues, editPlans, interviewData } from "../../../types/adminInterfaceType";
   export const adminRepositoryInterface=(
     implementationRepository: ReturnType<adminDbImplementation>
   )=>{
@@ -41,6 +41,38 @@ import { Plans, adminFormValues, editPlans } from "../../../types/adminInterface
     return implementationRepository.editPlans(editedData)
   }
  
+  const assignInterviewer =(studentData:string)=>{
+    return implementationRepository.interviewerAssign(studentData)
+  }
+ 
+  const getFullTimeSlotData =()=>{
+    return implementationRepository.getFullTimeslotDetails()
+  }
+ 
+ 
+  const getInterviewExpertsRequets =()=>{
+    return implementationRepository.interviewExpertsRequest()
+  }
+  const getInterviewerToken =(email:string)=>{
+    return implementationRepository.getInterviewerToken(email)
+  }
+  const deleteInterviewerRequest =(id:string)=>{
+    return implementationRepository.interviewerDeleteRequest(id)
+  }
+ 
+  const postAssignInterview =(interviewDetails:interviewData)=>{
+    return implementationRepository.assignInterviewer(interviewDetails)
+  }
+ 
+  const scheduledInterviews =()=>{
+    return implementationRepository.getFullScheduledInterviews()
+  }
+  const cancelInterview=async(interviewerId:string)=>{
+    return await implementationRepository.interviewCancellation(interviewerId)
+ }
+ const cancelledInterviews=async()=>{
+return await implementationRepository.intereviewsCancelled()
+ }
  
        return{
         registerAdmin,
@@ -51,7 +83,16 @@ import { Plans, adminFormValues, editPlans } from "../../../types/adminInterface
         postSubscriptionPlans,
         getFullPlans,
         deletePlans,
-        editPlan
+        editPlan,
+        assignInterviewer,
+        getFullTimeSlotData,
+        getInterviewExpertsRequets,
+        getInterviewerToken,
+        deleteInterviewerRequest,
+        postAssignInterview,
+        scheduledInterviews,
+        cancelInterview,
+        cancelledInterviews
        }
   }
 

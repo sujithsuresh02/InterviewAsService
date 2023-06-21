@@ -33,10 +33,13 @@ const authcontroller = (
       authService
     );
 
+     if(result){
     res.json({
       status: "success",
       message: " Registered  Successfully",
+      result
     });
+  }
   });
   const login = asyncHandler(async (req: Request, res: Response) => {
     

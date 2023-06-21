@@ -12,7 +12,9 @@ interface ConfigKeys {
   JWT_SECRET:any,
   OPEN_API_KEY:any 
   EMAIL:string,
-  EMAIL_PASSWORD:string
+  EMAIL_PASSWORD:string,
+  PAYPAL_CLIENT_ID:string,
+  PAYPAL_CLIENT_SECRET:string
 }
 const configKeys: ConfigKeys = {
   database: process.env.database || 'defaultDatabaseName',
@@ -24,7 +26,9 @@ const configKeys: ConfigKeys = {
   JWT_SECRET: process.env.JWT_SECRET,
   OPEN_API_KEY:process.env.OPEN_API_KEY||"",
   EMAIL:process.env.EMAIL||"",
-  EMAIL_PASSWORD:process.env.EMAIL_PASSWORD||""
+  EMAIL_PASSWORD:process.env.EMAIL_PASSWORD||"",
+  PAYPAL_CLIENT_ID:process.env. PAYPAL_CLIENT_ID||"",
+  PAYPAL_CLIENT_SECRET:process.env.PAYPAL_CLIENT_SECRET||""
 
 };
 

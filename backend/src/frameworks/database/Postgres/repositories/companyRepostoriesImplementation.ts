@@ -21,10 +21,10 @@ export const companyDbRepositoryImplementation = () => {
     });
 
   const registerCompany = async (signupDetails: {
-    role?: string|null;
+    role?: string | null;
     name: string;
     email: string;
-    password?: string|null;
+    password?: string | null;
   }) => {
     try {
       const { role, name, email, password } = signupDetails;
@@ -47,15 +47,23 @@ export const companyDbRepositoryImplementation = () => {
           return;
       }
 
-      const result = await tableName.create({
-        name,
-        email,
-        password,
-      });
-      console.log(result);
+      const result = await tableName.create(
+        {
+          name,
+          email,
+          password,
+        },
+        { returning: true }
+      );
+
+      const response = {
+        validationToken: result.dataValues.ValidationToken,
+        name: result.dataValues.name,
+      };
+      console.log(response);
 
       console.log("siguped successfully!");
-      return result;
+      return response;
     } catch (error) {
       console.error("Error creating company:", error);
     }
@@ -104,14 +112,13 @@ export const companyDbRepositoryImplementation = () => {
       `;
       }
 
-      const result = await sequelize.query(query, {
+      const result: any = await sequelize.query(query, {
         replacements: { email },
         type: QueryTypes.SELECT,
       });
 
       console.log("Result on getByEmail implementation");
       console.log(result);
-
       return result;
     } catch (error) {
       console.error("Error retrieving user by email:", error);

@@ -1,8 +1,14 @@
 import { HttpStatus } from "../../../types/httpStatus";
 import AppError from "../../../utils/appError";
 import { adminDbInterface } from "../../repositories/Admin/adminRepostories";
-import { Plans, adminFormValues, editPlans } from "../../../types/adminInterfaceType";
+import {
+  Plans,
+  adminFormValues,
+  editPlans,
+  interviewData,
+} from "../../../types/adminInterfaceType";
 import { adminServicesInterface } from "../../services/adminService";
+import { UUID } from "crypto";
 
 export const adminsRegister = async (
   data: adminFormValues,
@@ -115,32 +121,139 @@ export const sendConfirmMail = async (
   adminDbService: ReturnType<adminServicesInterface>
 ) => {
   const response = await adminDbService.sendConfirmationMail(email);
-  return response
+  return response;
 };
 
-export const postPlans=async(planDta:Plans,adminDbRepostory: ReturnType<adminDbInterface>)=>{
+export const postPlans = async (
+  planDta: Plans,
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = await adminDbRepostory.postSubscriptionPlans(planDta);
+  return response;
+};
 
+export const getAllPlans = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = await adminDbRepostory.getFullPlans();
+  return response;
+};
 
-  const response= await adminDbRepostory.postSubscriptionPlans(planDta)
- return response
-}
+export const deletePlans = async (
+  id: string,
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = await adminDbRepostory.deletePlans(id);
+  return response;
+};
 
+export const editPlan = async (
+  editedData: editPlans,
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = await adminDbRepostory.editPlan(editedData);
+  return response;
+};
 
-export const getAllPlans=async(adminDbRepostory: ReturnType<adminDbInterface>)=>{
+export const assignTimeSlot = async (
+  studentId: string,
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = adminDbRepostory.assignInterviewer(studentId);
+  return response;
+};
 
-   const response=await adminDbRepostory.getFullPlans()
-  return response
-}
+export const getTimeSlotDetails = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = adminDbRepostory.getFullTimeSlotData();
+  return response;
+};
 
+export const getIntervieweExpertsRequest = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const result = adminDbRepostory.getInterviewExpertsRequets();
+  return result;
+};
 
-export const deletePlans=async(id:string,adminDbRepostory: ReturnType<adminDbInterface>)=>{
+export const emailConfirmation = async (
+  email: string,
+  adminDbRepostory: ReturnType<adminDbInterface>,
+  adminDbService: ReturnType<adminServicesInterface>
+) => {
+  const { Token, name }: any = await adminDbRepostory.getInterviewerToken(
+    email
+  );
+  if (Token && name) {
+    const result = adminDbService.sendInterviewerConfirmationMail(
+      Token,
+      email,
+      name
+    );
+    return result;
+  }
+};
 
- const response=await adminDbRepostory.deletePlans(id)
- return response
-}
+export const rejectionMail = async (
+  email: string,
+  id: string,
+  adminDbService: ReturnType<adminServicesInterface>,
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = await adminDbService.interviewerRejectionMail(email);
+  if (response) {
+    const Id = await adminDbRepostory.deleteInterviewerRequest(id);
+    return Id;
+  }
+};
 
-export const editPlan=async(editedData:editPlans,adminDbRepostory: ReturnType<adminDbInterface>)=>{
+export const assignInterviewer = async (
+  interviewDetails: interviewData,
+  interviewerEmail: string,
+  studentEmail: string,
+  adminDbRepostory: ReturnType<adminDbInterface>,
+  adminDbService: ReturnType<adminServicesInterface>
+) => {
+  const interviewToken = await adminDbRepostory.postAssignInterview(
+    interviewDetails
+  );
 
- const response= await adminDbRepostory.editPlan(editedData)
-return response
-}
+  console.log(interviewToken);
+
+  const emailresponse: any =
+    await adminDbService.InterviewScheduledConfirmation(
+      interviewerEmail,
+      studentEmail,
+      interviewDetails.SelectedDate,
+      interviewDetails.selectedTime,
+      interviewToken
+    );
+
+  console.log(emailresponse);
+
+  if (emailresponse) {
+    console.log(emailresponse);
+    console.log(interviewToken);
+
+    return interviewToken;
+  }
+};
+
+export const getFullScheduledInterviews = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  return adminDbRepostory.scheduledInterviews();
+};
+export const interviewCancellation = async (
+  intereviewId: string,
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  return await adminDbRepostory.cancelInterview(intereviewId);
+};
+
+export const interviewCancelled = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  return await adminDbRepostory.cancelledInterviews();
+};

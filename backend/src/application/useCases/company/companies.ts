@@ -1,11 +1,17 @@
 import { HttpStatus } from "../../../types/httpStatus";
 import AppError from "../../../utils/appError";
-import { addRequestFormData } from "../../../types/companyInterfaceTypes";
+import {
+  addRequestFormData,
+  SubscriptionDetails,
+} from "../../../types/companyInterfaceTypes";
 import { CVDetails } from "../../../types/companyInterfaceTypes";
 import { CompanysDbInterface } from "../../repositories/companyRepositories/companyRepostories";
 import { CompanyDbServiceInterface } from "../../services/companyServiceInterface";
 import { demoDetails } from "../../../types/companyInterfaceTypes";
 import { adminDbInterface } from "../../../application/repositories/Admin/adminRepostories";
+import { response } from "express";
+import { companyDbRepository } from "../../repositories/companyRepositoriesInterface";
+import { companyServiceImplementation } from "../../../frameworks/services/companyService";
 
 export const postRequest = async (
   data: addRequestFormData,
@@ -51,25 +57,147 @@ export const postRequestWithCVDetails = async (
   return {
     uploadedCVsCount: insertionResult.uploadedCVsCount,
     TotalStudentsCount: insertionResult.TotalStudentsCount,
+    jobRole: insertionResult.jobrole,
   };
 };
 
-export const postDemoRequest = async(
+export const postDemoRequest = async (
   demoDetails: demoDetails,
   CompanyDbRepository: ReturnType<CompanysDbInterface>
 ) => {
-
-
-let demoInsertionResponse= await CompanyDbRepository.postDemo(demoDetails)
-return demoInsertionResponse
-
+  let demoInsertionResponse = await CompanyDbRepository.postDemo(demoDetails);
+  return demoInsertionResponse;
 };
 
+export const getAllPlans = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  const response = await adminDbRepostory.getFullPlans();
+  return response;
+};
 
+export const createSubscription = async (
+  subscriptionDetails: SubscriptionDetails,
+  CompanyServiceRepository: ReturnType<CompanyDbServiceInterface>,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>
+) => {
+  const response: any = await CompanyServiceRepository.createSubscribtion(
+    subscriptionDetails
+  );
+  console.log(response);
+  const insertedResult = await CompanyDbRepository.saveOrderToDatabase(
+    subscriptionDetails,
+    response?.startDate,
+    response?.endDate,
+    response?.orderId
+  );
+  return response;
+};
 
-export const getAllPlans=async(adminDbRepostory: ReturnType<adminDbInterface>)=>{
+export const verifyPayment = async (
+  orderId: string,
+  companyId: string,
+  CompanyServiceRepository: ReturnType<CompanyDbServiceInterface>,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>
+) => {
+  console.log("enter usecase");
 
-   const response= await adminDbRepostory.getFullPlans()
-   return response
-   
-}
+  const paymentId = await CompanyServiceRepository.capturePayment(orderId);
+  const result = await CompanyDbRepository.createPayment(
+    orderId,
+    paymentId,
+    companyId
+  );
+  return result;
+};
+
+export const getFullPaymentHistort = async (
+  companyId: string,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>
+) => {
+  return await CompanyDbRepository.getAllPaymentHistory(companyId);
+};
+
+export const editProfile = async (
+  username: string,
+  changeEmail: string,
+  companyid: BigInt,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>
+) => {
+  const response = await CompanyDbRepository.profileEdit(
+    username,
+    changeEmail,
+    companyid
+  );
+  return true;
+};
+
+export const getSignupdata = async (
+  companyId: string,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>
+) => {
+  const response = await CompanyDbRepository.signUpData(companyId);
+  return response;
+};
+
+export const uploadedCvCount = async (
+  companyId: string,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>
+) => {
+  const response = await CompanyDbRepository.totalCvUploaded(companyId);
+  return response;
+};
+
+export const passwordemailConfirmation = async (
+  email: string,
+  name: string,
+  CompanyServiceRepository: ReturnType<CompanyDbServiceInterface>,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>
+) => {
+  const Token = await CompanyDbRepository.getvalidationToken(email);
+  if (Token) {
+    const response = CompanyServiceRepository.sentEmailConfirmation(
+      email,
+      name,
+      Token
+    );
+    return response;
+  }
+};
+
+export const resetPassword = async (
+  newPassword: string,
+  oldPassword: string,
+  compantId: bigint,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>,
+  CompanyServiceRepository: ReturnType<CompanyDbServiceInterface>
+) => {
+  const hashedOldPassword = await CompanyDbRepository.CompanyPassword(
+    compantId
+  );
+  const passwordMatched = await CompanyServiceRepository.comparePassword(
+    oldPassword,
+    hashedOldPassword
+  );
+  console.log(passwordMatched);
+
+  if (passwordMatched) {
+    const hashedNewpassword = await CompanyServiceRepository.encryptPassword(
+      newPassword
+    );
+    const response = await CompanyDbRepository.postResetPassword(
+      hashedNewpassword,
+      compantId
+    );
+    if (response) {
+      return response;
+    }
+  }
+};
+
+export const FeedbackDetails = async (
+  companyId: string,
+  CompanyDbRepository: ReturnType<CompanysDbInterface>
+) => {
+  return CompanyDbRepository.getFeedbackDetails(companyId);
+};

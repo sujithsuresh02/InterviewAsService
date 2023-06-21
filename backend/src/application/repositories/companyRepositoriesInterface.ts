@@ -22,10 +22,11 @@ export const companyDbRepository = (
  const getByEmailSignup=async(email:string,role:string)=>{
  return await repository.getByEmailSignup (email,role);
  }
+
   return {
     registerCompany,
     getByEmail,
-    getByEmailSignup
+    getByEmailSignup,
   };
 };
 export type CompanyDbInterface = typeof companyDbRepository;

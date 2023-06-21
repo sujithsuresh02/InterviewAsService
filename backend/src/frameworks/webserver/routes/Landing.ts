@@ -6,6 +6,7 @@ import { companyServiceImplementation } from "../../services/companyService";
 import { companyServiceInterface } from "../../../application/services/companyServiceInterface";
 import { adminRepositoryImplementation } from "../../database/Postgres/repositories/Admin/adminImplementation";
 import { adminRepositoryInterface } from "../../../application/repositories/Admin/adminRepostories";
+import { interviewExpertUpload } from "../../services/multer";
 adminRepositoryImplementation
 const LandingRouter = () => {
   const router = express.Router();
@@ -23,6 +24,7 @@ const LandingRouter = () => {
 
  
    router.post("/demo",controller.postDemo)
+   router.post("/become_interviewexperts",interviewExpertUpload.single('cv'),controller.postDemo)
    
 
   return router;

@@ -1,3 +1,4 @@
+import { FloatDataType } from "sequelize";
 
 
 export interface addRequestFormData {
@@ -38,4 +39,14 @@ export interface addRequestFormData {
     contactNumber:string,
     learnAboutUs:string,
     message?: string|null,
+  }
+
+  export interface SubscriptionDetails{
+
+    planName:string,
+    totalAmount:number,
+    validity :string,
+    planId:string,
+    companyId:string|undefined,
+    numberOfInterviews:number
   }

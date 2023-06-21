@@ -4,12 +4,13 @@ import {
   Plans,
   adminFormValues,
   editPlans,
+  interviewData,
 } from "../../../../../types/adminInterfaceType";
 import { QueryTypes } from "sequelize";
 import { initSubscriptionPlans } from "../../models/admins";
 import AppError from "../../../../../utils/appError";
 import { HttpStatus } from "../../../../../types/httpStatus";
-import { log } from "console";
+import { initInterviewModel } from "../../models/assignInterviewer";
 sequelize
   .sync()
   .then(() => {
@@ -136,6 +137,8 @@ export const adminRepositoryImplementation = () => {
     const result = await sequelize.query(query, {
       type: QueryTypes.SELECT,
     });
+    console.log(result, "get plans");
+
     return result;
   };
 
@@ -159,7 +162,7 @@ export const adminRepositoryImplementation = () => {
     }
   };
 
-  const editPlans= async (editedData:editPlans) => {
+  const editPlans = async (editedData: editPlans) => {
     try {
       const query = `
         UPDATE plans
@@ -172,17 +175,224 @@ export const adminRepositoryImplementation = () => {
         editedData.validity,
         editedData.interviews,
         editedData.features,
-        editedData.planId
+        editedData.planId,
       ];
-  
+
       await sequelize.query(query, { bind: values });
       console.log("Plan updated successfully");
-      return true
+      return true;
     } catch (error) {
       console.error("Error updating plan:", error);
     }
   };
-  
+
+  const interviewerAssign = async (id: string) => {
+    try {
+      const query = `SELECT * FROM "studentcvs" WHERE "id"=:id`;
+
+      const result = await sequelize.query(query, {
+        replacements: { id },
+        type: QueryTypes.SELECT,
+      });
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getFullTimeslotDetails = async () => {
+    try {
+      const query = `SELECT
+      "t"."id" AS "Times_id",
+      "t"."timeSlot",
+      "t"."status",
+      "t"."timeslotId",
+      "t"."createdAt" AS "Times_created_at",
+      "it"."id" AS "timeslot_id",
+      "it"."date",
+      "it"."dayOfWeek",
+      it."interviewerId",
+      "it"."createdAt" AS "timeslot_created_at",
+      "i"."id" AS "interviewer_id",
+      "i"."name",
+      "i"."email",
+      "i"."createdAt" AS "interviewer_created_at"
+    FROM
+      "Times" AS "t"
+    JOIN
+      "timeslots" AS "it" ON "t"."timeslotId" = "it"."id"
+    JOIN
+      "interviewers" AS "i" ON "it"."interviewerId" = "i"."id";`;
+
+      const result = await sequelize.query(query, {
+        type: QueryTypes.SELECT,
+      });
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const interviewExpertsRequest = async () => {
+    const query = `SELECT * ,DATE("createdAt")AS "Date" FROM "becominterviewexperts" ORDER BY "createdAt" DESC `;
+    const result = await sequelize.query(query, {
+      type: QueryTypes.SELECT,
+    });
+    console.log(result);
+    return result;
+  };
+
+  const getInterviewerToken = async (email: string) => {
+    console.log("entered");
+
+    try {
+      const query = `SELECT "Token","fullName" FROM "becominterviewexperts" WHERE "email" =:email`;
+
+      const result: any = await sequelize.query(query, {
+        replacements: { email },
+        type: QueryTypes.SELECT,
+      });
+      console.log(result);
+      const Token = result[0].Token;
+      const name = result[0].fullName;
+      return { Token, name };
+    } catch (error) {}
+  };
+
+  const interviewerDeleteRequest = async (id: string) => {
+    try {
+      const deleteQuery = `
+      DELETE FROM "becominterviewexperts"
+      WHERE "id" = :id
+    `;
+      const result = sequelize.query(deleteQuery, {
+        replacements: { id },
+      });
+      return id;
+    } catch (error) {}
+  };
+
+  const interviews = initInterviewModel(sequelize);
+  const assignInterviewer = async ({
+    interviewerId,
+    studentId,
+    selectedTime,
+    SelectedDate,
+    TimeslotId,
+  }: interviewData) => {
+    try {
+      const Data = {
+        interviewerId,
+        studentId,
+        selectedTime,
+        SelectedDate,
+      };
+      const result: any = await interviews.create(Data, { returning: true });
+      const interviewToken = result.dataValues.interviewToken;
+
+      const selectedTimeStatus = `
+     UPDATE "Times"
+     SET "status" = 'assigned'
+     WHERE "id" = :TimeslotId;`;
+
+      await sequelize.query(selectedTimeStatus, {
+        replacements: { TimeslotId },
+        type: QueryTypes.UPDATE,
+      });
+      console.log(interviewToken);
+
+      return interviewToken;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getFullScheduledInterviews = async () => {
+    try {
+      const query = `
+  SELECT
+  "i"."id" AS "interview_id",
+  "s"."name" AS "student_name",
+  "c"."name" AS "company_name",
+  "iv"."name" AS "interviewer_name",
+  "i"."selectedTime" AS "interview_time",
+  "i"."SelectedDate" AS "interview_date",
+  "a"."jobRole" AS "jobRole",
+  "i"."interviewToken" AS "interviewToken"
+FROM
+  "interviews" AS i
+JOIN
+  "studentcvs" AS s ON "i"."studentId" = "s"."id"
+JOIN
+  "addrequests" AS a ON "s"."addRequestId" = "a"."id"
+JOIN
+  "companies" AS c ON "a"."companyId" = "c"."id"
+JOIN
+  "interviewers" AS iv ON "i"."interviewerId" = "iv"."id"
+WHERE
+  "i"."interviewStatus" = 'scheduled'
+
+`;
+
+      const result = await sequelize.query(query, {
+        type: QueryTypes.SELECT,
+      });
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const interviewCancellation = async (interviewId: string) => {
+    try {
+      console.log(interviewId);
+
+      const query = `UPDATE "interviews" SET "interviewStatus" = 'cancelled' WHERE "id" = :interviewId`;
+      return await sequelize.query(query, {
+        replacements: { interviewId: interviewId },
+        type: QueryTypes.UPDATE,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const intereviewsCancelled = async () => {
+    try {
+      const query = `
+      SELECT
+      "i"."id" AS "interview_id",
+      "s"."name" AS "student_name",
+      "c"."name" AS "company_name",
+      "iv"."name" AS "interviewer_name",
+      "i"."selectedTime" AS "interview_time",
+      "i"."SelectedDate" AS "interview_date",
+      "a"."jobRole" AS "jobRole",
+      "i"."interviewToken" AS "interviewToken",
+      "i"."interviewStatus" AS "interviewStatus"
+    FROM
+      "interviews" AS i
+    JOIN
+      "studentcvs" AS s ON "i"."studentId" = "s"."id"
+    JOIN
+      "addrequests" AS a ON "s"."addRequestId" = "a"."id"
+    JOIN
+      "companies" AS c ON "a"."companyId" = "c"."id"
+    JOIN
+      "interviewers" AS iv ON "i"."interviewerId" = "iv"."id"
+    WHERE
+      "i"."interviewStatus" = 'cancelled'
+    
+    `;
+
+      const result = await sequelize.query(query, {
+        type: QueryTypes.SELECT,
+      });
+      return result
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return {
     adminSignup,
     getCompanyByEmail,
@@ -192,7 +402,16 @@ export const adminRepositoryImplementation = () => {
     addSubscriptionPlans,
     getAllPlans,
     deletePlans,
-    editPlans
+    editPlans,
+    interviewerAssign,
+    getFullTimeslotDetails,
+    interviewExpertsRequest,
+    getInterviewerToken,
+    interviewerDeleteRequest,
+    assignInterviewer,
+    getFullScheduledInterviews,
+    interviewCancellation,
+    intereviewsCancelled,
   };
 };
 export type adminDbImplementation = typeof adminRepositoryImplementation;
