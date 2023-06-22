@@ -1,10 +1,10 @@
 import React from 'react'
 import Sidebar from '../../Components/Admin/Dashboard/Sidebar'
-// import DashboardComponent from '../../Components/Admin/Dashboard/Dashboard'
+import AdminDashboard from '../../Components/Admin/Dashboard/Dashboard'
 export default function Dashboard() {
   return (
     <React.Fragment>
-        <Sidebar />
+        <Sidebar allTables={<AdminDashboard/>}/>
     </React.Fragment>
   )
 }

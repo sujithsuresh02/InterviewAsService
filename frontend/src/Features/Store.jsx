@@ -18,6 +18,7 @@ import InterviwerSlice from "../Features/Slices/Interviewer/Interviewer"
 import AddTimeSlot from "../Features/Slices/Admin/addTimeslot"
 import BecomeInterviewExperts from "../Features/Slices/InterviewExpertslice/becominginterviewexpert"
 import Interviews from "./Slices/Admin/Interviews";
+import Dashboard from "./Slices/Admin/Dashboard";
 // Load state from localStorage/
 const loadState = () => {
   try {
@@ -63,6 +64,7 @@ const store = configureStore({
     assignTimeSlot:AddTimeSlot,
     becomeInterviewExpert:BecomeInterviewExperts,
     interviews:Interviews,
+    dashboard:Dashboard
   },
   preloadedState: persistedState,
 });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -13,18 +13,27 @@ import {
   Pagination,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { assignInterviewer } from "../../../Features/Slices/Admin/listStudentDetails";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  assignInterviewer,
+  getStudentDetails,
+} from "../../../Features/Slices/Admin/listStudentDetails";
 const Student = () => {
+  const { companyId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    dispatch(getStudentDetails(companyId));
+  }, []);
+  
   const Data = useSelector((state) => {
     return state?.studentDetails?.studentDetails?.response;
   });
-
   console.log(Data);
+
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

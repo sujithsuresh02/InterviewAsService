@@ -31,6 +31,10 @@ import PeopleIcon from '@mui/icons-material/People';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import {Link} from "react-router-dom"
  import {logout} from "../../../Features/Slices/Admin/adminLogin"
+ import ComputerIcon from '@mui/icons-material/Computer';
+ import AddCardIcon from '@mui/icons-material/AddCard';
+ import ControlPointIcon from '@mui/icons-material/ControlPoint';
+ import { Person } from '@material-ui/icons'
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -181,19 +185,12 @@ return (
     <Link to={"/admin/interviews"} style={{textDecoration:"none"}}>
       <ListItemButton sx={{ marginTop: "25px" }}>
         <ListItemIcon>
-          <AccessTimeIcon />
+          <ComputerIcon />
         </ListItemIcon>
-        <ListItemText primary="view Interviews"sx={{ color: "grey"}} />
+        <ListItemText primary="View Interviews"sx={{ color: "grey"}} />
       </ListItemButton>
     </Link>
-    <Link to={"/admin/student_details"}style={{textDecoration:"none"}}>
-      <ListItemButton sx={{ marginTop: "25px" }}>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="View Students" sx={{ color: "grey" }}/>
-      </ListItemButton>
-    </Link>
+  
     <Link to={"/admin/view_demo"} style={{textDecoration:"none"}}>
       <ListItemButton sx={{ marginTop: "25px" }}>
         <ListItemIcon>
@@ -205,15 +202,15 @@ return (
     <Link to={"/admin/add_plans"} style={{textDecoration:"none"}}>
       <ListItemButton sx={{ marginTop: "25px" }}>
         <ListItemIcon>
-          <EventAvailableIcon />
+          <ControlPointIcon /> 
         </ListItemIcon>
-        <ListItemText primary="add plans" sx={{ color: "grey"}}/>
+        <ListItemText primary="Add Plans" sx={{ color: "grey"}}/>
       </ListItemButton>
     </Link>
     <Link to={"/admin/view_plans"} style={{textDecoration:"none"}}>
       <ListItemButton sx={{ marginTop: "25px" }}>
         <ListItemIcon>
-          <EventAvailableIcon />
+          <AddCardIcon />
         </ListItemIcon>
         <ListItemText primary="View Plans" sx={{ color: "grey"}}/>
       </ListItemButton>
@@ -221,7 +218,7 @@ return (
     <Link to={"/admin/view_interviewers"} style={{textDecoration:"none"}}>
       <ListItemButton sx={{ marginTop: "25px" }}>
         <ListItemIcon>
-          <EventAvailableIcon />
+          <Person />
         </ListItemIcon>
         <ListItemText primary="Interviewers " sx={{ color: "grey"}}/>
       </ListItemButton>

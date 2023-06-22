@@ -22,10 +22,9 @@ import { useTheme } from "@mui/material/styles";
 const ResponsiveTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const theme=useTheme()
+  const theme = useTheme();
   console.log(theme);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
 
   useEffect(() => {
     dispatch(getRequets());
@@ -36,15 +35,11 @@ const ResponsiveTable = () => {
   );
 
   const handleClick = (id) => {
-    dispatch(getStudentDetails(id)).then((response) => {
-      if (response.payload) {
-        navigate("/admin/student_details");
-      }
-    });
+    navigate(`/admin/student_details/${id}`);
   };
 
   return (
-    <TableContainer sx={{overflowX:"hidden"}}>
+    <TableContainer sx={{ overflowX: "hidden" }}>
       <Typography
         variant="h5"
         position="relative"

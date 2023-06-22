@@ -94,7 +94,7 @@ const InterviewerTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Data ? (
+            {Data.length>0 ? (
               Data?.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
@@ -118,7 +118,7 @@ const InterviewerTable = () => {
               ))
             ) : (
               <Typography variant="h5">
-                There Is No InterViewerRequest
+                There Is No InterviewerRequest
               </Typography>
             )}
           </TableBody>
