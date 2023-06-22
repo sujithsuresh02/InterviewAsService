@@ -11,6 +11,7 @@ import { initSubscriptionPlans } from "../../models/admins";
 import AppError from "../../../../../utils/appError";
 import { HttpStatus } from "../../../../../types/httpStatus";
 import { initInterviewModel } from "../../models/assignInterviewer";
+import { query } from "express";
 sequelize
   .sync()
   .then(() => {
@@ -388,7 +389,162 @@ WHERE
       const result = await sequelize.query(query, {
         type: QueryTypes.SELECT,
       });
-      return result
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const subscriptionCount = async () => {
+    try {
+      const query = ` SELECT all_days.subscription_day, COUNT(subscriptions.subscription_day) AS subscriptions_count
+      FROM (
+        SELECT 'Sunday' AS subscription_day
+        UNION ALL
+        SELECT 'Monday'
+        UNION ALL
+        SELECT 'Tuesday'
+        UNION ALL
+        SELECT 'Wednesday'
+        UNION ALL
+        SELECT 'Thursday'
+        UNION ALL
+        SELECT 'Friday'
+        UNION ALL
+        SELECT 'Saturday'
+      ) all_days
+      LEFT JOIN (
+        SELECT TO_CHAR("startDate", 'Day') AS subscription_day
+        FROM "subscriptions"   WHERE "startDate" >= DATE_TRUNC('week', CURRENT_DATE)
+      ) subscriptions ON TRIM(UPPER(all_days.subscription_day)) = TRIM(UPPER(subscriptions.subscription_day))
+      GROUP BY all_days.subscription_day
+      ORDER BY all_days.subscription_day;
+      `;
+
+      type SubscriptionData = {
+        subscription_day: string;
+        subscriptions_count: string;
+      };
+      const result: SubscriptionData[] = await sequelize.query(query, {
+        type: QueryTypes.SELECT,
+      });
+
+      const convertedResult = result.map((item) => ({
+        subscription_day: item.subscription_day.trim(),
+        subscriptions_count: parseInt(item.subscriptions_count),
+      }));
+
+      return convertedResult;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const monthwiseSubscriptionCount = async () => {
+    try {
+      const query = `
+      SELECT
+        TO_CHAR(dates.month, 'Month') AS subscriptionMonth,
+        COALESCE(sub.count, 0) AS subscriptionCount
+      FROM
+        (
+          SELECT generate_series(
+            DATE_TRUNC('YEAR', CURRENT_DATE),
+            DATE_TRUNC('YEAR', CURRENT_DATE) + INTERVAL '1 YEAR' - INTERVAL '1 DAY',
+            INTERVAL '1 MONTH'
+          ) AS month
+        ) AS dates
+        LEFT JOIN (
+          SELECT
+            DATE_TRUNC('MONTH', "startDate") AS month,
+            COUNT(*) AS count
+          FROM
+            "subscriptions"
+          WHERE
+            EXTRACT(YEAR FROM "startDate") = EXTRACT(YEAR FROM CURRENT_DATE)
+          GROUP BY
+            month
+        ) AS sub ON dates.month = sub.month
+      ORDER BY
+        dates.month;
+    `;
+
+      type SubscriptionData = {
+        subscriptionmonth: string;
+        subscriptioncount: string;
+      };
+      const result: SubscriptionData[] = await sequelize.query(query, {
+        type: QueryTypes.SELECT,
+      });
+      console.log(result);
+
+      const convertedResult = result.map((item) => ({
+        subscription_month: item.subscriptionmonth?.trim(),
+        subscriptions_count: parseInt(item.subscriptioncount),
+      }));
+      console.log(convertedResult);
+
+      return convertedResult;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const totalClientsAndInterviewCount = async () => {
+    try {
+      const clientQuery = `SELECT COUNT(*) AS clientsCount  FROM "companies" ;`;
+      const clientsCount: any = await sequelize.query(clientQuery, {
+        type: QueryTypes.SELECT,
+      });
+      const clientCounts = clientsCount[0].clientscount;
+
+      const interviewerQuery = `
+       SELECT COUNT(*)  AS interviewerCount  FROM "interviewers"`;
+
+      const interviewerCount: any = await sequelize.query(interviewerQuery, {
+        type: QueryTypes.SELECT,
+      });
+      console.log(interviewerCount, "interviewerCount");
+
+      const interviewersCount = interviewerCount[0].interviewercount;
+
+      const completinterviewsQuery = `
+       SELECT COUNT(*) AS completedInterviewsCount  FROM "interviews" WHERE "interviewStatus"='completed'`;
+
+      const completedInterviewsCount: any = await sequelize.query(
+        completinterviewsQuery,
+        {
+          type: QueryTypes.SELECT,
+        }
+      );
+
+      const completedInterviews =
+        completedInterviewsCount[0].completedinterviewscount;
+      const cancelledInterviewQuery = `
+       SELECT COUNT(*) AS cancelledInterviewsCount  FROM "interviews" WHERE "interviewStatus"='cancelled'`;
+
+      const cancelledInterviewsCount: any = await sequelize.query(
+        cancelledInterviewQuery,
+        {
+          type: QueryTypes.SELECT,
+        }
+      );
+      console.log(cancelledInterviewsCount, "cancelledInterviewsCount");
+
+      const cancelledInterview =
+        cancelledInterviewsCount[0].cancelledinterviewscount;
+
+      console.log(clientCounts, "clientCounts");
+      console.log(interviewersCount, "interviewersCount");
+      console.log(completedInterviews, "completedInterviews");
+      console.log(cancelledInterview, "cancelledInterview");
+      const dashboardData = {
+        clientCounts: clientCounts,
+        interviewersCount: interviewersCount,
+        completedInterviews: completedInterviews,
+        cancelledInterview: cancelledInterview,
+      };
+      return dashboardData
     } catch (error) {
       console.log(error);
     }
@@ -412,6 +568,9 @@ WHERE
     getFullScheduledInterviews,
     interviewCancellation,
     intereviewsCancelled,
+    subscriptionCount,
+    monthwiseSubscriptionCount,
+    totalClientsAndInterviewCount,
   };
 };
 export type adminDbImplementation = typeof adminRepositoryImplementation;

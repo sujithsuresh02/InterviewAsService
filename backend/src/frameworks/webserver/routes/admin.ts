@@ -37,7 +37,11 @@ const adminRouter = () => {
   router.get("/scheduled_interviews", controller.getAllScheduledInterviews);
   router.post("/cancel_Interview", controller.cancelInterview);
   router.get("/cancelled_Interviews", controller.cancelledInterViews);
+  router.get("/subscriptioncount", controller.daywiseSubscriptionCount);
+  router.get("/monthly_subscriptioncount", controller.monthlySubscriptionCount);
+  router.get("/total_clientcount", controller.totalClientCount);
 
+  
   return router;
 };
 export default adminRouter;

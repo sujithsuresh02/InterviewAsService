@@ -1,7 +1,6 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/app.ts",
@@ -54,5 +53,6 @@
     "pg": "^8.11.0",
     "sequelize": "^6.31.1",
     "uuid": "^9.0.0"
-  }
+  },
+  "description": ""
 }

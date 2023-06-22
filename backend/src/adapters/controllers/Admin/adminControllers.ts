@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 import asyncHandler from "express-async-handler";
 import {
   adminDbImplementation,
@@ -33,6 +33,9 @@ import {
   getFullScheduledInterviews,
   interviewCancellation,
   interviewCancelled,
+  subscriptionCount,
+  monthwiseSubscriptionCount,
+  totalClientAndInterviewsCount,
 } from "../../../application/useCases/Admin/admins";
 const adminsController = (
   adminRepositoryInterface: adminDbInterface,
@@ -317,6 +320,41 @@ const adminsController = (
       }
     }
   );
+
+  const daywiseSubscriptionCount = asyncHandler(
+    async (req: Request, res: Response) => {
+      const response: any = await subscriptionCount(adminDbRepostory);
+      console.log(response);
+
+      if (response.length > 0) {
+        res.json({
+          response,
+        });
+      }
+    }
+  );
+  const monthlySubscriptionCount = asyncHandler(
+    async (req: Request, res: Response) => {
+      const response: any = await monthwiseSubscriptionCount(adminDbRepostory);
+      console.log(response);
+
+      if (response.length > 0) {
+        res.json({
+          response,
+        });
+      }
+    }
+  );
+  const totalClientCount = asyncHandler(async (req: Request, res: Response) => {
+    const response: any = await totalClientAndInterviewsCount(adminDbRepostory);
+    console.log(response);
+
+    if (response) {
+      res.json({
+        response,
+      });
+    }
+  });
   return {
     getAllRequest,
     getStudentCVDetails,
@@ -335,6 +373,9 @@ const adminsController = (
     getAllScheduledInterviews,
     cancelInterview,
     cancelledInterViews,
+    daywiseSubscriptionCount,
+    monthlySubscriptionCount,
+    totalClientCount,
   };
 };
 

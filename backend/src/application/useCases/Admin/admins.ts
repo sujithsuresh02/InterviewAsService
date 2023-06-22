@@ -257,3 +257,21 @@ export const interviewCancelled = async (
 ) => {
   return await adminDbRepostory.cancelledInterviews();
 };
+
+export const subscriptionCount = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  return await adminDbRepostory.daywiseSubscriptionCount();
+};
+
+export const monthwiseSubscriptionCount = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  return await adminDbRepostory.monthlySubscriptionCount();
+};
+
+export const totalClientAndInterviewsCount = async (
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  return await adminDbRepostory.totalClientCount()
+};
