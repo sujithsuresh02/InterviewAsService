@@ -76,6 +76,7 @@ const interviewExpertSlice = createSlice({
         state.interviewExperts.push(results);
       })
       .addCase(getAllExpertsRequest.fulfilled, (state, action) => {
+        console.log(action,"action");
         const results = action?.payload?.data?.result;
         state.getAllRequest = results;
       })

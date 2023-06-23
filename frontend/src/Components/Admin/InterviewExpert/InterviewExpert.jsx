@@ -16,6 +16,8 @@ import {
   DialogContent,
   DialogActions,
   Link,
+  Stack,
+  Pagination,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -31,9 +33,9 @@ const InterviewerTable = () => {
 
   useEffect(() => {
     dispatch(getAllExpertsRequest());
-  }, [getAllExpertsRequest]);
+  }, [getAllExpertsRequest,dispatch]);
 
-  const Data = useSelector((state) => state);
+  const Data = useSelector((state) => state?.becomeInterviewExpert?.getAllRequest);
   console.log(Data, "experts");
 
   const handleClick = (interviewer) => {
@@ -58,8 +60,6 @@ const InterviewerTable = () => {
     console.log("Sending confirmation email");
   };
 
-  console.log(Data, "dta");
-
   const handleReject = (id, email) => {
     dispatch(sentInterviewerRejectionmail({ id, email })).then((result) => {
       console.log(result);
@@ -68,6 +68,19 @@ const InterviewerTable = () => {
     });
   };
 
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(11);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  
+
+  console.log(Data,"Data");
+  const paginatedData = Data?.slice(
+    (page - 1) * rowsPerPage,
+    (page - 1) * rowsPerPage + rowsPerPage
+  );
   return (
     <Box>
       <Typography
@@ -94,8 +107,8 @@ const InterviewerTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Data.length>0 ? (
-              Data?.map((row) => (
+            {paginatedData.length > 0 ? (
+              paginatedData?.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.fullName}</TableCell>
@@ -117,8 +130,8 @@ const InterviewerTable = () => {
                 </TableRow>
               ))
             ) : (
-              <Typography variant="h5">
-                There Is No InterviewerRequest
+              <Typography variant="h6">
+                There Is No Interviewer Request
               </Typography>
             )}
           </TableBody>
@@ -195,6 +208,18 @@ const InterviewerTable = () => {
           </DialogActions>
         </Dialog>
       )}
+      <Stack
+        spacing={2}
+        style={{ marginTop: "2rem", display: "flex", alignItems: "center" }}
+      >
+        <Pagination
+          count={Math.ceil(Data?.length / rowsPerPage)}
+          shape="roundedpage"
+          color="primary"
+          variant="outlined"
+          onChange={handleChangePage}
+        />
+      </Stack>
     </Box>
   );
 };

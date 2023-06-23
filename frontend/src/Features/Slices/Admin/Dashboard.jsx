@@ -37,11 +37,24 @@ export const totalClientsAndInterviewsCount = createAsyncThunk(
     }
   }
 );
+export const fullSubscriptionHistory = createAsyncThunk(
+  "fullSubscriptionHistory",
+  async (comapanyId) => {
+    try {
+      const response = await myAxios.get(`/full_subscriptionhistory/${comapanyId}`);
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+);
 
 const initialState = {
   subscriptionCount: {},
   monthlySubscriptionCount: {},
   totalClientCount: {},
+  fullSubscriptionHistory: {},
 };
 
 const dashboardSlice = createSlice({
@@ -58,9 +71,12 @@ const dashboardSlice = createSlice({
         state.monthlySubscriptionCount = action?.payload?.data;
       })
       .addCase(totalClientsAndInterviewsCount.fulfilled, (state, action) => {
+        state.totalClientCount = action?.payload?.data;
+      })
+      .addCase(fullSubscriptionHistory.fulfilled, (state, action) => {
         console.log(action);
         console.log("action");
-        state.totalClientCount = action?.payload?.data;
+        state.fullSubscriptionHistory = action?.payload?.data;
       })
       .addCase(daywiseSubscriptionCount.rejected, (state, action) => {});
   },

@@ -32,8 +32,8 @@ const Student = () => {
   });
   console.log(Data);
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(11);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -84,8 +84,8 @@ const Student = () => {
           <TableBody>
             {Data &&
               Data.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
+                (page - 1) * rowsPerPage,
+                (page - 1) * rowsPerPage + rowsPerPage
               ).map((row) => (
                 <TableRow key={row.id}>
                   <TableCell style={{ border: "1px solid #ccc" }}>

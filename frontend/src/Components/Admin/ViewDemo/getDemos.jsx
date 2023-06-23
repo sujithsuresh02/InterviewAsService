@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { Box ,Button} from '@mui/material';
+import { Box ,Button,Stack,Pagination} from '@mui/material';
 import { getFullDemos } from '../../../Features/Slices/Admin/getDemoRequest';
 import { emailConfirmation } from '../../../Features/Slices/Admin/SendConfirmmailSlice';
 import {toast} from "react-hot-toast"
@@ -17,16 +17,23 @@ import {toast} from "react-hot-toast"
 const UserTable = () => {
   const token = useSelector((state) => state.adminToken);
   const [page, setPage] = useState(1);
-  const [rowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(11);
 
-  const Data = useSelector((state) => state?.getDemo?.getDemoData?.result);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     dispatch(getFullDemos());
   }, [dispatch]);
-
   
+  const Data = useSelector((state) => state?.getDemo?.getDemoData?.result);
+  
+  const paginatedData = Data?.slice((page - 1) * rowsPerPage,
+  (page - 1) * rowsPerPage + rowsPerPage);
 
 const handleClick = (email) => {
   console.log(email);
@@ -40,9 +47,7 @@ const handleClick = (email) => {
   
 
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+
 
 
   return (
@@ -66,7 +71,7 @@ const handleClick = (email) => {
   </TableRow>
           </TableHead>
           <TableBody>
-          {Data && Data.map((row) => (
+          {paginatedData ?paginatedData?.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{row.fullName}</TableCell>
@@ -82,17 +87,24 @@ const handleClick = (email) => {
                   </Button>
                 </TableCell>
               </TableRow>
-            ))}
+            )):
+            <Typography variant='h6'> There Is No Demo Request's</Typography>}
 
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <Pagination
-        count={Math.ceil(users.length / rowsPerPage)}
-        page={page}
-        onChange={handleChangePage}
-        sx={{ mt: 2 }}
-      /> */}
+      <Stack
+        spacing={2}
+        style={{ marginTop: "2rem", display: "flex", alignItems: "center" }}
+      >
+        <Pagination
+          count={Math.ceil(Data?.length / rowsPerPage)}
+          shape="roundedpage"
+          color="primary"
+          variant="outlined"
+          onChange={handleChangePage}
+        />
+      </Stack>
     </Box>
   );
 };

@@ -47,7 +47,6 @@ const AdminDashboard = () => {
     dispatch(totalClientsAndInterviewsCount());
   }, [dispatch, totalClientsAndInterviewsCount]);
 
-  const Count = useSelector((state) => state?.dashboard);
   const subscriptionCount = useSelector(
     (state) => state?.dashboard?.subscriptionCount?.response
   );
@@ -162,3 +161,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
