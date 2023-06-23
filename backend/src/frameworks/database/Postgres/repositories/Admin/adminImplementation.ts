@@ -274,6 +274,7 @@ export const adminRepositoryImplementation = () => {
   };
 
   const interviews = initInterviewModel(sequelize);
+
   const assignInterviewer = async ({
     interviewerId,
     studentId,
@@ -300,7 +301,17 @@ export const adminRepositoryImplementation = () => {
         replacements: { TimeslotId },
         type: QueryTypes.UPDATE,
       });
-      console.log(interviewToken);
+
+
+      const changeInteviewStatus = `
+      UPDATE "interviews"
+      SET "interviewStatus" = 'scheduled'
+      WHERE "interviewToken" = :interviewToken;`;
+
+      await sequelize.query(changeInteviewStatus, {
+        replacements: { interviewToken },
+        type: QueryTypes.UPDATE,
+      });
 
       return interviewToken;
     } catch (error) {
@@ -533,18 +544,31 @@ WHERE
 
       const cancelledInterview =
         cancelledInterviewsCount[0].cancelledinterviewscount;
-
-      console.log(clientCounts, "clientCounts");
-      console.log(interviewersCount, "interviewersCount");
-      console.log(completedInterviews, "completedInterviews");
-      console.log(cancelledInterview, "cancelledInterview");
       const dashboardData = {
         clientCounts: clientCounts,
         interviewersCount: interviewersCount,
         completedInterviews: completedInterviews,
         cancelledInterview: cancelledInterview,
       };
-      return dashboardData
+      return dashboardData;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const subscriptionHistory = async (companyId: string) => {
+    try {
+      const query = `
+      SELECT "s"."planName", "s".validity, DATE("s"."endDate")AS "endDate" ,"s"."startDate", "s".id AS "subscriptionId", "p"."paymentId", "s"."totalAmount","s"."numberOfInterviews"
+      FROM "subscriptions"AS s
+      JOIN "payments" AS p ON "s"."id" = "p"."subscriptionId" WHERE "s"."companyId"=:companyId;
+    `;
+      const result = await sequelize.query(query, {
+        replacements: { companyId },
+        type: QueryTypes.SELECT,
+      });
+      console.log(result);
+      return result;
     } catch (error) {
       console.log(error);
     }
@@ -571,6 +595,7 @@ WHERE
     subscriptionCount,
     monthwiseSubscriptionCount,
     totalClientsAndInterviewCount,
+    subscriptionHistory,
   };
 };
 export type adminDbImplementation = typeof adminRepositoryImplementation;

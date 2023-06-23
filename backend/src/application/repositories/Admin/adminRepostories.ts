@@ -83,6 +83,10 @@ export const adminRepositoryInterface = (
   const totalClientCount = async () => {
     return await implementationRepository.totalClientsAndInterviewCount();
   };
+  const fullSubscriptionHistory = async (companyId:string) => {
+    return await implementationRepository.subscriptionHistory(companyId);
+  };
+
   return {
     registerAdmin,
     getCompanyByEmail,
@@ -105,6 +109,7 @@ export const adminRepositoryInterface = (
     daywiseSubscriptionCount,
     monthlySubscriptionCount,
     totalClientCount,
+    fullSubscriptionHistory
   };
 };
 

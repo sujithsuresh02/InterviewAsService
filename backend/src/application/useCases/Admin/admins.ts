@@ -275,3 +275,13 @@ export const totalClientAndInterviewsCount = async (
 ) => {
   return await adminDbRepostory.totalClientCount()
 };
+
+
+export const getAllSubscriptionHistory=async(
+  companyId:string,
+  adminDbRepostory: ReturnType<adminDbInterface>
+
+)=>{
+
+ return  await  adminDbRepostory.fullSubscriptionHistory(companyId)
+}

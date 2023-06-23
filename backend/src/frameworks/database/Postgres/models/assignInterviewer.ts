@@ -69,7 +69,7 @@ export const initInterviewModel = (sequelize: Sequelize) => {
     },
     interviewStatus: {
       type: DataTypes.STRING,
-      defaultValue: "scheduled",
+      defaultValue: "unsheduled",
     },
   });
 };

@@ -36,6 +36,7 @@ import {
   subscriptionCount,
   monthwiseSubscriptionCount,
   totalClientAndInterviewsCount,
+  getAllSubscriptionHistory,
 } from "../../../application/useCases/Admin/admins";
 const adminsController = (
   adminRepositoryInterface: adminDbInterface,
@@ -355,6 +356,23 @@ const adminsController = (
       });
     }
   });
+  const fullSubscriptionHistory = asyncHandler(
+    async (req: Request, res: Response) => {
+      const companyId = req.params.companyId;
+      console.log(companyId);
+      
+      const response: any = await getAllSubscriptionHistory(
+        companyId,
+        adminDbRepostory
+      );
+
+      if (response) {
+        res.json({
+          response,
+        });
+      }
+    }
+  );
   return {
     getAllRequest,
     getStudentCVDetails,
@@ -376,6 +394,7 @@ const adminsController = (
     daywiseSubscriptionCount,
     monthlySubscriptionCount,
     totalClientCount,
+    fullSubscriptionHistory,
   };
 };
 
