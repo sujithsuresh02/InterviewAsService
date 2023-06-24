@@ -58,7 +58,7 @@ export const initInterviewModel = (sequelize: Sequelize) => {
       allowNull: false,
     },
     feedbackDescription: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(500),
       defaultValue: "null",
       allowNull: false,
     },

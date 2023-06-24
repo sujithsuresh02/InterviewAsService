@@ -9,6 +9,7 @@ import SuccessPage from "../../Components/Company/Checkoutpage/Successpage";
 import Transactionpage from "../../Pages/Company/Transactionpage";
 import Editprofilepage from "../../Pages/Company/Editprofilepage";
 import ResetpasswordPage from "../../Pages/Company/resetpassword";
+import Feedbackpage from "../../Pages/Company/Feedbackpage";
 function CompanyRoutes() {
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
  console.log(refreshToken,"router");
@@ -50,6 +51,10 @@ function CompanyRoutes() {
       <Route
         path="/reset_password/:Token"
         element={refreshToken ? < ResetpasswordPage/> : <Navigate to="/" />}
+      />
+      <Route
+        path="/feedback/:studentId"
+        element={refreshToken ? < Feedbackpage/> : <Navigate to="/" />}
       />
     </Routes>
   );

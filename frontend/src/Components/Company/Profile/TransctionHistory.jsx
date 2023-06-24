@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Paper,
@@ -8,6 +8,8 @@ import {
   Divider,
   Box,
   useMediaQuery,
+  Stack,
+  Pagination
 } from "@mui/material";
 import { paymentHistory } from "../../../Features/Slices/companySlice/Companyprofile";
 import {useDispatch,useSelector} from "react-redux"
@@ -17,19 +19,20 @@ const HistoryPage = () => {
   )
   console.log(subscriptionHistory,"history");
   
-  const payment = [
-    {
-      id: 1,
-      date: "20 May, 2023 10:41 AM",
-      plan: "Rs 239-1m-1.5GB/D",
-      amount: "Rs 239",
-      paymentMode: "Credit Card",
-      referenceNumber: "1710934268100",
-    },
-  ];
+
   useEffect(() => {
      dispathch(paymentHistory())
   },[dispathch,paymentHistory]) 
+
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedData = subscriptionHistory?.slice((page - 1) * rowsPerPage,
+  (page - 1) * rowsPerPage + rowsPerPage);
   
 console.log(paymentHistory);
   return (
@@ -39,13 +42,13 @@ console.log(paymentHistory);
           Payment History
         </Typography>
         <Divider />
-        {subscriptionHistory?.length > 0 ? (
+        {paginatedData?.length > 0 ? (
           <Grid
             container
             spacing={2}
             sx={{ marginTop: "1rem", borderRadius: "20px" }}
           >
-            {subscriptionHistory&& subscriptionHistory.map((payment) => (
+            {paginatedData&& paginatedData.map((payment) => (
               <Grid key={payment.id} item xs={12} sm={12} md={12}>
                 <Grid container spacing={2} alignItems="center">
                   <Grid item xs={6}>
@@ -153,6 +156,18 @@ console.log(paymentHistory);
         )}
       </Container>
       <Divider sx={{ marginTop: "30px" }} />
+      <Stack
+        spacing={2}
+        style={{ marginTop: "2rem", display: "flex", alignItems: "center" }}
+      >
+        <Pagination
+          count={Math.ceil(subscriptionHistory?.length / rowsPerPage)}
+          shape="roundedpage"
+          color="primary"
+          variant="outlined"
+          onChange={handleChangePage}
+        />
+      </Stack>
     </Box>
   );
 };

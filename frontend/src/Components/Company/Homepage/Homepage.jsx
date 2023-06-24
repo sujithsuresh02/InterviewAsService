@@ -138,7 +138,6 @@ function Homepage() {
       marginRight: "auto",
       marginLeft: "auto",
     },
-    marginTop: "2rem",
   }));
 
   const BalanceValue = styled(Typography)(({ theme }) => ({
@@ -158,7 +157,7 @@ function Homepage() {
   const theme = useTheme();
 
   return (
-    <Box marginTop={"8rem"} bgcolor={"#f2f2f2"}>
+    <Box marginTop={"6rem"} bgcolor={"#f2f2f2"}>
       <MainContainer>
         <Grid
           container

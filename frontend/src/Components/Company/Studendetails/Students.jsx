@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   TableContainer,
@@ -12,14 +12,17 @@ import {
   Grid,
   Typography,
   styled,
-  Button
+  Button,
+  Pagination,
+  Stack,
 } from "@mui/material";
 import "./Style.css";
+import {useNavigate} from "react-router-dom"
 import { getInterviewFeedback } from "../../../Features/Slices/companySlice/companySlice";
 
 const Students = () => {
   const dispatch = useDispatch();
-
+ const navigate=useNavigate()
   const studentDetails = useSelector((state) => state?.addrequest?.feedback);
   console.log(studentDetails, "student");
 
@@ -27,18 +30,30 @@ const Students = () => {
     dispatch(getInterviewFeedback());
   }, []);
 
-
   const StyledButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    '&:hover': {
+    "&:hover": {
       backgroundColor: theme.palette.primary.dark,
     },
   }));
-  
-  const handleViewMore=()=>{
 
-  }
+  const handleViewMore = (studentId) => {
+    navigate(`/company/feedback/${studentId}`)
+
+  };
+
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedData = studentDetails?.slice(
+    (page - 1) * rowsPerPage,
+    (page - 1) * rowsPerPage + rowsPerPage
+  );
 
   return (
     <Box height={"100vh"}>
@@ -91,8 +106,8 @@ const Students = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {studentDetails.length>0 ?
-                      studentDetails.map((student) => {
+                    {studentDetails?.length > 0 ? (
+                      studentDetails?.map((student) => {
                         let statusColor = "";
 
                         const totalInterviewScore = parseInt(
@@ -122,16 +137,21 @@ const Students = () => {
                               </span>
                             </TableCell>
                             <TableCell>
-                <StyledButton variant="contained" onClick={() => handleViewMore()}>
-                 View Details
-                </StyledButton>
-              </TableCell>
+                              <StyledButton
+                                variant="contained"
+                                onClick={() => handleViewMore(student.studentId)}
+                              >
+                                View Details
+                              </StyledButton>
+                            </TableCell>
                           </TableRow>
                         );
-                      }):
-                      <Typography variant="h5" textAlign={"center"} marginTop={'3rem'}>
+                      })
+                    ) : (
+                      <Typography variant="h6">
                         There No Student Detail
-                        </Typography>}
+                      </Typography>
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -139,10 +159,20 @@ const Students = () => {
           </Grid>
         </Grid>
       </Box>
+      <Stack
+        spacing={2}
+        style={{ marginTop: "2rem", display: "flex", alignItems: "center" }}
+      >
+        <Pagination
+          count={Math.ceil(studentDetails?.length / rowsPerPage)}
+          shape="roundedpage"
+          color="primary"
+          variant="outlined"
+          onChange={handleChangePage}
+        />
+      </Stack>
     </Box>
   );
 };
 
 export default Students;
-
-

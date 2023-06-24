@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   AppBar,
@@ -14,75 +14,79 @@ import Drawercomp from "./Drawer";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { logout } from "../../../Features/Slices/loginSlice";
+let pages = [];
 
-let PAGES = [];
-function Header() {
+const Header = () => {
   const dispatch = useDispatch();
-  const [value, setvalue] = useState(0);
+  const [value, setValue] = useState(0);
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
   const role = useSelector(
     (state) => state?.Login?.loginDetails?.matchedAccount?.role
   );
-  console.log(role);
-  console.log("who is looged in");
   const roles = useSelector(
     (state) => state?.Login?.loginDetails?.matchedAccount?.name
   );
-  console.log(roles);
-  console.log("role");
-
   const theme = useTheme();
-  const ismatch = useMediaQuery(theme.breakpoints.down("md"));
-
+  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const currentPage = useLocation();
-  console.log(currentPage);
-  console.log("currentpage");
-  if (currentPage.pathname === "/") {
-    dispatch(logout());
-  }
-  if (role === "company" && refreshToken) {
-    PAGES = [
-      { label: "Home", path: "/company" },
-      { label: "Add Request", path: "/company/add_request" },
-      { label: "Feedback", path: "/company/student_details" },
-      { label: "Plans", path: "/company/plans" },
-    ];
-  } else if (role === "interviewer" && refreshToken) {
-    PAGES = [
-      { label: "Home", path: "/interviewer" },
-      { label: "Interviews", path: "/interviewer/feedback" },
-      { label: "AddTimeSlot", path: "/interviewer/add_timeslot" },
-      { label: "CompletedInterviews", path: "/interviewer/completed_interviews" },
-    ];
-  } else {
-    PAGES = [
-      { label: "Home", path: "/" },
-      { label: "Interview As Service", path: "/interview_as_service" },
-      { label: "Demo", path: "/demo" },
-    ];
-  }
 
+  useEffect(() => {
+    if (currentPage.pathname === "/") {
+      dispatch(logout());
+    }
+  }, [currentPage, dispatch]);
+
+  useEffect(() => {
+    if (role === "company" && refreshToken) {
+      pages = [
+        { label: "Home", path: "/company" },
+        { label: "Add Request", path: "/company/add_request" },
+        { label: "Feedback", path: "/company/student_details" },
+        { label: "Plans", path: "/company/plans" },
+      ];
+    } else if (role === "interviewer" && refreshToken) {
+      pages = [
+        { label: "Home", path: "/interviewer" },
+        { label: "Interviews", path: "/interviewer/feedback" },
+        { label: "Add Time Slot", path: "/interviewer/add_timeslot" },
+        {
+          label: "Completed Interviews",
+          path: "/interviewer/completed_interviews",
+        },
+      ];
+    } else {
+      pages = [
+        { label: "Home", path: "/" },
+        { label: "Interview As Service", path: "/interview_as_service" },
+        { label: "Demo", path: "/demo" },
+      ];
+    }
+    setValue(getSelectedTabValue(pages));
+  }, [role, refreshToken]);
+
+  const getSelectedTabValue = (pages) => {
+    const currentPagePath = currentPage.pathname;
+    const selectedIndex = pages.findIndex((page) => page.path === currentPagePath);
+    return selectedIndex >= 0 ? selectedIndex : 0;
+  };
   return (
     <React.Fragment>
-      <AppBar
-        sx={{ backgroundColor: "white", boxShadow: "none", height: "10vh" }}
-      >
+      <AppBar sx={{ backgroundColor: "#f8f8f8" }}>
         <Toolbar sx={{ padding: "1rem" }}>
           <img
-            style={{ height: "4rem", width: "6rem" }}
-            src="https://yaksha.com/wp-content/uploads/2022/09/Yaksha-Logo-PNG.png"
+            style={{ height: "50px", width: "150px" }}
+            src="https://uploads-ssl.webflow.com/641c7ecdbeea3c8c8de5bc57/6422c156dfa505fbf90caeb7_IE%20logo%204.0.png"
             alt=""
           />
 
-          {ismatch ? (
+          {isMatch ? (
             <Drawercomp />
           ) : (
             <>
               <Tabs
-                textcolor="inherit"
                 value={value}
                 indicatorColor="secondary"
-                onChange={(e, value) => setvalue(value)}
+                onChange={(_, newValue) => setValue(newValue)}
                 sx={{
                   marginLeft: "auto",
                   marginRight: "auto",
@@ -91,10 +95,11 @@ function Header() {
                   },
                   "& .MuiTab-root": {
                     color: "black",
+                    fontFamily: "Arial, sans-serif",
                   },
                 }}
               >
-                {PAGES.map((page, index) => (
+                {pages?.map((page, index) => (
                   <Link key={index} to={page.path}>
                     <Tab label={page.label} />
                   </Link>
@@ -102,43 +107,27 @@ function Header() {
               </Tabs>
 
               <div>
-                {(() => {
-                  switch (true) {
-                    case refreshToken && role && role === "company":
-                      return (
-                        <Link to="/company/profile">
-                          <Button
-                            variant="contained"
-                            sx={{ marginLeft: "auto" }}
-                          >
-                            {roles}
-                          </Button>
-                        </Link>
-                      );
-                    case refreshToken && role && role === "interviewer":
-                      return (
-                        <Link to="/interviewer/profile">
-                          <Button
-                            variant="contained"
-                            sx={{ marginLeft: "auto" }}
-                          >
-                            {roles}
-                          </Button>
-                        </Link>
-                      );
-                    default:
-                      return (
-                        <Link to="/login">
-                          <Button
-                            variant="contained"
-                            sx={{ marginLeft: "auto" }}
-                          >
-                            Login
-                          </Button>
-                        </Link>
-                      );
-                  }
-                })()}
+                {refreshToken && role === "company" && (
+                  <Link to="/company/profile">
+                    <Button variant="contained" sx={{ marginLeft: "auto" }}>
+                      {roles}
+                    </Button>
+                  </Link>
+                )}
+                {refreshToken && role === "interviewer" && (
+                  <Link to="/interviewer/profile">
+                    <Button variant="contained" sx={{ marginLeft: "auto" }}>
+                      {roles}
+                    </Button>
+                  </Link>
+                )}
+                {!refreshToken && (
+                  <Link to="/login">
+                    <Button variant="contained" sx={{ marginLeft: "auto" }}>
+                      Login
+                    </Button>
+                  </Link>
+                )}
               </div>
             </>
           )}
@@ -146,6 +135,6 @@ function Header() {
       </AppBar>
     </React.Fragment>
   );
-}
+};
 
 export default Header;
