@@ -13,24 +13,34 @@ import {
   Pagination,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   assignInterviewer,
+  checkInterviewStatus,
   getStudentDetails,
 } from "../../../Features/Slices/Admin/listStudentDetails";
 const Student = () => {
-  const { companyId } = useParams();
+  const { companyId,requestId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    dispatch(getStudentDetails(companyId));
-  }, []);
-  
+    dispatch(getStudentDetails(requestId));
+  }, [getStudentDetails, dispatch]);
+
+  useEffect(() => {
+    dispatch(checkInterviewStatus(companyId));
+  }, [dispatch, checkInterviewStatus]);
+
+  const interviewData = useSelector(
+    (state) => state?.studentDetails?.checkInterviewStatus?.response
+  );
+
+  console.log(interviewData, "interviewData");
   const Data = useSelector((state) => {
     return state?.studentDetails?.studentDetails?.response;
   });
-  console.log(Data);
+  console.log(Data, "da");
 
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(11);
@@ -104,13 +114,50 @@ const Student = () => {
                     {row.experience}
                   </TableCell>
                   <TableCell style={{ border: "1px solid #ccc" }}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => handleAssignInterviewer(row.id)}
-                    >
-                      Assign Interviewer
-                    </Button>
+                    {interviewData?.find((interview) => interview.studentId === row.id)? (
+                      interviewData?.map((interview) => {
+                        if (
+                          interview.studentId &&
+                          interview?.studentId === row.id
+                        ) {
+                          if (interview.interviewStatus === "scheduled") {
+                            return (
+                              <Link to={"/admin/interviews"}>
+                                <Button variant="outlined" color="inherit">
+                                  View Interviewer
+                                </Button>
+                              </Link>
+                            );
+                          } else if (
+                            interview.interviewStatus === "completed"
+                          ) {
+                            return (
+                              <Button variant="outlined" color="success">
+                                Interview Completed
+                              </Button>
+                            );
+                          } else if (
+                            interview.interviewStatus === "cancelled"
+                          ) {
+                            return (
+                              <Link to={"/admin/cancelled_interviews"}>
+                                <Button variant="outlined" color="error">
+                                  Interview Cancelled
+                                </Button>
+                              </Link>
+                            );
+                          }
+                        } return 
+                      })
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleAssignInterviewer(row.id)}
+                      >
+                        Assign Interviewer
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

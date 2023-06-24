@@ -74,6 +74,7 @@ const subscriptionPlanSlice = createSlice({
       console.log(action);
       console.log("delete action");
       const deletedPlanId = action.payload?.data?.id;
+      console.log(FullPlanDetails,"Plans");
       const deletedPlanIndex = state.FullPlanDetails.findIndex(
         (plan) => plan.id === deletedPlanId
       );

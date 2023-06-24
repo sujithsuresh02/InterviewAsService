@@ -14,6 +14,19 @@ export const getStudentDetails = createAsyncThunk(
     }
   }
 );
+
+export const checkInterviewStatus = createAsyncThunk(
+  "checkInterviewStatus",
+  async (id) => {
+    try {
+      const response = await myAxios.get(`/check_interviewstatus/${id}`);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 export const assignInterviewer = createAsyncThunk(
   "assignInterviwer",
   async (id) => {
@@ -30,7 +43,8 @@ export const assignInterviewer = createAsyncThunk(
 
 const initialState = {
   studentDetails: {},
-addTimeSlots: {},
+  addTimeSlots: {},
+  checkInterviewStatus: {},
 };
 
 const getStudentDetailsSlice = createSlice({
@@ -41,14 +55,15 @@ const getStudentDetailsSlice = createSlice({
     builder
       .addCase(getStudentDetails.pending, (state) => {})
       .addCase(getStudentDetails.fulfilled, (state, action) => {
-        console.log(action.payload);
-        console.log("action");
         state.studentDetails = action?.payload;
       })
       .addCase(assignInterviewer.fulfilled, (state, action) => {
-        console.log(action.payload);
+        state.addTimeSlots = action?.payload;
+      })
+      .addCase(checkInterviewStatus.fulfilled, (state, action) => {
+        console.log(action);
         console.log("action");
-        state.addTimeSlots = action?.payload
+        state.checkInterviewStatus = action?.payload
       })
       .addCase(getStudentDetails.rejected, (state, action) => {});
   },

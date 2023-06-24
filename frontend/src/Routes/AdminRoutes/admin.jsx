@@ -44,7 +44,7 @@ function AdminRoutes() {
         />
 
         <Route
-          path="/student_details/:companyId"
+          path="/student_details/:companyId/:requestId"
           element={
             adminRefreshToken ? (
               <Viewstudentsdetails />

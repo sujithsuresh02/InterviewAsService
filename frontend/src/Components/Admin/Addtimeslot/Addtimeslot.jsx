@@ -92,7 +92,7 @@ export default function AddTimeslot() {
     event.preventDefault();
     const date = new Date(selectedDate);
     console.log(selectedDate, "dnbdsbjdfvbjdfvbjfdvbjdf");
-    const formattedDate = date.toLocaleDateString('en-US');
+    const formattedDate = date.toLocaleDateString("en-US");
     console.log(formattedDate);
     const formData = {
       SelectedDate: formattedDate,

@@ -11,6 +11,8 @@ import {
   Checkbox,
   FormGroup,
   Divider,
+  Pagination,
+  Stack,
 } from "@mui/material";
 import { FullPlans } from "../../../Features/Slices/companySlice/Subscriptionplans";
 import { Link, useNavigate } from "react-router-dom";
@@ -177,6 +179,7 @@ export const ListingPlansPage = () => {
 
   const handleValidityFilterChange = (event) => {
     const value = event.target.value;
+    console.log(value, "value");
     if (filterValidity.includes(value)) {
       setFilterValidity(filterValidity.filter((v) => v !== value));
     } else {
@@ -186,51 +189,96 @@ export const ListingPlansPage = () => {
 
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
+    setPage(1);
   };
 
+  console.log(filterValidity,"filrtervalidity");
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(11);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const filteredPlans = Plans?.filter((plan) => {
+    const isValidityMatch = filterValidity.length === 0 || filterValidity.includes(plan.validity);
+    const isSearchMatch = searchValue === "" || (plan.planName && plan.planName.toLowerCase().includes(searchValue.toLowerCase()));
+    console.log('Validity Match:', isValidityMatch);
+    console.log('Search Match:', isSearchMatch);
+    return isValidityMatch  && isSearchMatch;
+  });
+  
+  console.log('Filtered Plans:', filteredPlans);
+  const paginatedData = filteredPlans?.slice(
+    (page - 1) * rowsPerPage,
+    (page - 1) * rowsPerPage + rowsPerPage
+  );
+
   return (
-    <Grid container spacing={2} marginTop={"7rem"} height={"80vh"}>
-      <Grid item xs={12} md={3}>
-        <Paper sx={{ p: 2 }}>
-          <Typography variant="h6">Filters</Typography>
-          <Typography variant="subtitle1">Validity</Typography>
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox value="30" onChange={handleValidityFilterChange} />
-              }
-              label="30 days"
+    <Box>
+      <Grid container spacing={2} marginTop={"7rem"} height={"80vh"}>
+        <Grid item xs={12} md={3}>
+          <Paper sx={{ p: 2 }}>
+            <Typography variant="h6">Filters</Typography>
+            <Typography variant="subtitle1">Validity</Typography>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox value="3 month" onChange={handleValidityFilterChange} />
+                }
+                label="3 month"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox value="6 month" onChange={handleValidityFilterChange} />
+                }
+                label="6 month"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox value="1 year " onChange={handleValidityFilterChange} />
+                }
+                label="1 year"
+              />
+            </FormGroup>
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              value={searchValue}
+              onChange={handleSearchChange}
+              fullWidth
+              mt={2}
             />
-            <FormControlLabel
-              control={
-                <Checkbox value="60" onChange={handleValidityFilterChange} />
-              }
-              label="60 days"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox value="90" onChange={handleValidityFilterChange} />
-              }
-              label="90 days"
-            />
-          </FormGroup>
-          <TextField
-            label="Search"
-            variant="outlined"
-            size="small"
-            value={searchValue}
-            onChange={handleSearchChange}
-            fullWidth
-            mt={2}
-          />
-        </Paper>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={9}>
+          <Paper sx={{ p: 2, boxShadow: "none" }}>
+            {paginatedData.length>0?
+              paginatedData.map((plan, index) => <PlanCard key={index} plan={plan} />):
+              <Box  display={"flex"} justifyContent={"start"}>
+              <Typography variant="h4" >No Results Found</Typography >
+              </Box>}
+          </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={12} md={9}>
-        <Paper sx={{ p: 2, boxShadow: "none" }}>
-          {Plans &&
-            Plans.map((plan, index) => <PlanCard key={index} plan={plan} />)}
-        </Paper>
-      </Grid>
-    </Grid>
+      <Stack
+        spacing={2}
+        style={{
+          marginTop: "2rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Pagination
+          count={Math.ceil(Plans?.length / rowsPerPage)}
+          shape="roundedpage"
+          color="primary"
+          variant="outlined"
+          onChange={handleChangePage}
+        />
+      </Stack>
+    </Box>
   );
 };

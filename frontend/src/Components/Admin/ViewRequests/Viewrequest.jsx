@@ -36,8 +36,8 @@ const ResponsiveTable = () => {
     (state) => state?.getAllRequets?.AllRequests?.fullRequest
   );
 
-  const handleClick = (id) => {
-    navigate(`/admin/student_details/${id}`);
+  const handleClick = (companyId,requestId) => {
+    navigate(`/admin/student_details/${companyId}/${requestId}`);
   };
 
   const handlesubscription=(companyId)=>{
@@ -45,6 +45,7 @@ const ResponsiveTable = () => {
      navigate(`/admin/subscription_history/${companyId}`)
   }
 
+  console.log(Data,"dataa");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(11);
 
@@ -129,7 +130,7 @@ const ResponsiveTable = () => {
                       <Button
                         variant="outlined"
                         color="inherit"
-                        onClick={() => handlesubscription(row.id)}
+                        onClick={() => handlesubscription(row.companyid)}
                       >
                         View Subscriptions
                       </Button>
@@ -138,7 +139,7 @@ const ResponsiveTable = () => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        onClick={() => handleClick(row.id)}
+                        onClick={() => handleClick(row.companyid,row.id)}
                       >
                         View Student Details
                       </Button>

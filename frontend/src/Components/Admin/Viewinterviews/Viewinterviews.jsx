@@ -169,7 +169,7 @@ const Viewinterviews = () => {
                 ))
               ) : (
                 <Box display={"flex"} justifyContent={"end"}>
-                  <Typography variant="h4">
+                  <Typography variant="h6">
                     There Is No Scheduled Interviews
                   </Typography>
                 </Box>
