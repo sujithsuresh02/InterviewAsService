@@ -40,10 +40,15 @@ const adminRouter = () => {
   router.get("/subscriptioncount", controller.daywiseSubscriptionCount);
   router.get("/monthly_subscriptioncount", controller.monthlySubscriptionCount);
   router.get("/total_clientcount", controller.totalClientCount);
-  router.get("/full_subscriptionhistory/:companyId", controller.fullSubscriptionHistory);
-  
+  router.get(
+    "/full_subscriptionhistory/:companyId",
+    controller.fullSubscriptionHistory
+  );
+  router.get(
+    "/check_interviewstatus/:companyId",
+    controller.checkInterviewStatus
+  );
 
-  
   return router;
 };
 export default adminRouter;

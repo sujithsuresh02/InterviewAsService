@@ -137,7 +137,7 @@ export const companyServiceImplementation = () => {
             startDate.getMonth() + amount,
             startDate.getDate()
           );
-        } else if (unit.includes("day")) {
+        } else if (unit.includes("days")) {
           endDate = new Date(
             startDate.getFullYear(),
             startDate.getMonth(),

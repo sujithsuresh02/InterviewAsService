@@ -84,7 +84,8 @@ export const companiesDbImplementation = () => {
       age,
       certifications,
     }: studentDetails,
-    addRequestTableId: BigInt
+    addRequestTableId: BigInt,
+    companyId: string
   ) => {
     const Data: {
       name: string;
@@ -99,6 +100,7 @@ export const companiesDbImplementation = () => {
       age?: string | null;
       certifications?: string | null;
       addRequestId: BigInt;
+      companyId: string;
     } = {
       name: name,
       email: email,
@@ -112,6 +114,7 @@ export const companiesDbImplementation = () => {
       age: age,
       certifications: certifications,
       addRequestId: addRequestTableId,
+      companyId: companyId,
     };
 
     console.log(Data);

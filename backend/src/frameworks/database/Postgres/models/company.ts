@@ -31,16 +31,12 @@ export const initaddRequestModal = (sequelize: Sequelize) => {
       type: DataTypes.BIGINT,
       allowNull: false,
       references: {
-        model: 'companies',
-        key: 'id',
-        
+        model: "companies",
+        key: "id",
       },
     },
-
   });
 };
-
-
 
 export const initStudentDetailsModal = (sequelize: Sequelize) => {
   return sequelize.define("studentcvs", {
@@ -64,11 +60,17 @@ export const initStudentDetailsModal = (sequelize: Sequelize) => {
       type: DataTypes.BIGINT,
       allowNull: false,
       references: {
-        model: 'addrequests',
-        key: 'id',
-        
+        model: "addrequests",
+        key: "id",
       },
-    }
-
+    },
+    companyId: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: "companies",
+        key: "id",
+      },
+    },
   });
 };

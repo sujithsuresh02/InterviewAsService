@@ -43,7 +43,8 @@ export const postRequestWithCVDetails = async (
 
     insertionResult = await CompanyDbRepository.insertStudentDetails(
       StudentDetails,
-      addRequestId
+      addRequestId,
+      cvDetails.companyId
     );
     console.log("everything completed");
 

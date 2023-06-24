@@ -82,6 +82,8 @@ const companyController = (
 
   const uploadCv = asyncHandler(async (req: Request, res: Response) => {
     const { addrequestId } = req.body;
+    const companyId: string  = (req as any).id;
+
     const filetype = req.file?.mimetype;
     const cvPath = req.file?.path;
     const cv = req.file?.originalname;
@@ -90,6 +92,7 @@ const companyController = (
       path: cvPath || undefined,
       filetype: filetype || undefined,
       Buffer: bufferData,
+      companyId
     };
     const result: any = await postRequestWithCVDetails(
       cvDetails,

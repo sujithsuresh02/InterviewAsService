@@ -79,7 +79,7 @@ export const adminRepositoryImplementation = () => {
 
   const getStudentDetails = async (id: string) => {
     try {
-      const query = ` SELECT * FROM  "studentcvs" WHERE "studentcvs"."addRequestId"=:id
+      const query = ` SELECT * FROM  "studentcvs" WHERE "addRequestId"=:id
       `;
       const result = await sequelize.query(query, {
         replacements: { id },
@@ -302,7 +302,6 @@ export const adminRepositoryImplementation = () => {
         type: QueryTypes.UPDATE,
       });
 
-
       const changeInteviewStatus = `
       UPDATE "interviews"
       SET "interviewStatus" = 'scheduled'
@@ -330,7 +329,8 @@ export const adminRepositoryImplementation = () => {
   "i"."selectedTime" AS "interview_time",
   "i"."SelectedDate" AS "interview_date",
   "a"."jobRole" AS "jobRole",
-  "i"."interviewToken" AS "interviewToken"
+  "i"."interviewToken" AS "interviewToken",
+  "i"."interviewStatus" AS "interviewStatus"
 FROM
   "interviews" AS i
 JOIN
@@ -573,6 +573,33 @@ WHERE
       console.log(error);
     }
   };
+
+  const interviewStatusChecking = async (companyId: string) => {
+    try {
+      const query = `  
+      SELECT
+      "i"."interviewToken" AS "interviewToken",
+      "i"."interviewStatus" AS "interviewStatus",
+      "i"."studentId" AS "studentId"
+    FROM
+      "interviews" AS i
+    JOIN
+      "studentcvs" AS s ON "s"."id" = "i"."studentId"
+    WHERE
+      "s"."companyId" = :companyId;
+    `;
+
+      const result = await sequelize.query(query, {
+        replacements: { companyId },
+        type: QueryTypes.SELECT,
+      });
+      console.log(result);
+
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return {
     adminSignup,
     getCompanyByEmail,
@@ -596,6 +623,7 @@ WHERE
     monthwiseSubscriptionCount,
     totalClientsAndInterviewCount,
     subscriptionHistory,
+    interviewStatusChecking,
   };
 };
 export type adminDbImplementation = typeof adminRepositoryImplementation;

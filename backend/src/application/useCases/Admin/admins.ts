@@ -273,15 +273,19 @@ export const monthwiseSubscriptionCount = async (
 export const totalClientAndInterviewsCount = async (
   adminDbRepostory: ReturnType<adminDbInterface>
 ) => {
-  return await adminDbRepostory.totalClientCount()
+  return await adminDbRepostory.totalClientCount();
 };
 
-
-export const getAllSubscriptionHistory=async(
-  companyId:string,
+export const getAllSubscriptionHistory = async (
+  companyId: string,
   adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  return await adminDbRepostory.fullSubscriptionHistory(companyId);
+};
 
-)=>{
-
- return  await  adminDbRepostory.fullSubscriptionHistory(companyId)
-}
+export const checkingInterviewStatus = async (
+  companyId: string,
+  adminDbRepostory: ReturnType<adminDbInterface>
+) => {
+  return await adminDbRepostory.checkInterviewStatus(companyId);
+};

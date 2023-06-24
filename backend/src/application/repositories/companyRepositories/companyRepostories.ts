@@ -14,8 +14,8 @@ export const companyDbInterface= (
     return await implementationRepository.postRequest(requestData);
   };
 
-  const insertStudentDetails=(studentDetails:studentDetails,addRequestId:BigInt)=>{
-    return implementationRepository.createStudentDetails(studentDetails,addRequestId)
+  const insertStudentDetails=(studentDetails:studentDetails,addRequestId:BigInt,companyId:string)=>{
+    return implementationRepository.createStudentDetails(studentDetails,addRequestId,companyId)
   }
 
   const postDemo=(demoDetails:demoDetails)=>{

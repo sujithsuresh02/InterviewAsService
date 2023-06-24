@@ -14,6 +14,7 @@ export interface addRequestFormData {
     path?: string;
     filetype?: string;
     Buffer: Buffer | undefined;
+    companyId:string
   }
   
   export interface studentDetails {
