@@ -8,13 +8,19 @@ import Colors = require ('colors.ts')
 import errorHandlingMidlleware from './frameworks/webserver/middlewares/errorHandlingMiddleware';
 import AppError from './utils/appError';
 import path from 'path'
-
+import { Server } from 'socket.io';
+import socketConfig from './frameworks/Websocket/Socket';
 Colors.enable
 
 const app:Application = express();
 const server = http.createServer(app);
 
-
+const io = new Server(server,{
+  cors:{
+      origin:["http://localhost:5173"],
+      methods:["GET","POST"]
+  }
+});
 //psql connection
   connectDb();
 expressConfig(app)

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid, Typography, Button, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-
+import Journey from "../../../Images/journey.svg"
 export default function BecomInterviewExpert() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -49,7 +49,7 @@ export default function BecomInterviewExpert() {
           }}
         >
           <img
-            src="https://interviewvector.com/images/become-expert/journey.svg"
+            src={Journey}
             style={{ maxWidth: "100%", marginTop: "5rem" }}
             alt=""
           />

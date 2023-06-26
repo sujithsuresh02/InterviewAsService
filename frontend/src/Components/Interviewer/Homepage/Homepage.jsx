@@ -23,7 +23,7 @@ const Homepage = () => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "6rem",
+    marginTop: "2rem",
     height: "70vh",
     flexDirection: "column",
   }));
@@ -93,7 +93,7 @@ const Homepage = () => {
               Today's Interviews
             </Typography>
             <Box p={2}>
-              {Todaysinterview &&
+              {Todaysinterview.length>0?
                 Todaysinterview?.slice(0, 5).map((interview) => (
                   <Box
                     key={interview.id}
@@ -124,7 +124,8 @@ const Homepage = () => {
                       View Details
                     </Button>
                   </Box>
-                ))}
+                )):
+                <Typography variant="h6" textAlign={"center"} alignItems={"center"}>There Is No Interviews For Today</Typography>}
             </Box>
           </Paper>
         </Box>

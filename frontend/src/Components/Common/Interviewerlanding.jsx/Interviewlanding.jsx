@@ -11,6 +11,8 @@ import {
   styled,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import Group from "../../../Images/Group7173.png"
+import Group1 from "../../../Images/Group7753.svg"
 const StyledTypography = styled(Typography)(({ theme }) => ({
   Variant: "h1",
   marginLeft: "2rem",
@@ -94,7 +96,7 @@ function Interviewlanding() {
         }}
       >
         <img
-          src="https://interviewvector.com/images/services/Group7173.png"
+          src={Group}
           style={{ maxWidth: '100%', marginTop:isSmallScreen?'0':'12rem', width: '600px' }}
           alt=""
         />
@@ -140,7 +142,7 @@ function Interviewlanding() {
      
       }}>
           <img
-            src="https://interviewvector.com/images/services/Group7753.svg"
+            src={Group1}
             style={{ maxWidth: "100%",marginTop:isSmallScreen?'0':'12rem', width: "600px" }}
             alt=""
           />

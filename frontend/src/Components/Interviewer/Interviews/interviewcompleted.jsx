@@ -20,7 +20,6 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   flexDirection: "column",
-  height:"80vh"
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({

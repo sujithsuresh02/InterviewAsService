@@ -9,6 +9,8 @@ import interviwerRouter from './Interviewer';
 import { authenticateToken } from '../middlewares/companyinterviewerMiddleware';
 import { adminauthenticateToken } from '../middlewares/adminMiddleware';
 import interviewexpertLandingRouter from './interviewExpertLanding';
+import chatRouter from './ChatRoute';
+import messageRouter from './message';
 const routes = (app:Application)=>{
   app.use('/api/auth', authRouter());
   app.use('/api/company',authenticateToken,companyRouter())
@@ -17,6 +19,8 @@ const routes = (app:Application)=>{
   app.use('/api',LandingRouter())
   app.use('/api',interviewexpertLandingRouter())
   app.use('/api/interviewer',authenticateToken,interviwerRouter())
+  app.use('/api/chat',chatRouter())
+  app.use('/api/message',messageRouter())
 
 }
 

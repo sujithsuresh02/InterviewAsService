@@ -16,6 +16,7 @@ export const cvUpload = createAsyncThunk("company/cvUpload", async (values) => {
 
 const initialState = {
   CvCount: {},
+  isLoading:false
 };
 
 const cvUploadSlice = createSlice({
@@ -28,7 +29,7 @@ const cvUploadSlice = createSlice({
         CvCount: {
           ...state.CvCount,
           TotalUploadedCv: {
-            uploadedCVsCount: 1,
+            uploadedCVsCount: 0,
             TotalStudentsCount: null,
           },
         },
@@ -38,10 +39,13 @@ const cvUploadSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(cvUpload.pending, (state) => {})
+      .addCase(cvUpload.pending, (state) => {
+        state.isLoading=true;
+      })
       .addCase(cvUpload.fulfilled, (state, action) => {
         console.log(action);
         console.log("action cv");
+        state.isLoading=false
         state.CvCount = action.payload;
       })
       .addCase(cvUpload.rejected, (state, action) => {});

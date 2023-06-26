@@ -21,6 +21,8 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { becomeInterviewExpert } from "../../../Features/Slices/InterviewExpertslice/becominginterviewexpert";
+import Applynow from "../../../Images/apply-now.svg"
+
 const domainExpertiseOptions = [
   { label: "Front-end Development" },
   { label: "Back-end Development" },
@@ -56,7 +58,7 @@ export default function InterviewExpertForm() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const fileInputRef = useRef(null); // Ref to the file input field
+  const fileInputRef = useRef(null);
 
   const formik = useFormik({
     initialValues: {
@@ -116,7 +118,7 @@ export default function InterviewExpertForm() {
       >
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <img
-            src="https://interviewvector.com/images/become-expert/apply-now.svg"
+            src={Applynow}
             style={{ maxWidth: "100%" }}
             alt=""
           />

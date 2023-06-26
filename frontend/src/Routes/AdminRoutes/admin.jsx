@@ -15,6 +15,7 @@ import ViewexpertsRequests from "../../Pages/Admin/ViewexpertsRequests";
 import InterviewPage from "../../Pages/Admin/InterviewPage";
 import CancelledinterviewsPage from "../../Pages/Admin/Cancelledinterviews";
 import Paymenthistorypage from "../../Pages/Admin/Paymenthistory";
+import Chat from "../../Pages/Chatpage/Chat";
 function AdminRoutes() {
   const adminRefreshToken = useSelector(
     (state) => state.adminLogin.refreshToken
@@ -125,6 +126,7 @@ function AdminRoutes() {
             )
           }
         />
+        <Route path="/chat" element={<Chat/>}/>
         <Route
           path="/interviews"
           element={

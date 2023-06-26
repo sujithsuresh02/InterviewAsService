@@ -16,6 +16,7 @@ import { totalNumberOfCvCount } from "../../../Features/Slices/companySlice/comp
 import { addRequest } from "../../../Features/Slices/companySlice/companySlice";
 import { cvUpload } from "../../../Features/Slices/companySlice/CvUploadSlice";
 import { resetUploadedCvCount } from "../../../Features/Slices/companySlice/CvUploadSlice";
+import { LoadingPage } from "../../Loading/Loadingpage";
 const validationSchema = Yup.object({
   jobRole: Yup.string().required("Job Role is required"),
   jobDescription: Yup.string().required("Job Description is required"),
@@ -42,8 +43,10 @@ const Request = () => {
 
   useEffect(() => {
     console.log("started");
-    dispatch(resetUploadedCvCount());
-  }, [dispatch, location.pathname]);
+    if (location.pathname) {
+      dispatch(resetUploadedCvCount());
+    }
+  }, [location.pathname]);
 
   const subscriptionHistory = useSelector(
     (state) => state?.profile?.paymentHistory
@@ -62,8 +65,9 @@ const Request = () => {
       if (
         !currentSubscription ||
         currentSubscription.endDate < currentDate ||
-        Number(currentSubscription.numberOfInterviews) - Number(totalCvCount) ===
-        0 ||
+        Number(currentSubscription.numberOfInterviews) -
+          Number(totalCvCount) ===
+          0 ||
         endDate > currentSubscription.endDate
       ) {
         currentSubscription = subscription;
@@ -120,7 +124,6 @@ const Request = () => {
     }
   }
 
-
   useEffect(() => {
     dispatch(totalNumberOfCvCount());
   }, [totalNumberOfCvCount]);
@@ -128,6 +131,8 @@ const Request = () => {
   const CvCountLimitMsg = useSelector(
     (state) => state?.cvUploadDetails?.CvCount?.TotalUploadedCv
   );
+  const isLoading = useSelector((state) => state?.cvUploadDetails?.isLoading);
+
   console.log(CvCountLimitMsg, "cv");
   const formik = useFormik({
     initialValues: {
@@ -154,6 +159,11 @@ const Request = () => {
       }
     },
   });
+  console.log(isLoading,"isloading");
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   if (currentSubscription && isExpired) {
     toast.error("Your Plan Has Expired ");
@@ -168,10 +178,14 @@ const Request = () => {
       console.log(cvRef.current.files[0]);
       formData.append("cv", cvRef.current.files[0]);
       formData.append("addrequestId", addrequestId);
-      dispatch(cvUpload(formData));
-      toast.success(
-        `${CvCountLimitMsg?.uploadedCVsCount}Cv Added Successfully`
-      );
+      dispatch(cvUpload(formData)).then((resposne) => {
+        console.log(resposne, "resposne");
+        if (resposne?.payload?.TotalUploadedCv) {
+          toast.success(
+            `${resposne?.payload?.TotalUploadedCv?.uploadedCVsCount}Cv Added Successfully`
+          );
+        }
+      });
       cvRef.current.value = "";
     }
   };

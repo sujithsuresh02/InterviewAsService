@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Grid, Typography, Button, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {Link} from "react-router-dom"
+import Banner from "../../../Images/banner.svg"
+import Experts from "../../../Images/who-are-experts.svg"
 export default function BecomInterviewExpert() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -58,7 +60,7 @@ export default function BecomInterviewExpert() {
           }}
         >
           <img
-            src="https://interviewvector.com/images/become-expert/banner.svg"
+            src={Banner}
             style={{ maxWidth: "100%", marginTop: "1rem" }}
             alt=""
           />
@@ -78,7 +80,7 @@ export default function BecomInterviewExpert() {
           }}
         >
           <img
-            src="https://interviewvector.com/images/become-expert/who-are-experts.svg"
+            src={Experts}
             style={{ maxWidth: "100%" }}
             alt=""
           />

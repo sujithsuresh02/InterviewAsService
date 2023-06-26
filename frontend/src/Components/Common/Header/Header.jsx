@@ -8,13 +8,12 @@ import {
   Button,
   useMediaQuery,
   useTheme,
-  Box,
 } from "@mui/material";
 import Drawercomp from "./Drawer";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { logout } from "../../../Features/Slices/loginSlice";
-let pages = [];
+import Logo from "../../../Images/interviewXpertslogo.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -28,24 +27,17 @@ const Header = () => {
   );
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const currentPage = useLocation();
 
-  useEffect(() => {
-    if (currentPage.pathname === "/") {
-      dispatch(logout());
-    }
-  }, [currentPage, dispatch]);
-
-  useEffect(() => {
+  const getPages = () => {
     if (role === "company" && refreshToken) {
-      pages = [
+      return [
         { label: "Home", path: "/company" },
         { label: "Add Request", path: "/company/add_request" },
         { label: "Feedback", path: "/company/student_details" },
         { label: "Plans", path: "/company/plans" },
       ];
     } else if (role === "interviewer" && refreshToken) {
-      pages = [
+      return [
         { label: "Home", path: "/interviewer" },
         { label: "Interviews", path: "/interviewer/feedback" },
         { label: "Add Time Slot", path: "/interviewer/add_timeslot" },
@@ -55,29 +47,26 @@ const Header = () => {
         },
       ];
     } else {
-      pages = [
+      return [
         { label: "Home", path: "/" },
         { label: "Interview As Service", path: "/interview_as_service" },
         { label: "Demo", path: "/demo" },
       ];
     }
-    setValue(getSelectedTabValue(pages));
-  }, [role, refreshToken]);
-
-  const getSelectedTabValue = (pages) => {
-    const currentPagePath = currentPage.pathname;
-    const selectedIndex = pages.findIndex((page) => page.path === currentPagePath);
-    return selectedIndex >= 0 ? selectedIndex : 0;
   };
+
+  useEffect(() => {
+    const pages = getPages();
+    const currentPath = window.location.pathname;
+    const selectedIndex = pages.findIndex((page) => page.path === currentPath);
+    setValue(selectedIndex >= 0 ? selectedIndex : 0);
+  }, [refreshToken, role]);
+
   return (
     <React.Fragment>
-      <AppBar sx={{ backgroundColor: "#f8f8f8" }}>
+      <AppBar sx={{ backgroundColor: "#ffff", boxShadow: "none" }}>
         <Toolbar sx={{ padding: "1rem" }}>
-          <img
-            style={{ height: "50px", width: "150px" }}
-            src="https://uploads-ssl.webflow.com/641c7ecdbeea3c8c8de5bc57/6422c156dfa505fbf90caeb7_IE%20logo%204.0.png"
-            alt=""
-          />
+          <img style={{ height: "50px", width: "150px" }} src={Logo} alt="" />
 
           {isMatch ? (
             <Drawercomp />
@@ -99,7 +88,7 @@ const Header = () => {
                   },
                 }}
               >
-                {pages?.map((page, index) => (
+                {getPages()?.map((page, index) => (
                   <Link key={index} to={page.path}>
                     <Tab label={page.label} />
                   </Link>

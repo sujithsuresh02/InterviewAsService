@@ -7,7 +7,7 @@ export default function FeedbackPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
-      <div style={{ flex: 1, marginTop: '8rem' }}>
+      <div style={{ flex: 1,  display: 'flex', justifyContent: 'center', minHeight: 'calc(100vh - 8rem)',minHeight: '70vh'  }}>
         <Feedback />
       </div>
       <Footer />

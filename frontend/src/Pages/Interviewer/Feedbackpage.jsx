@@ -7,8 +7,7 @@ export default function Feedbackpage() {
     <React.Fragment>
       <Header />
       <FeedbackDetails />
-      {/* <StudentTable/> */}
-      {/* <Footer /> */}
+      <Footer />
     </React.Fragment>
   );
 }

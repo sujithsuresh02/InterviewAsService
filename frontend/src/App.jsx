@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Landingpage from "../src/Pages/Landingpage/Landingpage";
 import AdminRoutes from "./Routes/AdminRoutes/admin";
 import CompanyRoutes from "./Routes/CompanyRoutes/company";
-import SecondLandingpage from "./Pages/Landingpage/SecondLandinggpage";
 import BecomeInterViwer from "./Pages/Landingpage/BecomeInterViwer";
 import ScrollToTop from "./Components/Common/ScrollUp";
 import Demopage from "./Pages/Landingpage/Demopage";
@@ -20,8 +19,21 @@ import { ErrorFallback } from "./Errorboundaries/Errorfallback";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import Paypalkeys from "./paypalKeys/paypalkeys";
 import Room from "./Components/Zegacloud/Room";
-
+import ScrollButton from "./Components/Common/Scrollupbutton/Scrollupbutton";
+import { LoadingPage } from "./Components/Loading/Loadingpage";
+import { lazy, Suspense } from "react";
+import Companychat from "./Components/Companychat/Chat/Companychat";
+import Chats from "./Components/Companychat/Chat/Companychat";
+import ChatWidget from "./Components/Companychat/Chat/Companychat";
+const LazyLandingpage = lazy(() => import("./Pages/Landingpage/Landingpage"));
+const LazyBecomeInterViwer = lazy(() =>
+  import("./Pages/Landingpage/BecomeInterViwer")
+);
+const LazySecondLandingpage = lazy(() =>
+  import("./Pages/Landingpage/SecondLandinggpage")
+);
 function App() {
+  const [showLoading, setShowLoading] = useState(true);
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
   console.log(refreshToken, "app .jsx");
 
@@ -31,9 +43,19 @@ function App() {
     intent: Paypalkeys.intent,
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
-    <PayPalScriptProvider options={initialOptions}>
-      <React.Fragment>
+    <React.Fragment>
+      <PayPalScriptProvider options={initialOptions}>
         <ErrorBoundary
           fallbackRender={ErrorFallback}
           onReset={() => alert("Error boundary reset")}
@@ -41,47 +63,53 @@ function App() {
           <ToastContainer />
           <Toaster />
           <Router>
-            <ScrollToTop />
-            <Routes>
-              {/* Common  Landing page Routes  */}
-              <Route
-                exact
-                path="/interview_as_service"
-                expect
-                element={<SecondLandingpage />}
-              />
-              <Route exact path="/" expect element={<Landingpage />} />
-              <Route
-                exact
-                path="/become_interviewexpert"
-                expect
-                element={<BecomeInterViwer />}
-              />
-              <Route exact path="/demo" expect element={<Demopage />} />
-              <Route
-                path="/login"
-                element={
-                  refreshToken ? <Navigate to="/company" /> : <LoginForm />
-                }
-              />
-              <Route
-                exact
-                path="/signup/:token"
-                expect
-                element={<SignupForm />}
-              />
+            {showLoading ? (
+              <LoadingPage />
+            ) : (
+              <Suspense fallback={<LoadingPage />}>
+                <ScrollToTop />
+                <ScrollButton />
+                <Routes>
+                  <Route
+                    exact
+                    path="/interview_as_service"
+                    expect
+                    element={<LazySecondLandingpage />}
+                  />
+                  <Route exact path="/" element={<LazyLandingpage />} />
+                  <Route
+                    exact
+                    path="/become_interviewexpert"
+                    expect
+                    element={<LazyBecomeInterViwer />}
+                  />
+                  <Route exact path="/demo" expect element={<Demopage />} />
+                  <Route
+                    path="/login"
+                    element={
+                      refreshToken ? <Navigate to="/company" /> : <LoginForm />
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/signup/:token"
+                    expect
+                    element={<SignupForm />}
+                  />
+                  <Route path="/meeting/:interviewToken" element={<Room />} />
 
-              <Route path="/meeting/:interviewToken" element={<Room />} />
-              {/* {Other Interface Errors} */}
-              <Route path="/company/*" element={<CompanyRoutes />} />
-              <Route path="/Admin/*" element={<AdminRoutes />} />
-              <Route path="/interviewer/*" element={<Interviwer />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+                  <Route path="/company/*" element={<CompanyRoutes />} />
+                  <Route path="/Admin/*" element={<AdminRoutes />} />
+                  <Route path="/interviewer/*" element={<Interviwer />} />
+                  <Route path="*" element={<NotFound />} />
+                  <Route path="/chats" element={< ChatWidget />} />
+                </Routes>
+              </Suspense>
+            )}
           </Router>
         </ErrorBoundary>
-      </React.Fragment>
-    </PayPalScriptProvider>
+      </PayPalScriptProvider>
+    </React.Fragment>
   );
 }
 

@@ -8,7 +8,8 @@ import Addtimeslots from "../../Pages/Interviewer/Addtimeslots";
 import InterviewerHomePage from "../../Pages/Interviewer/Homepage";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import EditFeedbackDetailsPage from "../../Components/Interviewer/Feedback/Editfeedback";
+// import EditFeedbackDetailsPage from "../../Components/Interviewer/Feedback/Editfeedback";
+import Editfeedbackpage from "../../Pages/Interviewer/Editfeedbackpage";
 import Editprofilepage from "../../Pages/Interviewer/Editprofilepage";
 export default function Interviwer() {
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
@@ -38,7 +39,7 @@ export default function Interviwer() {
       />
       <Route
         path="/editfeedback/:interviewId"
-        element={refreshToken ? <EditFeedbackDetailsPage /> : <Navigate to="/" />}
+        element={refreshToken ? <Editfeedbackpage /> : <Navigate to="/" />}
       />
        <Route
         path="/profile"

@@ -8,7 +8,7 @@ export default function Editprofilepage() {
     <React.Fragment>
       <Header />
       <Profilesidebar pages={<Editprofile />} />
-      {/* <Footer/> */}
+      <Footer/>
     </React.Fragment>
   );
 }

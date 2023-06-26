@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { useLocation, Link } from "react-router-dom";
 import { logout } from "../../../Features/Slices/loginSlice";
+import Logo from "../../../Images/interviewXpertslogo.png"
 
 function Drawercomp() {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -84,7 +85,7 @@ function Drawercomp() {
         <List>
           <img
             style={{ height: "50px", width: "150px" }}
-            src="https://uploads-ssl.webflow.com/641c7ecdbeea3c8c8de5bc57/6422c156dfa505fbf90caeb7_IE%20logo%204.0.png"
+            src={Logo}
             alt=""
           />
           {pages.map((page, index) => (

@@ -11,6 +11,9 @@ import {
   styled,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import Group from "../../../Images/Group7173.png"
+import Aborted from "../../../Images/Artboard-19.webp"
+
 const StyledTypography = styled(Typography)(({ theme }) => ({
   Variant: "h1",
   marginLeft: "4rem",
@@ -55,7 +58,7 @@ function SecondInterviewLandingPage() {
           }}
         >
           <img
-            src="https://interviewvector.com/images/services/Group7533.svg"
+            src={Group}
             style={{
               maxWidth: "100%",
               marginTop: "163px",
@@ -110,7 +113,7 @@ function SecondInterviewLandingPage() {
 
         <Grid item xs={12} sm={12} md={12} lg={12} />
         <img
-          src="https://yaksha.com/wp-content/uploads/2022/07/Artboard-19.png"
+          src={Aborted}
           alt=""
           style={{marginTop:"3rem",maxWidth:"100%"}}
         />

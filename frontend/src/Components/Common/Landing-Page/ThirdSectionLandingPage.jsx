@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Grid, Typography, Button, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Start } from "@mui/icons-material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {Link} from "react-router-dom"
+import whyIV3 from "../../../Images/whyIV3.svg"
 export default function ThirdSectionLandingPage() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -92,7 +92,7 @@ technical <br/>interviews
           }}
         >
           <img
-            src="https://interviewvector.com/images/services/whyIV3.svg"
+            src={whyIV3}
             style={{ maxWidth: "100%", marginTop: "7rem" }}
             alt=""
           />

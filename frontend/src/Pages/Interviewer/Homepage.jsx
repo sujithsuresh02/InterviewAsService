@@ -4,10 +4,12 @@ import Header from "../../Components/Common/Header/Header";
 import Footer from "../../Components/Common/Footer/Footer";
 export default function InterviewerHomePage() {
   return (
-  <React.Fragment>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
     <Header/>
+    <div style={{ flex: 1, marginTop: '8rem' }}>
     <Homepage/>
+    </div>
     <Footer/>
-  </React.Fragment>
+    </div>
   )
 }

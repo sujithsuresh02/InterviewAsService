@@ -8,8 +8,12 @@ import {
   useMediaQuery,
   Button,
 } from "@mui/material";
+// import Image from  "../../../Images/on-demand-interview.svg"
 import {Link} from "react-router-dom"
-
+import { LazyImage } from "../../ImageLazyloading/Lazyloading";
+import LazyLoad from "react-lazyload";
+import demandInterview from "../../../Images/on-demand-interview.svg"
+console.log(demandInterview,"demand");
 const StyledImage = styled("img")(({ theme }) => ({
   maxWidth: "100%",
   height: "auto",
@@ -80,14 +84,14 @@ function Landingpage() {
             </Box>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
-            <StyledImage
-              src="https://interviewvector.com/images/on-demand-interview.svg"
-              alt=""
-              sx={{
-                height: isSmallScreen ? "15rem" : "100%",
-                width: "100%",
-              }}
-            />
+              <LazyLoad once>
+              <LazyImage
+              src={demandInterview}
+                fallbackSrc={demandInterview}
+                alt="Image"
+    
+              />
+            </LazyLoad>
           </Grid>
         </Grid>
       </RootContainer>

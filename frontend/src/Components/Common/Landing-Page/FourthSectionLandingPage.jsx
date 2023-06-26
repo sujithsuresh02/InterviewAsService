@@ -3,6 +3,7 @@ import { Box, Grid, Typography, Button, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {Link} from "react-router-dom"
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import Applynow from "../../../Images/apply-now.svg"
 export default function FourthSectionLandingPage() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -103,7 +104,7 @@ export default function FourthSectionLandingPage() {
           }}
         >
           <img
-            src="https://interviewvector.com/images/become-expert/apply-now.svg"
+            src={Applynow}
             style={{ maxWidth: "100%", marginTop: "2rem" }}
             alt=""
           />

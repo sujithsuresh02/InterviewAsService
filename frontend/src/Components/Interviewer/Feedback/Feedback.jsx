@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Typography, styled } from "@mui/material";
+import { Box, Button, Typography, styled } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -18,7 +18,6 @@ import { getAllScheduledInterviews } from "../../../Features/Slices/Interviewer/
 const StyledTableContainer = styled(TableContainer)({
   maxWidth: "100%",
   marginTop: "9rem",
-  height:"80vh"
 });
 
 const StyledTableHeaderCell = styled(TableCell)(({ theme }) => ({
@@ -46,7 +45,7 @@ const StyledTableCell = styled(TableCell)({
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
-  '&:hover': {
+  "&:hover": {
     backgroundColor: theme.palette.primary.dark,
   },
 }));
@@ -66,14 +65,13 @@ const StudentTable = () => {
     navigate(`/interviewer/add_feedback/${interviewId}`);
   };
 
-
-  const handleStartMeeting=(interviewToken)=>{
-  navigate(`/meeting/${interviewToken}`)
-  }
+  const handleStartMeeting = (interviewToken) => {
+    navigate(`/meeting/${interviewToken}`);
+  };
   return (
     <StyledTableContainer component={Paper}>
       <Typography variant="h4" textAlign={"center"}>
-      Upcoming Interviews
+        Upcoming Interviews
       </Typography>
       <Table sx={{ marginTop: "2rem" }}>
         <TableHead>
@@ -89,7 +87,7 @@ const StudentTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {scheduledInterveiws &&
+          {scheduledInterveiws.length > 0 ? (
             scheduledInterveiws.map((interview) => (
               <StyledTableRow key={interview.interview_id}>
                 <StyledTableCell>{interview.interview_id}</StyledTableCell>
@@ -99,10 +97,13 @@ const StudentTable = () => {
                 <StyledTableCell>{interview.interview_time}</StyledTableCell>
                 <StyledTableCell>{interview.interview_date}</StyledTableCell>
                 <TableCell>
-                <StyledButton variant="contained" onClick={() => handleStartMeeting(interview.interviewToken)}>
-                 Join Meeting
-                </StyledButton>
-              </TableCell>
+                  <StyledButton
+                    variant="contained"
+                    onClick={() => handleStartMeeting(interview.interviewToken)}
+                  >
+                    Join Meeting
+                  </StyledButton>
+                </TableCell>
                 <StyledTableCell>
                   <Button
                     onClick={() => handleAddFeedback(interview.interview_id)}
@@ -111,7 +112,23 @@ const StudentTable = () => {
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>
-            ))}
+            ))
+          ) : (
+            <StyledTableRow>
+              <StyledTableCell colSpan={8}>
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  height="100%"
+                >
+                  <Typography variant="h6" align="center">
+                    There Is No Upcoming Interviews
+                  </Typography>
+                </Box>
+              </StyledTableCell>
+            </StyledTableRow>
+          )}
         </TableBody>
       </Table>
     </StyledTableContainer>

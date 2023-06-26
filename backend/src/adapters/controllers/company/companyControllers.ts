@@ -82,7 +82,7 @@ const companyController = (
 
   const uploadCv = asyncHandler(async (req: Request, res: Response) => {
     const { addrequestId } = req.body;
-    const companyId: string  = (req as any).id;
+    const companyId: string = (req as any).id;
 
     const filetype = req.file?.mimetype;
     const cvPath = req.file?.path;
@@ -92,7 +92,7 @@ const companyController = (
       path: cvPath || undefined,
       filetype: filetype || undefined,
       Buffer: bufferData,
-      companyId
+      companyId,
     };
     const result: any = await postRequestWithCVDetails(
       cvDetails,
@@ -100,12 +100,12 @@ const companyController = (
       CompanyDbRepository,
       CompanyServiceRepository
     );
-    console.log(result, "result ");
-
-    res.json({
-      TotalUploadedCv: result,
-    });
-    console.log("nncontroller final");
+    
+    console.log(result);
+      res.json({
+        TotalUploadedCv: result,
+      });
+      console.log("nncontroller final");
   });
 
   const postDemo = asyncHandler(async (req: Request, res: Response) => {
@@ -275,10 +275,10 @@ const companyController = (
 
       const response = await FeedbackDetails(companyId, CompanyDbRepository);
       console.log(response);
-      
+
       if (response) {
         res.json({
-          response
+          response,
         });
       }
     }
