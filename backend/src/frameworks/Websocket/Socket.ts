@@ -31,6 +31,8 @@ const socketConfig = (
         activeUsers.push({ userId: newUserId, socketId: socket.id });
         
       }
+      console.log(activeUsers,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+      
       io.emit("get-users", activeUsers);
     });
     socket.on("newUser", (user) => {
@@ -39,6 +41,7 @@ const socketConfig = (
 
 
     socket.on("sendNotification", (data) => {
+   console.log(data,"kk");
    
       const { receiverId } = data;
       const user = activeUsers.find((user) => user.userId === receiverId);

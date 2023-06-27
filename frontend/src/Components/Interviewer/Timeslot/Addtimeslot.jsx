@@ -76,7 +76,7 @@ const InterviewerAvailability = () => {
 
   useEffect(() => {
     dispatch(getAllInterviewerAvailableTime());
-  },[ dispatch]);
+  }, [dispatch]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -95,7 +95,7 @@ const InterviewerAvailability = () => {
 
     dispatch(addAvabilityTimeSlot(availabilityData)).then((resposne) => {
       toast.success(resposne?.payload?.data?.message);
-      dispatch(getAllInterviewerAvailableTime())
+      dispatch(getAllInterviewerAvailableTime());
     });
     setSelectedDate(null);
     setSelectedTimes([]);
@@ -126,11 +126,13 @@ const InterviewerAvailability = () => {
   return (
     <Box marginTop={"10rem"}>
       <Grid container>
-        
         <Grid item xs={12} sm={12} md={6} lg={6}>
-        <Typography variant="h5" textAlign={"center"}> Available Timeslot</Typography>
+          <Typography variant="h5" textAlign={"center"}>
+            {" "}
+            Available Timeslot
+          </Typography>
 
-          <TableContainer component={Paper} >
+          <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>

@@ -53,23 +53,28 @@ export const chatDbImplementaion = () => {
   };
   const getAllChat = async (Id: string, role: string) => {
     console.log(Id);
-    
+
     try {
       let response = null;
       if (role === "admin") {
-        const query = ` SELECT * FROM "companies" WHERE "id" IN (
-        SELECT "clientId" FROM "chats" WHERE "adminId" = :Ids
-      )`;
+        const query = `  SELECT c.*, ch.*
+        FROM "companies" AS c
+        JOIN "chats" AS ch ON ch."clientId" = c."id"
+        WHERE ch."adminId" = :Ids;
+      `;
 
         response = await sequelize.query(query, {
-          replacements: { Ids:Id },
+          replacements: { Ids: Id },
           type: QueryTypes.SELECT,
         });
       }
       if (role === "company") {
-        const query = ` SELECT * FROM "admins" WHERE "id" IN (
-        SELECT "adminId" FROM "chats" WHERE "clientId" = :Id
-      );`;
+        const query = ` SELECT a.*, ch.*
+        FROM "admins" AS a
+        JOIN "chats" AS ch ON ch."adminId" = a."id"
+        WHERE ch."clientId" = :Id;
+        
+      ;`;
 
         response = await sequelize.query(query, {
           replacements: { Id },

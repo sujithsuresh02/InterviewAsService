@@ -10,9 +10,11 @@ import Transactionpage from "../../Pages/Company/Transactionpage";
 import Editprofilepage from "../../Pages/Company/Editprofilepage";
 import ResetpasswordPage from "../../Pages/Company/resetpassword";
 import Feedbackpage from "../../Pages/Company/Feedbackpage";
+import Chat from "../../Pages/Chatpage/Chat";
+import Chatpage from "../../Pages/Chatpage/Chatpage";
 function CompanyRoutes() {
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
- console.log(refreshToken,"router");
+  console.log(refreshToken, "router");
   return (
     <Routes>
       <Route
@@ -33,29 +35,32 @@ function CompanyRoutes() {
       />
       <Route
         path="/checkout/:id"
-        element={refreshToken ? < Checkout/> : <Navigate to="/" />}
+        element={refreshToken ? <Checkout /> : <Navigate to="/" />}
       />
       <Route
         path="/success"
-        element={refreshToken ? < SuccessPage/> : <Navigate to="/" />}
+        element={refreshToken ? <SuccessPage /> : <Navigate to="/" />}
       />
-      
+
       <Route
         path="/subscription_history"
-        element={refreshToken ? < Transactionpage/> : <Navigate to="/" />}
+        element={refreshToken ? <Transactionpage /> : <Navigate to="/" />}
       />
       <Route
         path="/profile"
-        element={refreshToken ? < Editprofilepage/> : <Navigate to="/" />}
+        element={refreshToken ? <Editprofilepage /> : <Navigate to="/" />}
       />
       <Route
         path="/reset_password/:Token"
-        element={refreshToken ? < ResetpasswordPage/> : <Navigate to="/" />}
+        element={refreshToken ? <ResetpasswordPage /> : <Navigate to="/" />}
       />
       <Route
         path="/feedback/:studentId"
-        element={refreshToken ? < Feedbackpage/> : <Navigate to="/" />}
+        element={refreshToken ? <Feedbackpage /> : <Navigate to="/" />}
       />
+
+      <Route path="/chat" element={<Chatpage/>} />
+
     </Routes>
   );
 }

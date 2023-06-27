@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import myAxios from "../../../api/Chat/Chat";
-
-export const getchats = createAsyncThunk("get/chats", async ({Id,role}) => {
+import messageApi from "../../../api/Chat/Message";
+export const getChats = createAsyncThunk("get/chats", async ({ Id, role }) => {
   try {
     const response = await myAxios.get(`/${Id}/${role}`);
     console.log(response);
@@ -13,8 +13,39 @@ export const getchats = createAsyncThunk("get/chats", async ({Id,role}) => {
   }
 });
 
+export const getMessage = createAsyncThunk(
+  "getMessage",
+  async (chatId) => {
+    try {
+      const response = await messageApi.get(`/${chatId}`);
+      console.log(response);
+      console.log("reducer response");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+);
+export const createMessage = createAsyncThunk(
+  "createMessage",
+  async (message) => {
+    try {
+      const response = await messageApi.post("/", message);
+      console.log(response);
+      console.log("reducer response");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+);
+
 const initialState = {
-  getChats: {},
+  getchats: {},
+  getMessage: {},
+  postMessage: {},
 };
 
 const chatSlice = createSlice({
@@ -23,14 +54,25 @@ const chatSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getchats.pending, (state) => {})
-      .addCase(getchats.fulfilled, (state, action) => {
+      .addCase(getChats.pending, (state) => {})
+
+      .addCase(getChats.fulfilled, (state, action) => {
         console.log(action);
         console.log("action job detailss");
-        state.getChats = action?.payload;
+        state.getchats = action?.payload?.chatDetails;
       })
 
-      .addCase(getchats.rejected, (state, action) => {});
+      .addCase(getMessage.fulfilled, (state, action) => {
+        console.log(action, "action");
+
+        state.getMessage = action?.payload;
+      })
+      .addCase(createMessage.fulfilled, (state, action) => {
+        console.log(action, "action");
+
+        state.postMessage = action?.payload;
+      })
+      .addCase(getChats.rejected, (state, action) => {});
   },
 });
 

@@ -1,0 +1,45 @@
+Progress: resolved 0, reused 1, downloaded 0, added 0
+ WARN  deprecated @material-ui/core@4.12.4: Material UI v4 doesn't receive active development since September 2021. See the guide https://mui.com/material-ui/migration/migration-v4/ to upgrade to v5.
+Progress: resolved 12, reused 12, downloaded 0, added 0
+Progress: resolved 39, reused 37, downloaded 1, added 0
+Progress: resolved 40, reused 38, downloaded 1, added 0
+Progress: resolved 40, reused 38, downloaded 2, added 0
+ WARN  deprecated @material-ui/styles@4.11.5: Material UI v4 doesn't receive active development since September 2021. See the guide https://mui.com/material-ui/migration/migration-v4/ to upgrade to v5.
+Progress: resolved 196, reused 194, downloaded 2, added 0
+Progress: resolved 606, reused 582, downloaded 2, added 0
+Packages: +2
+++
+Progress: resolved 691, reused 667, downloaded 2, added 2, done
+
+dependencies:
++ add 2.0.6
++ timeago.js 4.0.2
+
+ WARN  Issues with peer dependencies found
+.
+├─┬ @material-ui/core 4.12.4
+│ ├── ✕ unmet peer react@"^16.8.0 || ^17.0.0": found 18.2.0
+│ ├── ✕ unmet peer react-dom@"^16.8.0 || ^17.0.0": found 18.2.0
+│ ├── ✕ unmet peer @types/react@"^16.8.6 || ^17.0.0": found 18.0.28
+│ ├─┬ @material-ui/styles 4.11.5
+│ │ ├── ✕ unmet peer react@"^16.8.0 || ^17.0.0": found 18.2.0
+│ │ ├── ✕ unmet peer react-dom@"^16.8.0 || ^17.0.0": found 18.2.0
+│ │ ├── ✕ unmet peer @types/react@"^16.8.6 || ^17.0.0": found 18.0.28
+│ │ └─┬ @material-ui/utils 4.11.3
+│ │   ├── ✕ unmet peer react@"^16.8.0 || ^17.0.0": found 18.2.0
+│ │   └── ✕ unmet peer react-dom@"^16.8.0 || ^17.0.0": found 18.2.0
+│ └─┬ @material-ui/system 4.12.2
+│   ├── ✕ unmet peer react@"^16.8.0 || ^17.0.0": found 18.2.0
+│   ├── ✕ unmet peer react-dom@"^16.8.0 || ^17.0.0": found 18.2.0
+│   └── ✕ unmet peer @types/react@"^16.8.6 || ^17.0.0": found 18.0.28
+├─┬ @material-ui/icons 4.11.3
+│ ├── ✕ unmet peer react@"^16.8.0 || ^17.0.0": found 18.2.0
+│ ├── ✕ unmet peer react-dom@"^16.8.0 || ^17.0.0": found 18.2.0
+│ └── ✕ unmet peer @types/react@"^16.8.6 || ^17.0.0": found 18.0.28
+├─┬ react-firebaseui 6.0.0
+│ └── ✕ unmet peer react@">=15 <=17": found 18.2.0
+└─┬ react-lazyload 3.2.0
+  ├── ✕ unmet peer react@"^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0": found 18.2.0
+  └── ✕ unmet peer react-dom@"^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0": found 18.2.0
+
+Done in 9.1s

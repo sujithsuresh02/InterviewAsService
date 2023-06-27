@@ -27,9 +27,14 @@ export const messageDbImplementaion = () => {
       senderId,
       message,
     };
-    const resposne = messages.create(newMessage);
-
-    return true;
+    const resposne :any=await  messages.create(newMessage,{
+      returning:true
+    });
+    console.log(resposne);
+    
+   console.log(resposne?.dataValues,"==================================");
+   
+    return resposne.dataValues;
   };
   const getMessage = async (chatId: string) => {
    const query =` SELECT * FROM "messages" WHERE "chatId"=:chatId
@@ -38,7 +43,7 @@ export const messageDbImplementaion = () => {
             replacements:{chatId},
             type:QueryTypes.SELECT
         })
-        console.log(response);
+        console.log(response,"resposne");
        return response 
   };
 

@@ -21,6 +21,7 @@ export const messageAdd = async (
     repository: ReturnType<messageInterface>
   ) => {
     const messages = await repository.getMessage(chatId);
+  console.log(messages,"message usecase");
   
     if (!messages) {
       throw new AppError("user not found", HttpStatus.UNAUTHORIZED);

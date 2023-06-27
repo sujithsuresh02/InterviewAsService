@@ -22,6 +22,8 @@ const io = new Server(server,{
   }
 });
 //psql connection
+socketConfig(io)  
+
   connectDb();
 expressConfig(app)
 

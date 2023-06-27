@@ -8,15 +8,18 @@ import {
   Button,
   useMediaQuery,
   useTheme,
+  Box,
 } from "@mui/material";
 import Drawercomp from "./Drawer";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../../Features/Slices/loginSlice";
 import Logo from "../../../Images/interviewXpertslogo.png";
-
+import ChatIcon from "@mui/icons-material/Chat";
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate= useNavigate()
   const [value, setValue] = useState(0);
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
   const role = useSelector(
@@ -28,6 +31,9 @@ const Header = () => {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
+  const handleChatIconClick = () => {
+     navigate('/company/chat')
+  };
   const getPages = () => {
     if (role === "company" && refreshToken) {
       return [
@@ -94,7 +100,9 @@ const Header = () => {
                   </Link>
                 ))}
               </Tabs>
-
+              <Box sx={{ marginLeft: "auto", marginRight: "3rem" }}>
+                <ChatIcon color="primary" onClick={handleChatIconClick} />
+              </Box>
               <div>
                 {refreshToken && role === "company" && (
                   <Link to="/company/profile">

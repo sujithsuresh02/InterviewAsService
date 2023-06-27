@@ -10,6 +10,7 @@ import {
   Button,
   Link,
   Alert,
+  Fab,
 } from "@mui/material";
 import { totalNumberOfCvCount } from "../../../Features/Slices/companySlice/companySlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +21,7 @@ import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
-
+import AddIcon from "@mui/icons-material/Add";
 function Homepage() {
   const dispatch = useDispatch();
 
@@ -35,6 +36,10 @@ function Homepage() {
   );
   console.log(subscriptionHistory, "subscription history");
   const homePagePlans = Plans ? Plans.slice(0, 6) : [];
+
+  const handleChatButtonClick = () => {
+    setShowChat(true);
+  };
 
   const totalCvCount = useSelector(
     (state) => state?.addrequest?.totalCvUploaded
@@ -56,21 +61,22 @@ function Homepage() {
   subscriptionHistory?.forEach((subscription) => {
     const startDate = new Date(subscription.startDate).getTime();
     const endDate = new Date(subscription.endDate).getTime();
- 
+
     if (startDate <= currentDate && endDate >= currentDate) {
       if (
         !currentSubscription ||
-       (currentSubscription.endDate < currentDate || Number(currentSubscription.numberOfInterviews) - Number(cvCount) ===
-        0) || endDate > currentSubscription.endDate 
-        
+        currentSubscription.endDate < currentDate ||
+        Number(currentSubscription.numberOfInterviews) - Number(cvCount) ===
+          0 ||
+        endDate > currentSubscription.endDate
       ) {
         currentSubscription = subscription;
         console.log(currentSubscription, "cuttent");
       }
     }
-  }); 
-  console.log(currentSubscription?.endDate < currentDate );
-  console.log('date checking');
+  });
+  console.log(currentSubscription?.endDate < currentDate);
+  console.log("date checking");
   let balanceInterviews = 0;
   let isExpired = false;
 
@@ -315,7 +321,7 @@ function Homepage() {
                 xs={12}
                 sm={6}
                 md={6}
-                sx={{ display: "flex", justifyContent: "center" }}
+                sx={{ display: "flex", justifyContent: "space-between" }}
               >
                 <Cards
                   transition={false}
@@ -336,6 +342,7 @@ function Homepage() {
                   Icon={CreditCardOutlinedIcon}
                   description="Payment Details"
                 />
+                 
               </Grid>
             </Grid>
           </Grid>

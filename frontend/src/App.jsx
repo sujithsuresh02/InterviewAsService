@@ -24,7 +24,7 @@ import { LoadingPage } from "./Components/Loading/Loadingpage";
 import { lazy, Suspense } from "react";
 import Companychat from "./Components/Companychat/Chat/Companychat";
 import Chats from "./Components/Companychat/Chat/Companychat";
-import ChatWidget from "./Components/Companychat/Chat/Companychat";
+// import ChatWidget from "./Components/Companychat/Chat/Companychat";
 const LazyLandingpage = lazy(() => import("./Pages/Landingpage/Landingpage"));
 const LazyBecomeInterViwer = lazy(() =>
   import("./Pages/Landingpage/BecomeInterViwer")
@@ -102,7 +102,7 @@ function App() {
                   <Route path="/Admin/*" element={<AdminRoutes />} />
                   <Route path="/interviewer/*" element={<Interviwer />} />
                   <Route path="*" element={<NotFound />} />
-                  <Route path="/chats" element={< ChatWidget />} />
+                  {/* <Route path="/chats" element={< ChatWidget />} /> */}
                 </Routes>
               </Suspense>
             )}
