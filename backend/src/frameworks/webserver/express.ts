@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-      origin: '*',
+    origin: 'https://www.interviewxperts.online',
       methods: 'GET, POST, PUT, PATCH, DELETE',
       credentials: true,
   })

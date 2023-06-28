@@ -19,7 +19,7 @@ const expressConfig = (app) => {
         next();
     });
     app.use((0, cors_1.default)({
-        origin: '*',
+        origin: 'https://www.interviewxperts.online',
         methods: 'GET, POST, PUT, PATCH, DELETE',
         credentials: true,
     }));
