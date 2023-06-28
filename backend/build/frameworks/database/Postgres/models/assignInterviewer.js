@@ -4,7 +4,7 @@ exports.initInterviewModel = void 0;
 const sequelize_1 = require("sequelize");
 const sequelize_2 = require("sequelize");
 const initInterviewModel = (sequelize) => {
-    return sequelize.define("interview", {
+    return sequelize.define("interviews", {
         id: {
             type: sequelize_1.DataTypes.UUID,
             defaultValue: sequelize_2.UUIDV4,

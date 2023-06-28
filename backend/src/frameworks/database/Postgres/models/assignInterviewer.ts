@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes, Model } from "sequelize";
 import { UUIDV4 } from "sequelize";
 export const initInterviewModel = (sequelize: Sequelize) => {
-  return sequelize.define("interview", {
+  return sequelize.define("interviews", {
     id: {
       type: DataTypes.UUID,
       defaultValue: UUIDV4,
