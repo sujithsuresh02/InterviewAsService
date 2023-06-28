@@ -15,7 +15,7 @@ import { query } from "express";
 sequelize
   .sync()
   .then(() => {
-    console.log("Database synchronized successfully!");
+    console.log(" INTERVIEW VDatabase synchronized successfully!");
   })
   .catch((error) => {
     console.error("Error synchronizing database:", error);

@@ -14,7 +14,7 @@ const assignInterviewer_1 = require("../../models/assignInterviewer");
 connection_1.sequelize
     .sync()
     .then(() => {
-    console.log("Database synchronized successfully!");
+    console.log(" INTERVIEW VDatabase synchronized successfully!");
 })
     .catch((error) => {
     console.error("Error synchronizing database:", error);

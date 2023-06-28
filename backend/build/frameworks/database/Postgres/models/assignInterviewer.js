@@ -20,7 +20,7 @@ const initInterviewModel = (sequelize) => {
             },
         },
         studentId: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.BIGINT,
             allowNull: false,
             references: {
                 model: "studentcvs",

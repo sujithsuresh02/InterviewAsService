@@ -17,7 +17,7 @@ export const initInterviewModel = (sequelize: Sequelize) => {
       },
     },
     studentId: {
-      type: DataTypes.STRING,
+      type: DataTypes.BIGINT,
       allowNull: false,
       references: {
         model: "studentcvs",
