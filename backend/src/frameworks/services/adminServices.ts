@@ -70,7 +70,7 @@ export const adminServiceImplementation = () => {
       <p>Thank you for your interest in InterviewXperts. We appreciate your time and consideration in requesting a demo. We are excited to have the opportunity to showcase our services and help you excel in your interviews.</p>
       <p>At InterviewXperts, we are committed to providing you with the best resources and support to enhance your interview skills and boost your confidence. We believe that our comprehensive platform can make a significant difference in your interview performance.</p>
       <p>To get started, please follow the link below to sign up for an account:</p>
-      <p><a href="http://localhost:5173/signup/${response[0].ValidationToken}">Sign Up</a></p>
+      <p><a href="https://interviewxperts.online/signup/${response[0].ValidationToken}">Sign Up</a></p>
       <p>If you have any questions or need further assistance, feel free to reach out to us. We look forward to assisting you on your journey to interview success!</p>
       <p>Best regards,<br/>[Sujith S]<br/>InterviewXperts Team</p>`,
       };
@@ -112,7 +112,7 @@ export const adminServiceImplementation = () => {
         html: `<p>Dear ${name},</p>
     <p>Thank you for expressing your interest in becoming an Interviewer at InterviewXperts. We are pleased to inform you that your request has been approved, and you have been selected to join our team of interview experts.</p>
     <p>To get started, please follow the link below to sign up and create your InterviewXperts Interviewer account:</p>
-    <p><a href="http://localhost:5173/signup/${Token}">Sign Up</a></p>
+    <p><a href="https://interviewxperts.online/signup/${Token}">Sign Up</a></p>
     <p>At InterviewXperts, we provide a comprehensive platform that empowers interviewers like you to enhance the interview experience for our users and help them succeed in their interviews.</p>
     <p>If you have any questions or need further assistance, feel free to reach out to our support team. We are here to support you in your journey as an InterviewXperts Interviewer.</p>
     <p>Best regards,<br/>Sujith S<br/>InterviewXperts Team</p>
@@ -206,7 +206,7 @@ export const adminServiceImplementation = () => {
           <p>Interview Details:</p>
           <p>- Date: ${Date}</p>
           <p>- Time: ${Time}</p>
-          <p>- Meeting Link: <a href="http://localhost:5173/meeting/${interviewToken}">Join Interview Meeting</a></p>
+          <p>- Meeting Link: <a href="https://interviewxperts.online/meeting/${interviewToken}">Join Interview Meeting</a></p>
           <p>Please make sure to be available at the designated time and click on the meeting link provided above to join the interview.</p>
           <p>Thank you for considering InterviewXperts, and we appreciate your time and contribution to the interview process. We look forward to speaking with you and learning more about your qualifications.</p>
           <p>Best regards,<br/>Sujith S<br/>InterviewXperts Team</p>
@@ -221,7 +221,7 @@ export const adminServiceImplementation = () => {
           <p>Interview Details:</p>
           <p>- Date: ${Date}</p>
           <p>- Time: ${Time}</p>
-          <p>- Meeting Link: <a href="http://localhost:5173/meeting/${interviewToken}">Join Interview Meeting</a></p>
+          <p>- Meeting Link: <a href="https://interviewxperts.online/${interviewToken}">Join Interview Meeting</a></p>
           <p>Please make sure to be available at the designated time and click on the meeting link above to join the interview.</p>
           <p>Thank you for your interest in InterviewXperts. We look forward to speaking with you.</p>
           <p>Best regards,<br/>Sujith S<br/>InterviewXperts Team</p>
