@@ -15,14 +15,14 @@ const interviewExpertLanding_1 = __importDefault(require("./interviewExpertLandi
 const ChatRoute_1 = __importDefault(require("./ChatRoute"));
 const message_1 = __importDefault(require("./message"));
 const routes = (app) => {
-    app.use('/api/auth', (0, auth_1.default)());
-    app.use('/api/company', companyinterviewerMiddleware_1.authenticateToken, (0, company_1.default)());
-    app.use('/api/admin/auth', (0, adminAuthRoute_1.default)());
-    app.use('/api/admin', adminMiddleware_1.adminauthenticateToken, (0, admin_1.default)());
-    app.use('/api', (0, Landing_1.default)());
-    app.use('/api', (0, interviewExpertLanding_1.default)());
-    app.use('/api/interviewer', companyinterviewerMiddleware_1.authenticateToken, (0, Interviewer_1.default)());
-    app.use('/api/chat', (0, ChatRoute_1.default)());
-    app.use('/api/message', (0, message_1.default)());
+    app.use("/api/auth", (0, auth_1.default)());
+    app.use("/api/company", companyinterviewerMiddleware_1.authenticateToken, (0, company_1.default)());
+    app.use("/api/admin/auth", (0, adminAuthRoute_1.default)());
+    app.use("/api/admin", adminMiddleware_1.adminauthenticateToken, (0, admin_1.default)());
+    app.use("/api", (0, Landing_1.default)());
+    app.use("/api", (0, interviewExpertLanding_1.default)());
+    app.use("/api/interviewer", companyinterviewerMiddleware_1.authenticateToken, (0, Interviewer_1.default)());
+    app.use("/api/company/chat", (0, ChatRoute_1.default)());
+    app.use("/api/message", (0, message_1.default)());
 };
 exports.default = routes;
