@@ -24,11 +24,12 @@ import {
 } from "../../../Features/Slices/Interviewer/Interviewer";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+
 const StyledContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "start",
-  marginTop: "11rem",
+  marginTop: "17rem",
   height: "50vh",
   flexDirection: "column",
 }));
@@ -124,53 +125,10 @@ const InterviewerAvailability = () => {
   };
 
   return (
-    <Box marginTop={"10rem"}>
-      <Grid container>
+    <StyledContainer>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={6}>
-          <Typography variant="h5" textAlign={"center"}>
-            {" "}
-            Available Timeslot
-          </Typography>
-
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Day of Week</TableCell>
-                  <TableCell>Times</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {avilableTimeslots &&
-                  avilableTimeslots.map((Times) => (
-                    <TableRow key={Times.id}>
-                      <TableCell>{Times.id}</TableCell>
-                      <TableCell>{Times.date}</TableCell>
-                      <TableCell>{Times.dayOfWeek}</TableCell>
-                      <TableCell>{Times.timeSlots}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={6}
-          lg={6}
-          sx={{
-            display: "flex",
-            justifyContent: isSmallScreen ? "start" : "center",
-            marginLeft: "0",
-            marginRight: "0",
-          }}
-        >
-          <StyledBox height={"fit-content"}>
+          <StyledBox>
             <Typography variant="h5" gutterBottom>
               Interviewer Availability
             </Typography>
@@ -227,8 +185,36 @@ const InterviewerAvailability = () => {
             )}
           </StyledBox>
         </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
+          <Typography variant="h5" textAlign="center">
+            Available Timeslots
+          </Typography>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Day of Week</TableCell>
+                  <TableCell>Times</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {avilableTimeslots &&
+                  avilableTimeslots.map((Times) => (
+                    <TableRow key={Times.id}>
+                      <TableCell>{Times.id}</TableCell>
+                      <TableCell>{Times.date}</TableCell>
+                      <TableCell>{Times.dayOfWeek}</TableCell>
+                      <TableCell>{Times.timeSlots}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
       </Grid>
-    </Box>
+    </StyledContainer>
   );
 };
 
