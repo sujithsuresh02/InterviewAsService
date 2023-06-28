@@ -4,13 +4,17 @@ exports.authServiceInterface = void 0;
 const authServiceInterface = (service) => {
     const encryptPassword = (password) => service.encryptPassword(password);
     const comparePassword = (password, hashedPassword) => service.comparePassword(password, hashedPassword);
-    const verifyPassword = (token) => service.verifyToken(token);
-    const generateToken = (payload) => service.generateToken(payload);
+    const generateAcessesToken = (payload) => service.generateAcessesToken(payload);
+    const generateRefreshTokenToken = (payload) => service.generateRefreshTokenToken(payload);
+    const verifyAccessToken = (token) => service.verifyAccessToken(token);
+    const verifyRefereshToken = (token) => service.verifyRefreshToken(token);
     return {
         encryptPassword,
         comparePassword,
-        verifyPassword,
-        generateToken
+        generateAcessesToken,
+        generateRefreshTokenToken,
+        verifyAccessToken,
+        verifyRefereshToken
     };
 };
 exports.authServiceInterface = authServiceInterface;

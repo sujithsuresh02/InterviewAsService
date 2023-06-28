@@ -10,19 +10,25 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const body_parser_1 = __importDefault(require("body-parser"));
 // import configKeys from "../../config";
 // import mongoSanitize from 'express-mongo-sanitize'
-// import helmet from "helmet";
 const expressConfig = (app) => {
     // Development logging
+    // Set up CORS headers
+    app.use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+        next();
+    });
+    app.use((0, cors_1.default)({
+        origin: '*',
+        methods: 'GET, POST, PUT, PATCH, DELETE',
+        credentials: true,
+    }));
     app.use((0, morgan_1.default)("dev"));
     app.use(body_parser_1.default.json());
     app.use(body_parser_1.default.urlencoded({ extended: true }));
-    app.use((0, cors_1.default)({
-        origin: "http://localhost:5173",
-    }));
     app.use(express_1.default.json());
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cookie_parser_1.default)());
-    // app.use(helmet({xssFilter:true}))
     // app.use(mongoSanitize())
 };
 exports.default = expressConfig;
