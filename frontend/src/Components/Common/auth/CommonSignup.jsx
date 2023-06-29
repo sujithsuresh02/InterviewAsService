@@ -30,7 +30,6 @@ const SignupForm = () => {
   const { token } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(demoTokens, "demo");
   const interviewerToken = useSelector(
     (state) => state?.becomeInterviewExpert?.interviewExperts
   );
