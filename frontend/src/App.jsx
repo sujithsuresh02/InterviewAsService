@@ -95,7 +95,7 @@ function App() {
                   />
                   <Route
                     exact
-                    path="/signup"
+                    path="/signup/:token"
                     expect
                     element={<SignupForm />}
                   />
