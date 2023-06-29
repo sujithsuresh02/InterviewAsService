@@ -16,7 +16,7 @@ export const validateSignupToken = createAsyncThunk(
   "validateSignupToken",
   async (token) => {
     try {
-      const response = await myAxios.get(`/signup${token}`,);
+      const response = await myAxios.get(`/signup/${token}`,);
       return response.data;
     } catch (error) {
       console.log(error?.response?.data?.message, "this slic eerror");
