@@ -35,6 +35,27 @@ const SignupForm = () => {
     (state) => state?.becomeInterviewExpert?.interviewExperts
   );
 
+  useEffect(() => {
+    dispatch(validateSignupToken(token));
+  }, [dispatch, validateSignupToken]);
+
+
+
+  const demoTokens = useSelector(
+    (state) => state?.CommonSignup?.validateSignup
+  );
+console.log(demoTokens,"demotokens");
+
+  demoTokens.forEach((obj) => {
+    if (obj?.validationToken === token) {
+      console.log("Token match found!");
+      console.log(obj);
+      return;
+    } else {
+      navigate("/");
+    }
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -101,22 +122,8 @@ const SignupForm = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(validateSignupToken(token));
-  }, [dispatch, validateSignupToken]);
 
-  const demoTokens = useSelector(
-    (state) => state?.CommonSignup?.validateSignup
-  );
-  demoTokens.forEach((obj) => {
-    if (obj?.validationToken === token) {
-      console.log("Token match found!");
-      console.log(obj);
-      return;
-    } else {
-      navigate("/");
-    }
-  });
+
 
   return (
     <Grid
