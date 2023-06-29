@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.googleUserLogin = exports.performLogin = exports.companyRegister = void 0;
+exports.signupPageValidation = exports.googleUserLogin = exports.performLogin = exports.companyRegister = void 0;
 const httpStatus_1 = require("../../types/httpStatus");
 const appError_1 = __importDefault(require("../../utils/appError"));
 const companyRegister = async (signupDetails, companyRepository, authService) => {
@@ -93,3 +93,7 @@ const googleUserLogin = async (user, authRepository, authService) => {
     }
 };
 exports.googleUserLogin = googleUserLogin;
+const signupPageValidation = async (toekn, authRepository) => {
+    return await authRepository.signupvaliadtion(toekn);
+};
+exports.signupPageValidation = signupPageValidation;

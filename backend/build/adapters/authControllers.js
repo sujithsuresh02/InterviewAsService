@@ -57,10 +57,18 @@ const authcontroller = (authServiceInterface, authServiceImplementation, Company
             token,
         });
     });
+    const valiadteSignup = (0, express_async_handler_1.default)(async (req, res) => {
+        const token = req.params.token;
+        const validationToken = (0, auth_1.signupPageValidation)(token, dbRepositoryCompany);
+        res.json({
+            validationToken: validationToken
+        });
+    });
     return {
         registerCompany,
         login,
-        loginWithGoogle
+        loginWithGoogle,
+        valiadteSignup
     };
 };
 exports.default = authcontroller;

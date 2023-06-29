@@ -222,7 +222,7 @@ export const companyServiceImplementation = () => {
         html: `  <p>Dear ${name},</p>
         <p>We have received a request to reset your password for your InterviewXperts account. If you did not make this request, please ignore this email.</p>
         <p>To reset your password, please click on the following link:</p>
-        <p><a href="http://localhost:5173/company/reset_password/${Token}">Reset Password</a></p>
+        <p><a href="https://interviewxperts.online/reset_password/${Token}">Reset Password</a></p>
         <p>If the link doesn't work, you can copy and paste the following URL into your web browser:</p>
         <p>Please note that this link is valid for a limited time. After that, you'll need to request a new password reset.</p>
         <p>If you have any questions or need further assistance, please contact our support team.</p>

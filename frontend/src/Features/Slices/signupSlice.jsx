@@ -12,9 +12,21 @@ export const postSignup = createAsyncThunk(
     }
   }
 );
+export const validateSignupToken = createAsyncThunk(
+  "validateSignupToken",
+  async (token) => {
+    try {
+      const response = await myAxios.get(`/signup${token}`,);
+      return response.data;
+    } catch (error) {
+      console.log(error?.response?.data?.message, "this slic eerror");
+    }
+  }
+);
 
 const initialState = {
  SignupToken:[],
+ validateSignup:[]
 };
 
 const signupSlice = createSlice({
@@ -27,6 +39,10 @@ const signupSlice = createSlice({
       .addCase(postSignup.fulfilled, (state, action) => {
         console.log(action,"signup action");
         state.SignupToken.push(action.payload?.result)
+      })
+      .addCase(validateSignupToken.fulfilled, (state, action) => {
+        console.log(action,"signup action");
+        state.validateSignup.push(action.payload?.validationToken)
       })
       .addCase(postSignup.rejected, (state, action) => {});
   },

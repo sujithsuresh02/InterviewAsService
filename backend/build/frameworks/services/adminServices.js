@@ -207,7 +207,7 @@ const adminServiceImplementation = () => {
           <p>Interview Details:</p>
           <p>- Date: ${Date}</p>
           <p>- Time: ${Time}</p>
-          <p>- Meeting Link: <a href="https://interviewxperts.online/${interviewToken}">Join Interview Meeting</a></p>
+          <p>- Meeting Link: <a href="https://interviewxperts.online/meeting/${interviewToken}">Join Interview Meeting</a></p>
           <p>Please make sure to be available at the designated time and click on the meeting link above to join the interview.</p>
           <p>Thank you for your interest in InterviewXperts. We look forward to speaking with you.</p>
           <p>Best regards,<br/>Sujith S<br/>InterviewXperts Team</p>

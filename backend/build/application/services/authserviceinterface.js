@@ -14,7 +14,7 @@ const authServiceInterface = (service) => {
         generateAcessesToken,
         generateRefreshTokenToken,
         verifyAccessToken,
-        verifyRefereshToken
+        verifyRefereshToken,
     };
 };
 exports.authServiceInterface = authServiceInterface;

@@ -22,11 +22,14 @@ export const companyDbRepository = (
  const getByEmailSignup=async(email:string,role:string)=>{
  return await repository.getByEmailSignup (email,role);
  }
+ const signupvaliadtion = (token:any) => repository.validateSignupPage(token)
+
 
   return {
     registerCompany,
     getByEmail,
     getByEmailSignup,
+    signupvaliadtion
   };
 };
 export type CompanyDbInterface = typeof companyDbRepository;

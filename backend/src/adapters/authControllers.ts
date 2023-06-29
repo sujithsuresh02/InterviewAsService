@@ -5,7 +5,7 @@ import { AuthService } from "../frameworks/services/authserviceimplementaion";
 import { CompanyDbInterface } from "../application/repositories/companyRepositoriesInterface";
 import { companyDbImplementation } from "../frameworks/database/Postgres/repositories/companyRepostoriesImplementation";
 import { GoogleUserInteface } from "../types/authinterface";
-import { companyRegister,performLogin ,googleUserLogin} from "../application/useCases/auth";
+import { companyRegister,performLogin ,googleUserLogin,signupPageValidation} from "../application/useCases/auth";
 const authcontroller = (
   authServiceInterface: AuthServiceInterface,
   authServiceImplementation: AuthService,
@@ -80,10 +80,21 @@ const authcontroller = (
       token,
     });
   })
+
+  const valiadteSignup = asyncHandler(async (req: Request, res: Response) => {
+
+     const token= req.params.token
+     const validationToken:any = signupPageValidation(token,dbRepositoryCompany)
+     res.json({
+      validationToken:validationToken
+     })
+  })
+   
   return {
     registerCompany,
     login,
-    loginWithGoogle
+    loginWithGoogle,
+    valiadteSignup
   };
 };
 export default authcontroller;

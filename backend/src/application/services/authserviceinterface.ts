@@ -18,7 +18,7 @@ export const authServiceInterface=(service:AuthServiceImple) => {
       generateAcessesToken,
       generateRefreshTokenToken,
       verifyAccessToken,
-      verifyRefereshToken
+      verifyRefereshToken,
     };
 
    

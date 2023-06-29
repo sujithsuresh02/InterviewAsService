@@ -148,3 +148,11 @@ export const googleUserLogin = async (
     // return {accessToken,refreshTokenToken}
   }
 };
+
+
+export const signupPageValidation= async(toekn:string,
+  authRepository: ReturnType<CompanyDbInterface>,
+)=>{
+
+return await authRepository.signupvaliadtion(toekn)
+}

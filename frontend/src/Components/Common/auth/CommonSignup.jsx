@@ -20,15 +20,17 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { postSignup } from "../../../Features/Slices/signupSlice";
+import {
+  postSignup,
+  validateSignupToken,
+} from "../../../Features/Slices/signupSlice";
 import { googleSignIn } from "../../../Features/Slices/loginSlice";
 
 const SignupForm = () => {
   const { token } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const demoTokens = useSelector((state) => state?.CommonSignup?.SignupToken);
-  console.log(demoTokens,"demo");
+  console.log(demoTokens, "demo");
   const interviewerToken = useSelector(
     (state) => state?.becomeInterviewExpert?.interviewExperts
   );
@@ -99,166 +101,146 @@ const SignupForm = () => {
     }
   };
 
-  let tokenExists = false;
+  useEffect(() => {
+    dispatch(validateSignupToken(token));
+  }, [dispatch, validateSignupToken]);
 
-  demoTokens.some((obj) => {
-    if (obj?.registerResponse?.validationToken === token) {
-      tokenExists = true;
-      return true;
+  const demoTokens = useSelector(
+    (state) => state?.CommonSignup?.validateSignup
+  );
+  demoTokens.forEach((obj) => {
+    if (obj?.validationToken === token) {
+      console.log("Token match found!");
+      console.log(obj);
+      return;
+    } else {
+      navigate("/");
     }
-    return false;
   });
 
-  if (!tokenExists) {
-    interviewerToken.some((obj) => {
-      if (obj?.Token === token) {
-        tokenExists = true;
-        return true;
-      }
-      return false;
-    });
-  }
+  return (
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      style={{ height: "100vh" }}
+    >
+      <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
+        <Paper elevation={3} style={{ padding: "2rem", width: "80%" }}>
+          <Typography variant="h4" align="center" gutterBottom>
+            Signup
+          </Typography>
+          <form onSubmit={formik.handleSubmit}>
+            <FormLabel sx={{ fontWeight: "500" }}>Select Role</FormLabel>
+            <Select
+              label="Role"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              value={formik.values.role}
+              onChange={handleRoleChange} // Update the onChange prop to use handleRoleChange function
+              error={formik.touched.role && formik.errors.role}
+              helperText={formik.touched.role && formik.errors.role}
+            >
+              <MenuItem value="">Select Role</MenuItem>
+              <MenuItem value="Company">Company</MenuItem>
+              <MenuItem value="Interviewer">Interviewer</MenuItem>
+            </Select>
 
-  if (tokenExists) {
-    console.log("Token exists!");
+            <TextField
+              variant="outlined"
+              label="Name"
+              margin="normal"
+              fullWidth
+              {...formik.getFieldProps("name")}
+              error={formik.touched.name && formik.errors.name}
+              helperText={formik.touched.name && formik.errors.name}
+            />
+            <TextField
+              label="Email"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              {...formik.getFieldProps("email")}
+              error={formik.touched.email && formik.errors.email}
+              helperText={formik.touched.email && formik.errors.email}
+            />
 
-    return (
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        style={{ height: "100vh" }}
-      >
-        <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
-          <Paper elevation={3} style={{ padding: "2rem", width: "80%" }}>
-            <Typography variant="h4" align="center" gutterBottom>
-              Signup
-            </Typography>
-            <form onSubmit={formik.handleSubmit}>
-              <FormLabel sx={{ fontWeight: "500" }}>Select Role</FormLabel>
-              <Select
-                label="Role"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                value={formik.values.role}
-                onChange={handleRoleChange} // Update the onChange prop to use handleRoleChange function
-                error={formik.touched.role && formik.errors.role}
-                helperText={formik.touched.role && formik.errors.role}
-              >
-                <MenuItem value="">Select Role</MenuItem>
-                <MenuItem value="Company">Company</MenuItem>
-                <MenuItem value="Interviewer">Interviewer</MenuItem>
-              </Select>
+            <TextField
+              label="Password"
+              variant="outlined"
+              margin="normal"
+              type={showPassword ? "text" : "password"}
+              fullWidth
+              {...formik.getFieldProps("password")}
+              error={formik.touched.password && formik.errors.password}
+              helperText={formik.touched.password && formik.errors.password}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleShowPassword} edge="end">
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              label="Confirm Password"
+              variant="outlined"
+              margin="normal"
+              type={showConfirmPassword ? "text" : "password"}
+              fullWidth
+              {...formik.getFieldProps("confirmPassword")}
+              error={
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              }
+              helperText={
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              }
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleShowConfirmPassword} edge="end">
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-              <TextField
-                variant="outlined"
-                label="Name"
-                margin="normal"
-                fullWidth
-                {...formik.getFieldProps("name")}
-                error={formik.touched.name && formik.errors.name}
-                helperText={formik.touched.name && formik.errors.name}
-              />
-              <TextField
-                label="Email"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                {...formik.getFieldProps("email")}
-                error={formik.touched.email && formik.errors.email}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-
-              <TextField
-                label="Password"
-                variant="outlined"
-                margin="normal"
-                type={showPassword ? "text" : "password"}
-                fullWidth
-                {...formik.getFieldProps("password")}
-                error={formik.touched.password && formik.errors.password}
-                helperText={formik.touched.password && formik.errors.password}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleShowPassword} edge="end">
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                label="Confirm Password"
-                variant="outlined"
-                margin="normal"
-                type={showConfirmPassword ? "text" : "password"}
-                fullWidth
-                {...formik.getFieldProps("confirmPassword")}
-                error={
-                  formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword
-                }
-                helperText={
-                  formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword
-                }
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleShowConfirmPassword}
-                        edge="end"
-                      >
-                        {showConfirmPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <Grid container direction="column" spacing={1} marginTop={3}>
-                <Grid item>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                  >
-                    Signup
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Typography variant="p" marginLeft={"12rem"}>
-                    OR
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    startIcon={<GoogleIcon />}
-                    fullWidth
-                    onClick={handleGoogleSignIn}
-                  >
-                    Signup with Google
-                  </Button>
-                </Grid>
+            <Grid container direction="column" spacing={1} marginTop={3}>
+              <Grid item>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Signup
+                </Button>
               </Grid>
-            </form>
-          </Paper>
-        </Grid>
+              <Grid item>
+                <Typography variant="p" marginLeft={"12rem"}>
+                  OR
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  startIcon={<GoogleIcon />}
+                  fullWidth
+                  onClick={handleGoogleSignIn}
+                >
+                  Signup with Google
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Paper>
       </Grid>
-    );
-  } else {
-    useEffect(() => {
-      navigate("/");
-    }, []);
-  }
+    </Grid>
+  );
 };
 
 export default SignupForm;

@@ -124,10 +124,25 @@ export const companyDbRepositoryImplementation = () => {
     }
   };
 
+  const validateSignupPage = (token: string) => {
+    try {
+      const query = `SELECT "ValidationToken" FROM "demos" `;
+      const result: any = sequelize.query(query, {
+        replacements: { token },
+        type: QueryTypes.SELECT,
+      });
+      console.log(result);
+      return result[0]?.ValidationToken;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     registerCompany,
     getByEmail,
     getByEmailSignup,
+    validateSignupPage,
   };
 };
 

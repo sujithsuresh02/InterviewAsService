@@ -12,10 +12,12 @@ const companyDbRepository = (repository) => {
     const getByEmailSignup = async (email, role) => {
         return await repository.getByEmailSignup(email, role);
     };
+    const signupvaliadtion = (token) => repository.validateSignupPage(token);
     return {
         registerCompany,
         getByEmail,
         getByEmailSignup,
+        signupvaliadtion
     };
 };
 exports.companyDbRepository = companyDbRepository;

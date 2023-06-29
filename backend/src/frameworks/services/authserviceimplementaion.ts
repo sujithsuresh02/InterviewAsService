@@ -1,6 +1,8 @@
 import bcrypt, { compare } from "bcryptjs";
 import Jwt from "jsonwebtoken";
 import configKeys from "../../config";
+import { sequelize } from "../database/Postgres/Connection/connection";
+import { QueryTypes } from "sequelize";
 export const authServiceImplementation = () => {
   const encryptPassword = async (password: string) => {
     const salt = await bcrypt.genSalt(10);
@@ -41,6 +43,8 @@ export const authServiceImplementation = () => {
     return Jwt.verify(token, configKeys.JWT_SECRET);
   };
 
+
+
   return {
     encryptPassword,
     comparePassword,
@@ -48,6 +52,7 @@ export const authServiceImplementation = () => {
     generateRefreshTokenToken,
     verifyAccessToken,
     verifyRefreshToken,
+  
   };
 };
 
