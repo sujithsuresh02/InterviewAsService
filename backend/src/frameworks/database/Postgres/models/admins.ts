@@ -5,8 +5,8 @@ export const initAdminModel = (sequelize: Sequelize) => {
   return sequelize.define('admins', {
 
     id: {
-      type: DataTypes.BIGINT,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue:uuidv4,
       primaryKey: true,
     },
     name: {

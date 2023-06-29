@@ -35,7 +35,8 @@ const EditProfile = () => {
 
   useEffect(() => {
     dispatch(getInterviewerDetails());
-  }, []);
+  }, [dispatch,getInterviewerDetails]);
+  console.log(interviewerDetails,"iterview");
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
@@ -51,8 +52,8 @@ const EditProfile = () => {
       </Typography>
       <Formik
         initialValues={{
-          username: interviewerDetails.name || "",
-          changeEmail: interviewerDetails.email || "",
+          username: interviewerDetails?.name || "",
+          changeEmail: interviewerDetails?.email || "",
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}

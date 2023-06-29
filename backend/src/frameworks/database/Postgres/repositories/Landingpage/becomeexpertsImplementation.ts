@@ -53,11 +53,15 @@ export const becomeExpertsImplementation = () => {
 
   const validateinterviewToken = async (Token: string) => {
     try {
+      console.log(Token,"token");
+      
       const query = ` SELECT "interviewToken" FROM "interviews" WHERE "interviewToken" = :Token`;
       const response: any = await sequelize.query(query, {
         replacements: { Token: Token },
         type: QueryTypes.SELECT,
       });
+      console.log(response,"response");
+      
       return response[0].interviewToken;
     } catch (error) {
       console.log(error);

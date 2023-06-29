@@ -14,15 +14,17 @@ const chat = (0, chat_1.initChatModel)(connection_1.sequelize);
 const chatDbImplementaion = () => {
     const createChat = async (senderId) => {
         try {
-            const query = `SELECT "id"  FROM "admins"`;
-            const admins = await connection_1.sequelize.query(query, {
+            const adminquery = `SELECT "id" FROM "admins"`;
+            const admins = await connection_1.sequelize.query(adminquery, {
                 type: sequelize_1.QueryTypes.SELECT,
+            }).catch((error) => {
+                console.error('Error executing query:', error);
+                throw error;
             });
             console.log(admins, "admins");
-            const existingquery = ` SELECT "clientId" FROM "chats" WHERE "clientId"=:senderId
-          `;
+            const existingquery = ` SELECT "clientId" FROM "chats" WHERE "clientId"=:senderId`;
             const existingChat = await connection_1.sequelize.query(existingquery, {
-                replacements: { senderId },
+                replacements: { senderId: senderId },
                 type: sequelize_1.QueryTypes.SELECT,
             });
             console.log(existingChat, "existing chat");

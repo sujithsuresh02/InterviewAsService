@@ -8,6 +8,7 @@ const Chat_1 = require("../../../application/useCases/Chat/Chat");
 const chatController = (chatDbInterface, chatDbImplementation) => {
     const chatDbRepository = chatDbInterface(chatDbImplementation());
     const createChat = (0, express_async_handler_1.default)(async (req, res) => {
+        console.log(req.body, "body");
         const { senderId } = req.body;
         const newChat = await (0, Chat_1.chatCreate)(senderId, chatDbRepository);
         console.log(newChat, "newchat");

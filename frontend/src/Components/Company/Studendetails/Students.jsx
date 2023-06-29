@@ -17,18 +17,24 @@ import {
   Stack,
 } from "@mui/material";
 import "./Style.css";
-import {useNavigate} from "react-router-dom"
-import { getInterviewFeedback } from "../../../Features/Slices/companySlice/companySlice";
+import { useNavigate } from "react-router-dom";
+import { getInterviewfeedback } from "../../../Features/Slices/companySlice/companySlice";
 
 const Students = () => {
   const dispatch = useDispatch();
- const navigate=useNavigate()
+  const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    const feedback = () => {
+      dispatch(getInterviewfeedback());
+    };
+    feedback();
+  }, [dispatch, getInterviewfeedback]);
+  
+
   const studentDetails = useSelector((state) => state?.addrequest?.feedback);
   console.log(studentDetails, "student");
-
-  useEffect(() => {
-    dispatch(getInterviewFeedback());
-  }, []);
 
   const StyledButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
@@ -39,8 +45,7 @@ const Students = () => {
   }));
 
   const handleViewMore = (studentId) => {
-    navigate(`/company/feedback/${studentId}`)
-
+    navigate(`/company/feedback/${studentId}`);
   };
 
   const [page, setPage] = useState(1);
@@ -106,8 +111,8 @@ const Students = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {studentDetails?.length > 0 ? (
-                      studentDetails?.map((student) => {
+                    {paginatedData?.length > 0 ? (
+                      paginatedData?.map((student) => {
                         let statusColor = "";
 
                         const totalInterviewScore = parseInt(
@@ -139,7 +144,9 @@ const Students = () => {
                             <TableCell>
                               <StyledButton
                                 variant="contained"
-                                onClick={() => handleViewMore(student.studentId)}
+                                onClick={() =>
+                                  handleViewMore(student.studentId)
+                                }
                               >
                                 View Details
                               </StyledButton>

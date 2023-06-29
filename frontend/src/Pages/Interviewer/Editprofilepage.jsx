@@ -9,7 +9,14 @@ export default function Editprofilepage() {
       style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
     >
       <Header />
-      <div style={{ flex: 1 }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          minHeight: "calc(100vh - 8rem)",
+        }}
+      >
         <InterviewerProfilesidebar pages={<EditProfile />} />
       </div>
       <Footer />

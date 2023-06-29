@@ -18,29 +18,13 @@ import { styled } from "@mui/material";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTheme } from "@mui/material/styles";
+import moment from "moment"; // import moment library
 import {
   addAvabilityTimeSlot,
   getAllInterviewerAvailableTime,
 } from "../../../Features/Slices/Interviewer/Interviewer";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-
-const StyledContainer = styled(Container)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "start",
-  marginTop: "17rem",
-  height: "50vh",
-  flexDirection: "column",
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  width: "300px",
-  padding: "2rem",
-  boxShadow: theme.shadows[4],
-  borderRadius: "8px",
-  backgroundColor: "#fff",
-}));
 
 const InterviewerAvailability = () => {
   const theme = useTheme();
@@ -89,13 +73,13 @@ const InterviewerAvailability = () => {
     const formattedTimes = selectedTimes.map((time) => `${time}-${time + 1}`);
 
     const availabilityData = {
-      date: selectedDate?.toLocaleDateString(),
-      dayOfWeek: selectedDate?.toLocaleDateString("en-US", { weekday: "long" }),
+      date: moment(selectedDate).format("DD/MM/YYYY"), // Format the date using moment
+      dayOfWeek: moment(selectedDate).format("dddd"), // Format the day of the week using moment
       times: formattedTimes,
     };
 
-    dispatch(addAvabilityTimeSlot(availabilityData)).then((resposne) => {
-      toast.success(resposne?.payload?.data?.message);
+    dispatch(addAvabilityTimeSlot(availabilityData)).then((response) => {
+      toast.success(response?.payload?.data?.message);
       dispatch(getAllInterviewerAvailableTime());
     });
     setSelectedDate(null);
@@ -114,7 +98,12 @@ const InterviewerAvailability = () => {
           key={hour}
           variant={isSelected ? "contained" : "outlined"}
           onClick={() => handleTimeSelection(hour)}
-          style={{ margin: "0.5rem" }}
+          style={{
+            margin: "0.5rem",
+            borderColor: isSelected ? "green" : "grey",
+            borderWidth: isSelected ? "2px" : "1px",
+            fontWeight: isSelected ? "bold" : "normal",
+          }}
         >
           {timeRange}
         </Button>
@@ -125,65 +114,72 @@ const InterviewerAvailability = () => {
   };
 
   return (
-    <StyledContainer>
+    <Container sx={{ marginTop: "10rem" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={6}>
-          <StyledBox>
-            <Typography variant="h5" gutterBottom>
-              Interviewer Availability
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <Typography variant="subtitle1" gutterBottom>
-                Select Date:
+          <Box height="400px" overflowY="auto" paddingBottom="2rem">
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                Interviewer Availability
               </Typography>
-              <DatePicker
-                selected={selectedDate}
-                onChange={handleDateChange}
-                placeholderText="Select a date"
-                calendarClassName="datepicker-calendar"
-                shouldCloseOnSelect={false}
-                isClearable
-                showYearDropdown
-                scrollableYearDropdown
-              />
-              {selectedDate && (
-                <>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Selected Date: {selectedDate.toLocaleDateString()}
-                  </Typography>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Select Time Slots:
-                  </Typography>
-                  <Box display="flex" justifyContent="center" flexWrap="wrap">
-                    {renderTimeSlots()}
-                  </Box>
-                  <Button variant="contained" type="submit" mt={2}>
-                    Update Availability
-                  </Button>
-                </>
-              )}
-            </form>
-            {selectedTimes.length > 0 && (
-              <Box mt={2}>
+              <form onSubmit={handleSubmit}>
                 <Typography variant="subtitle1" gutterBottom>
-                  Selected Times:
+                  Select Date:
                 </Typography>
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                  {selectedTimes.map((time) => (
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={handleDateChange}
+                  placeholderText="Select a date"
+                  calendarClassName="datepicker-calendar"
+                  shouldCloseOnSelect={false}
+                  isClearable
+                  showYearDropdown
+                  scrollableYearDropdown
+                />
+                {selectedDate && (
+                  <>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Selected Date: {moment(selectedDate).format("DD/MM/YYYY")}
+                    </Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Select Time Slots:
+                    </Typography>
                     <Box
-                      key={time}
-                      p={1}
-                      m={1}
-                      borderRadius="4px"
-                      bgcolor="#f5f5f5"
+                      display="flex"
+                      justifyContent="center"
+                      flexWrap="wrap"
                     >
-                      {time}-{time + 1}
+                      {renderTimeSlots()}
                     </Box>
-                  ))}
+                    <Button variant="contained" type="submit" mt={2}>
+                      Update Availability
+                    </Button>
+                  </>
+                )}
+              </form>
+              {selectedTimes.length > 0 && (
+                <Box mt={2}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Selected Times:
+                  </Typography>
+                  <Box display="flex" alignItems="center" flexWrap="wrap">
+                    {selectedTimes.map((time) => (
+                      <Box
+                        key={time}
+                        p={1}
+                        m={1}
+                        borderRadius="4px"
+                        bgcolor="#f5f5f5"
+                        style={{ border: "1px solid grey" }}
+                      >
+                        {time}-{time + 1}
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
-              </Box>
-            )}
-          </StyledBox>
+              )}
+            </Box>
+          </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6}>
           <Typography variant="h5" textAlign="center">
@@ -214,7 +210,7 @@ const InterviewerAvailability = () => {
           </TableContainer>
         </Grid>
       </Grid>
-    </StyledContainer>
+    </Container>
   );
 };
 

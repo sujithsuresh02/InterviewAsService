@@ -1,12 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import myAxios from "../../../api/company/addRequestSlice.api";
-
+import chatapi from "../../../api/Chat/Chat";
 export const addRequest = createAsyncThunk(
   "company/addRequest",
   async (values) => {
     try {
       console.log(values, "tokensss");
       const response = await myAxios.post("/add_request", values);
+      console.log(response);
+      console.log("reducer response");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+);
+export const initateChat = createAsyncThunk(
+  "initateChat",
+  async (values) => {
+    try {
+      console.log(values, "tokensss");
+      const response = await chatapi.post("/", values);
       console.log(response);
       console.log("reducer response");
       return response.data;
@@ -30,7 +45,7 @@ export const totalNumberOfCvCount = createAsyncThunk(
     }
   }
 );
-export const getInterviewFeedback = createAsyncThunk(
+export const getInterviewfeedback = createAsyncThunk(
   "getinterviewFeedback",
   async () => {
     try {
@@ -46,7 +61,8 @@ export const getInterviewFeedback = createAsyncThunk(
 const initialState = {
   response: {},
   totalCvUploaded: {},
-  feedback: {},
+  feedback: [],
+  initateChat:{}
 };
 
 const addRequestlice = createSlice({
@@ -66,10 +82,14 @@ const addRequestlice = createSlice({
         console.log("action totalcvuploads");
         state.totalCvUploaded = action?.payload?.response;
       })
-      .addCase(getInterviewFeedback.fulfilled, (state, action) => {
+      .addCase(getInterviewfeedback.fulfilled, (state, action) => {
         console.log(action,"dvhbcvnbv")
 
         state.feedback = action?.payload?.response;
+      })
+      .addCase(initateChat.fulfilled, (state, action) => {
+
+        state.initateChat = action?.payload;
       })
       .addCase(addRequest.rejected, (state, action) => {});
   },

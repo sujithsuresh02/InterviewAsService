@@ -168,7 +168,6 @@ const interviwerController = (
       });
     }
   });
- 
 
   return {
     addAvailableTimeSlot,

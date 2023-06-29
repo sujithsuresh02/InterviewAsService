@@ -70,8 +70,7 @@ const editProfile = async (username, changeEmail, companyid, CompanyDbRepository
 };
 exports.editProfile = editProfile;
 const getSignupdata = async (companyId, CompanyDbRepository) => {
-    const response = await CompanyDbRepository.signUpData(companyId);
-    return response;
+    return await CompanyDbRepository.signUpData(companyId);
 };
 exports.getSignupdata = getSignupdata;
 const uploadedCvCount = async (companyId, CompanyDbRepository) => {

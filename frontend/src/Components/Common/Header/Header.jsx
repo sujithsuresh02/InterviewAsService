@@ -17,22 +17,32 @@ import { Link } from "react-router-dom";
 import { logout } from "../../../Features/Slices/loginSlice";
 import Logo from "../../../Images/interviewXpertslogo.png";
 import ChatIcon from "@mui/icons-material/Chat";
+import { getSignupData } from "../../../Features/Slices/companySlice/Companyprofile";
+import { initateChat } from "../../../Features/Slices/companySlice/companySlice";
+let roles=null
 const Header = () => {
   const dispatch = useDispatch();
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const [value, setValue] = useState(0);
   const refreshToken = useSelector((state) => state?.Login?.refreshToken);
   const role = useSelector(
     (state) => state?.Login?.loginDetails?.matchedAccount?.role
   );
-  const roles = useSelector(
+  roles = useSelector(
     (state) => state?.Login?.loginDetails?.matchedAccount?.name
   );
+
+ 
+   const companyId=  useSelector(
+    (state) => state?.Login?.loginDetails?.matchedAccount?.id
+  );
+  console.log(companyId,"companyId");
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleChatIconClick = () => {
-     navigate('/company/chat')
+    dispatch(initateChat({senderId:companyId}))
+    navigate("/chat");
   };
   const getPages = () => {
     if (role === "company" && refreshToken) {
@@ -100,9 +110,11 @@ const Header = () => {
                   </Link>
                 ))}
               </Tabs>
-              <Box sx={{ marginLeft: "auto", marginRight: "3rem" }}>
-                <ChatIcon color="primary" onClick={handleChatIconClick} />
-              </Box>
+              {refreshToken && role === "company" && (
+                <Box sx={{ marginLeft: "auto", marginRight: "3rem" }}>
+                  <ChatIcon color="primary" onClick={()=>handleChatIconClick(companyId)} />
+                </Box>
+              )}
               <div>
                 {refreshToken && role === "company" && (
                   <Link to="/company/profile">

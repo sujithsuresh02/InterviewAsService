@@ -9,14 +9,27 @@ import { editProfile } from "../../../Features/Slices/companySlice/Companyprofil
 import { resetPasswordConfirmationMail } from "../../../Features/Slices/companySlice/Companyprofile";
 const EditProfile = () => {
   const dispatch = useDispatch();
+  
+
+
+  useEffect(() => {
+    dispatch(getSignupData());
+  }, [dispatch,getSignupData]);
+
   const signupData = useSelector((state) => state?.profile?.getSignupData);
+  console.log(signupData,"signup data");
+
+
 
   const handleSubmit = async (values) => {
     console.log(values);
-    const response = dispatch(editProfile(values));
+    const response = await dispatch(editProfile(values));
     console.log(response, "editprofilepahe");
+ if(response?.payload){
 
-    toast.success(response?.payload?.message);
+   toast.success(response?.payload?.message);
+   dispatch(getSignupData())
+ }
   };
 
   const handleresetpassword = ({ name, email }) => {
@@ -29,9 +42,7 @@ const EditProfile = () => {
       }
     );
   };
-  useEffect(() => {
-    dispatch(getSignupData());
-  }, [getSignupData]);
+
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
@@ -46,9 +57,10 @@ const EditProfile = () => {
         Account Settings
       </Typography>
       <Formik
+      enableReinitialize:true
         initialValues={{
-          username: signupData.name,
-          changeEmail: signupData.email,
+          username: signupData[0]?.name||"",
+          changeEmail: signupData[0]?.email||"",
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -87,8 +99,8 @@ const EditProfile = () => {
                 color="primary"
                 onClick={() =>
                   handleresetpassword({
-                    name: signupData.name,
-                    email: signupData.email,
+                    name: signupData[0]?.name,
+                    email: signupData[0]?.email,
                   })
                 }
               >

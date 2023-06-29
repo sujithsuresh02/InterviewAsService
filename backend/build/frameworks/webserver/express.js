@@ -14,13 +14,13 @@ const expressConfig = (app) => {
     // Development logging
     // Set up CORS headers
     app.use((req, res, next) => {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
         next();
     });
     app.use((0, cors_1.default)({
         origin: ['https://www.interviewxperts.online', 'https://interviewxperts.online'],
-        methods: 'GET, POST, PUT, PATCH, DELETE',
+        methods: "GET, POST, PUT, PATCH, DELETE",
         credentials: true,
     }));
     app.use((0, morgan_1.default)("dev"));

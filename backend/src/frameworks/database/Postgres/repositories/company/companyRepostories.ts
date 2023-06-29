@@ -310,7 +310,7 @@ export const companiesDbImplementation = () => {
     companyId: BigInt
   ) => {
     try {
-      console.log("IMPLEMETAION");
+      console.log(username,changeEmail,companyId,"=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
       const result = await sequelize.query(
         `UPDATE "companies" SET "name" = :newName,email=:newEmail WHERE "id" = :companyId`,
@@ -333,12 +333,11 @@ export const companiesDbImplementation = () => {
     try {
       const query = `SELECT "name","email","id" FROM "companies" WHERE "id"=:companyId`;
 
-      const result = await sequelize.query(query, {
+   return await sequelize.query(query, {
         replacements: { companyId },
         type: QueryTypes.SELECT,
       });
-      console.log(result, "signupdata");
-      return result[0];
+  ;
     } catch (error) {
       console.log(error);
     }

@@ -2,7 +2,7 @@ import { Box, Grid, Typography, Divider, Button,useTheme,useMediaQuery } from "@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getInterviewFeedback } from "../../../Features/Slices/companySlice/companySlice";
+import { getInterviewfeedback } from "../../../Features/Slices/companySlice/companySlice";
 export default function Feedback() {
 
   const theme = useTheme();
@@ -12,8 +12,8 @@ export default function Feedback() {
   const navigate = useNavigate();
   const [feedback, setfeedback] = useState({});
   useEffect(() => {
-    dispatch(getInterviewFeedback());
-  }, []);
+    dispatch(getInterviewfeedback());
+  }, [getInterviewfeedback,dispatch]);
   console.log(studentId, "studentId");
   const feedbackDetails = useSelector((state) => state?.addrequest?.feedback);
   console.log(feedbackDetails, "feedbackDetails");

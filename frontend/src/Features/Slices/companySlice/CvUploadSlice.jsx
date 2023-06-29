@@ -48,7 +48,10 @@ const cvUploadSlice = createSlice({
         state.isLoading=false
         state.CvCount = action.payload;
       })
-      .addCase(cvUpload.rejected, (state, action) => {});
+      .addCase(cvUpload.rejected, (state, action) => {
+    state.isLoading =false
+
+      });
   },
 });
 export const { resetUploadedCvCount } = cvUploadSlice.actions;

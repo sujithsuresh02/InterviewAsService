@@ -21,19 +21,19 @@ const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server, {
     cors: {
         origin: ['https://interviewxperts.online', 'https://www.interviewxperts.online'],
-        methods: ["GET", "POST"]
-    }
+        methods: ["GET", "POST"],
+    },
 });
 //psql connection
 (0, Socket_1.default)(io);
 (0, connection_1.default)();
 (0, express_2.default)(app);
-app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, '../public/uploads')));
+app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "../public/uploads")));
 // routes for each endpoint
 (0, routes_1.default)(app);
 app.use(errorHandlingMiddleware_1.default);
 //  catch 404 and forward to error handler
-app.all('*', (req, res, next) => {
-    next(new appError_1.default('Not found', 404));
+app.all("*", (req, res, next) => {
+    next(new appError_1.default("Not found", 404));
 });
 (0, server_1.default)(server).startServer();

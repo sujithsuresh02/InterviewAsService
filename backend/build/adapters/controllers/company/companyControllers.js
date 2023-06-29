@@ -112,7 +112,8 @@ const companyController = (companyDbInterface, companiesDbImplementation, compan
         console.log(companyId, "id");
         const { username, changeEmail } = req.body;
         const editResponse = await (0, companies_1.editProfile)(username, changeEmail, companyId, CompanyDbRepository);
-        if (editResponse) {
+        console.log(editResponse, "profile resposne");
+        if (editResponse === true) {
             res.json({
                 message: "Profile Edited Successfully",
             });
@@ -121,11 +122,10 @@ const companyController = (companyDbInterface, companiesDbImplementation, compan
     const getCompanyDetails = (0, express_async_handler_1.default)(async (req, res) => {
         const companyId = req.id;
         const response = await (0, companies_1.getSignupdata)(companyId, CompanyDbRepository);
-        if (response) {
-            res.json({
-                response,
-            });
-        }
+        console.log(response, "response");
+        res.json({
+            response,
+        });
     });
     const TotalUploadedCv = (0, express_async_handler_1.default)(async (req, res) => {
         const companyId = req.id;

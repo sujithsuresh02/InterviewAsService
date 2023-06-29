@@ -9,7 +9,7 @@ export const initSubscriptionModal = (sequelize: Sequelize) => {
       primaryKey: true,
     },
     companyId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: "companies",
@@ -85,7 +85,7 @@ export const initPaymentmodal = (sequelize: Sequelize) => {
 
     },
     companyId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.UUID,
       allowNull: false,
 
       references: {

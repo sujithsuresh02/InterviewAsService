@@ -59,7 +59,6 @@ function CompanyRoutes() {
         element={refreshToken ? <Feedbackpage /> : <Navigate to="/" />}
       />
 
-      <Route path="/chat" element={<Chatpage/>} />
 
     </Routes>
   );

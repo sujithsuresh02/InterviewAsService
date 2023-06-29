@@ -6,8 +6,8 @@ const sequelize_2 = require("sequelize");
 const initCompanyModel = (sequelize) => {
     return sequelize.define('companies', {
         id: {
-            type: sequelize_1.DataTypes.BIGINT,
-            autoIncrement: true,
+            type: sequelize_1.DataTypes.UUID,
+            defaultValue: sequelize_2.UUIDV4,
             primaryKey: true,
         },
         name: {
@@ -60,8 +60,8 @@ exports.initStudentModel = initStudentModel;
 const initInterviewerModel = (sequelize) => {
     return sequelize.define('interviewers', {
         id: {
-            type: sequelize_1.DataTypes.BIGINT,
-            autoIncrement: true,
+            type: sequelize_1.DataTypes.UUID,
+            defaultValue: sequelize_2.UUIDV4,
             primaryKey: true,
         },
         name: {

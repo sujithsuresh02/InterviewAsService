@@ -16,10 +16,16 @@ const Times = (0, Interviewer_2.initTimesModal)(connection_1.sequelize);
 const interviwerDbImplementation = () => {
     const addAvailableTimeSlot = async ({ interviewerId, newdate, dayOfWeek, times, }) => {
         console.log(interviewerId, newdate, dayOfWeek, times);
-        const date = new Date(newdate);
-        console.log(typeof interviewerId);
+        const [day, month, year] = newdate.split("/"); // Split the newdate string
+        const formattedDate = new Date(year, month - 1, day); // Create a new Date object
+        console.log(formattedDate, "formatted date");
+        const date = formattedDate;
         try {
-            const result = await timeslots.create({ date, dayOfWeek, interviewerId });
+            const result = await timeslots.create({
+                date,
+                dayOfWeek,
+                interviewerId,
+            });
             let timeslotId = result?.dataValues?.id;
             const promises = times.map(async (time) => {
                 await Times.create({ timeSlot: time, status: "available", timeslotId });

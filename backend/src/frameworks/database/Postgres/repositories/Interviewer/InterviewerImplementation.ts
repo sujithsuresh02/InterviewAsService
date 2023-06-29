@@ -22,12 +22,17 @@ export const interviwerDbImplementation = () => {
     times,
   }: Timeslot) => {
     console.log(interviewerId, newdate, dayOfWeek, times);
+    const [day, month, year]: any = newdate.split("/"); // Split the newdate string
+    const formattedDate: any = new Date(year, month - 1, day); // Create a new Date object
 
-    const date = new Date(newdate);
-    console.log(typeof interviewerId);
-
+    console.log(formattedDate, "formatted date");
+    const date =formattedDate
     try {
-      const result = await timeslots.create({ date, dayOfWeek, interviewerId });
+      const result = await timeslots.create({
+        date,
+        dayOfWeek,
+        interviewerId,
+      });
       let timeslotId: String = result?.dataValues?.id;
 
       const promises = times.map(async (time) => {
@@ -276,7 +281,6 @@ export const interviwerDbImplementation = () => {
       console.log(error);
     }
   };
-
 
   return {
     addAvailableTimeSlot,

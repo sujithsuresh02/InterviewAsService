@@ -137,8 +137,7 @@ export const getSignupdata = async (
   companyId: string,
   CompanyDbRepository: ReturnType<CompanysDbInterface>
 ) => {
-  const response = await CompanyDbRepository.signUpData(companyId);
-  return response;
+  return await CompanyDbRepository.signUpData(companyId);
 };
 
 export const uploadedCvCount = async (

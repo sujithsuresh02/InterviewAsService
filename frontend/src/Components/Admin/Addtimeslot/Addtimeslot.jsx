@@ -163,11 +163,13 @@ export default function AddTimeslot() {
     const { id, name, date, email, TimeslotId } = event.target.value;
 
     setinterviewer({ id, name, email, TimeslotId });
+  
+    console.log();
     const getTimeForInterviewer = (id, availableDate) => {
       const interviewerDate = new Date(availableDate);
       const matchingInterviewers = state?.response?.filter(
         (item) =>
-          Number(item.interviewerId) === Number(id) &&
+          item.interviewerId === id &&
           interviewerDate.getTime() === new Date(item.date).getTime()
       );
       console.log(matchingInterviewers, "matchingInterviewers");
@@ -180,7 +182,9 @@ export default function AddTimeslot() {
       return matchingTimes;
     };
     const Times = getTimeForInterviewer(id, date);
+    console.log(Times,"times=========================>");
     setinterviewerTimeSlot(Times);
+    dispatch(getAllTimeSlots())
   };
 
   const timebreakpoint = useTheme();
@@ -214,7 +218,7 @@ export default function AddTimeslot() {
             </StudentDetailsList>
             <StudentDetailsList>
               {studentDetails?.map((student) => (
-                <ListItem key={student.id}>
+                <ListItem key={student?.id}>
                   <ListItemText primary={student.phone} />
                 </ListItem>
               ))}
@@ -254,13 +258,13 @@ export default function AddTimeslot() {
                   Array.isArray(selectedInterviewer) &&
                   selectedInterviewer?.map((interviewer) => (
                     <MenuItem
-                      key={interviewer.id}
+                      key={interviewer?.id}
                       value={{
-                        id: interviewer.id,
-                        name: interviewer.name,
-                        date: interviewer.date,
-                        email: interviewer.email,
-                        TimeslotId: interviewer.TimeslotId,
+                        id: interviewer?.id,
+                        name: interviewer?.name,
+                        date: interviewer?.date,
+                        email: interviewer?.email,
+                        TimeslotId: interviewer?.TimeslotId,
                       }}
                     >
                       {interviewer?.name}
@@ -292,7 +296,7 @@ export default function AddTimeslot() {
               <TextField
                 label="Input"
                 name="studentId"
-                value={studentDetails.id}
+                value={studentDetails?.id}
                 variant="outlined"
               />
             </FormControl>

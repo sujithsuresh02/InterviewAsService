@@ -28,7 +28,7 @@ export const initaddRequestModal = (sequelize: Sequelize) => {
       allowNull: false,
     },
     companyId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: "companies",
@@ -65,7 +65,7 @@ export const initStudentDetailsModal = (sequelize: Sequelize) => {
       },
     },
     companyId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: "companies",

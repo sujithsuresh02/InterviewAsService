@@ -12,7 +12,7 @@ const initInterviewModel = (sequelize) => {
             allowNull: false,
         },
         interviewerId: {
-            type: sequelize_1.DataTypes.BIGINT,
+            type: sequelize_1.DataTypes.UUID,
             allowNull: false,
             references: {
                 model: "interviewers",

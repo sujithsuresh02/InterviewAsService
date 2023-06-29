@@ -93,7 +93,7 @@ const Homepage = () => {
               Today's Interviews
             </Typography>
             <Box p={2}>
-              {Todaysinterview.length>0?
+              {Todaysinterview?.length>0?
                 Todaysinterview?.slice(0, 5).map((interview) => (
                   <Box
                     key={interview.id}

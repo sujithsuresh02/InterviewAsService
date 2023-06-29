@@ -7,17 +7,18 @@ import { useSelector } from "react-redux";
 export default function Chatpage() {
   const client = useSelector((state) => state?.Login?.loginDetails?.matchedAccount);
   const admin = useSelector((state) => state?.adminLogin?.loginDetails);
+  console.log(admin, client, "chatsssssssssssssssssssss");
+
+  if (admin?.name === "admin") {
+    return (
+      <SideBar allTables={<Chat />} />
+    );
+  }
 
   return (
-    <>
-      {admin?.name === "admin" ? (
-        <SideBar allTables={<Chat />} />
-      ) : (
-        <div>
-          <Header/>
-          <Chat />
-        </div>
-      )}
-    </>
+    <div>
+      <Header />
+      { <Chat />}
+    </div>
   );
 }

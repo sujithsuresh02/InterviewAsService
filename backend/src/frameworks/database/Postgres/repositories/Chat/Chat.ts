@@ -16,16 +16,21 @@ const chat = initChatModel(sequelize);
 export const chatDbImplementaion = () => {
   const createChat = async (senderId: string) => {
     try {
-      const query = `SELECT "id"  FROM "admins"`;
-      const admins: any = await sequelize.query(query, {
+      const adminquery = `SELECT "id" FROM "admins"`;
+     
+      const admins: any = await sequelize.query(adminquery, {
         type: QueryTypes.SELECT,
+      }).catch((error) => {
+        console.error('Error executing query:', error);
+        throw error;
       });
-      console.log(admins, "admins");
+      
+    console.log(admins,"admins");
+    
 
-      const existingquery = ` SELECT "clientId" FROM "chats" WHERE "clientId"=:senderId
-          `;
+      const existingquery = ` SELECT "clientId" FROM "chats" WHERE "clientId"=:senderId`;
       const existingChat: any = await sequelize.query(existingquery, {
-        replacements: { senderId },
+        replacements: { senderId:senderId },
         type: QueryTypes.SELECT,
       });
       console.log(existingChat, "existing chat");

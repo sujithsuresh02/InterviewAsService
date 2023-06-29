@@ -87,26 +87,26 @@ const StudentTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {scheduledInterveiws.length > 0 ? (
-            scheduledInterveiws.map((interview) => (
-              <StyledTableRow key={interview.interview_id}>
-                <StyledTableCell>{interview.interview_id}</StyledTableCell>
-                <StyledTableCell>{interview.student_name}</StyledTableCell>
-                <StyledTableCell>{interview.jobRole}</StyledTableCell>
-                <StyledTableCell>{interview.studentEmail}</StyledTableCell>
-                <StyledTableCell>{interview.interview_time}</StyledTableCell>
-                <StyledTableCell>{interview.interview_date}</StyledTableCell>
+          {scheduledInterveiws?.length > 0 ? (
+            scheduledInterveiws?.map((interview) => (
+              <StyledTableRow key={interview?.interview_id}>
+                <StyledTableCell>{interview?.interview_id}</StyledTableCell>
+                <StyledTableCell>{interview?.student_name}</StyledTableCell>
+                <StyledTableCell>{interview?.jobRole}</StyledTableCell>
+                <StyledTableCell>{interview?.studentEmail}</StyledTableCell>
+                <StyledTableCell>{interview?.interview_time}</StyledTableCell>
+                <StyledTableCell>{interview?.interview_date}</StyledTableCell>
                 <TableCell>
                   <StyledButton
                     variant="contained"
-                    onClick={() => handleStartMeeting(interview.interviewToken)}
+                    onClick={() => handleStartMeeting(interview?.interviewToken)}
                   >
                     Join Meeting
                   </StyledButton>
                 </TableCell>
                 <StyledTableCell>
                   <Button
-                    onClick={() => handleAddFeedback(interview.interview_id)}
+                    onClick={() => handleAddFeedback(interview?.interview_id)}
                   >
                     Add Feedback
                   </Button>

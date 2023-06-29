@@ -107,9 +107,6 @@ const Viewinterviews = () => {
                   Action{" "}
                 </TableCell>
                 <TableCell style={{ border: "1px solid #ccc" }}>
-                  Action{" "}
-                </TableCell>
-                <TableCell style={{ border: "1px solid #ccc" }}>
                   meeting{" "}
                 </TableCell>
               </TableRow>
@@ -145,22 +142,12 @@ const Viewinterviews = () => {
                         Cancel Interview
                       </Button>
                     </TableCell>
-                    <TableCell style={{ border: "1px solid #ccc" }}>
-                      <Button
-                        variant="outlined"
-                        color="warning"
-                        onClick={() =>
-                          handleReschduleInterview(row.interviewToken)
-                        }
-                      >
-                        Reshedule Interview
-                      </Button>
-                    </TableCell>
+                   
                     <TableCell style={{ border: "1px solid #ccc" }}>
                       <Button
                         variant="outlined"
                         color="primary"
-                        onClick={() => handleClick(row.interview_id)}
+                        onClick={() => handleClick(row.interviewToken)}
                       >
                         Start Interview
                       </Button>

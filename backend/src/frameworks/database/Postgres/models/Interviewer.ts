@@ -16,7 +16,7 @@ export const initTimeSlotModal = (sequelize: Sequelize) => {
       allowNull: false,
     },
     interviewerId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: "interviewers",

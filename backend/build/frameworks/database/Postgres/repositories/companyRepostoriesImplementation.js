@@ -61,11 +61,9 @@ const companyDbRepositoryImplementation = () => {
     const getByEmail = async (email) => {
         try {
             const query = `
-      SELECT *, 'interviewer' AS role FROM "interviewers" WHERE email = :email
+      SELECT *, 'interviewer' AS role FROM "interviewers" WHERE "email" = :email
       UNION ALL
-      SELECT *, 'company' AS role FROM "companies" WHERE email = :email
-      UNION ALL
-      SELECT *, 'student' AS role FROM "students" WHERE email = :email;
+      SELECT *, 'company' AS role FROM "companies" WHERE "email" = :email
     `;
             const result = await connection_1.sequelize.query(query, {
                 replacements: { email },

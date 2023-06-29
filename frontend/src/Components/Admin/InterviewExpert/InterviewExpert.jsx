@@ -107,7 +107,7 @@ const InterviewerTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedData.length > 0 ? (
+            {paginatedData?.length > 0 ? (
               paginatedData?.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>

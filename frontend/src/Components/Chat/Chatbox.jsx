@@ -41,7 +41,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
     const fetchMessages = async () => {
       try {
         console.log(chat, "chat.id");
-        const data = await dispatch(getMessage(chat.id));
+        const data = await dispatch(getMessage(chat?.id));
         console.log(data, " get data");
         setMessages(data?.payload?.messages);
       } catch (error) {
@@ -73,7 +73,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
     if (client?.role === "company") {
       Id = chat?.adminId;
     }
-    if (admin.name === "admin") {
+    if (admin?.name === "admin") {
       Id = chat.clientId;
     }
     const receiverId = Id;
@@ -122,7 +122,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
                   <div
                     ref={scroll}
                     className={
-                      message.senderId === currentUser
+                      message?.senderId === currentUser
                         ? "message own"
                         : "message"
                     }

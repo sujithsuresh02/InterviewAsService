@@ -39,11 +39,13 @@ const becomeExpertsImplementation = () => {
     };
     const validateinterviewToken = async (Token) => {
         try {
+            console.log(Token, "token");
             const query = ` SELECT "interviewToken" FROM "interviews" WHERE "interviewToken" = :Token`;
             const response = await connection_1.sequelize.query(query, {
                 replacements: { Token: Token },
                 type: sequelize_1.QueryTypes.SELECT,
             });
+            console.log(response, "response");
             return response[0].interviewToken;
         }
         catch (error) {

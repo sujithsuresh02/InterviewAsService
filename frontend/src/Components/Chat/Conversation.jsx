@@ -10,7 +10,7 @@
 //   useEffect(() => {
 //     const getUserData = async () => {
 //       try {
-  
+
 //         setUserData(data);
 //       } catch (error) {
 //         console.log(error);
@@ -50,8 +50,6 @@
 // };
 
 // export default Conversation;
-
-
 
 import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";

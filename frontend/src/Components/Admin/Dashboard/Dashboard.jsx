@@ -67,11 +67,11 @@ const AdminDashboard = () => {
     "#19FFAF",
   ];
 
-  const chartData = subscriptionCount.map((item) => ({
+  const chartData = subscriptionCount?.map((item) => ({
     name: item.subscription_day,
     value: item.subscriptions_count,
   }));
-  const pieChart = pieChartData.map((item) => ({
+  const pieChart = pieChartData?.map((item) => ({
     name: item.subscription_month,
     value: item.subscriptions_count,
   }));

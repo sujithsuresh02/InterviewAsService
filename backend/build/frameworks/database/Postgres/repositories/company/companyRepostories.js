@@ -215,7 +215,7 @@ const companiesDbImplementation = () => {
     };
     const editProfileDetails = async (username, changeEmail, companyId) => {
         try {
-            console.log("IMPLEMETAION");
+            console.log(username, changeEmail, companyId, "=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             const result = await connection_1.sequelize.query(`UPDATE "companies" SET "name" = :newName,email=:newEmail WHERE "id" = :companyId`, {
                 replacements: {
                     newName: username,
@@ -233,12 +233,11 @@ const companiesDbImplementation = () => {
     const getSignupData = async (companyId) => {
         try {
             const query = `SELECT "name","email","id" FROM "companies" WHERE "id"=:companyId`;
-            const result = await connection_1.sequelize.query(query, {
+            return await connection_1.sequelize.query(query, {
                 replacements: { companyId },
                 type: sequelize_1.QueryTypes.SELECT,
             });
-            console.log(result, "signupdata");
-            return result[0];
+            ;
         }
         catch (error) {
             console.log(error);

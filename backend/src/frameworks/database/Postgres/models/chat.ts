@@ -9,7 +9,7 @@ export const initMessageModel = (sequelize: Sequelize) => {
       primaryKey: true,
     },
     senderId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.UUID,
       allowNull: false,
     },
     chatId: {
@@ -40,7 +40,7 @@ export const initChatModel = (sequelize: Sequelize) => {
       primaryKey: true,
     },
     adminId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: "admins",
@@ -48,7 +48,7 @@ export const initChatModel = (sequelize: Sequelize) => {
       },
     },
     clientId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: "companies",

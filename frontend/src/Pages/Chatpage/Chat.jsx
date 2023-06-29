@@ -148,7 +148,8 @@ import Conversation from "../../Components/Chat/Conversation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
-import { Box } from "@mui/material";
+
+
 import { getChats } from "../../Features/Slices/Chat/ChatSlice";
 let Id = null;
 let role = null;
@@ -166,7 +167,6 @@ const Chat = () => {
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [clientRole, setclientRole] = useState(null);
-
   if (client?.role === "company") {
     Id = client?.id;
     role = client?.role;
@@ -177,9 +177,10 @@ const Chat = () => {
   }
 
   useEffect(() => {
-    socket.current = io("http://localhost:5000");
+    socket.current = io("https://api.interviewxperts.online");
     socket.current.emit("new-user-add", Id);
     socket.current.on("get-users", (users) => {
+      console.log(users,"socket users");
       setOnlineUsers(users);
     });
 

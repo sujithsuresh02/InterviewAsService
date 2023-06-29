@@ -11,7 +11,7 @@ const initMessageModel = (sequelize) => {
             primaryKey: true,
         },
         senderId: {
-            type: sequelize_1.DataTypes.BIGINT,
+            type: sequelize_1.DataTypes.UUID,
             allowNull: false,
         },
         chatId: {
@@ -42,7 +42,7 @@ const initChatModel = (sequelize) => {
             primaryKey: true,
         },
         adminId: {
-            type: sequelize_1.DataTypes.BIGINT,
+            type: sequelize_1.DataTypes.UUID,
             allowNull: false,
             references: {
                 model: "admins",
@@ -50,7 +50,7 @@ const initChatModel = (sequelize) => {
             },
         },
         clientId: {
-            type: sequelize_1.DataTypes.BIGINT,
+            type: sequelize_1.DataTypes.UUID,
             allowNull: false,
             references: {
                 model: "companies",

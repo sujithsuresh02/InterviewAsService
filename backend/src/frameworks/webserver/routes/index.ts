@@ -12,13 +12,13 @@ import chatRouter from "./ChatRoute";
 import messageRouter from "./message";
 const routes = (app: Application) => {
   app.use("/api/auth", authRouter());
+  app.use("/api/chat", chatRouter());
   app.use("/api/company", authenticateToken, companyRouter());
   app.use("/api/admin/auth", adminAuthRouter());
   app.use("/api/admin", adminauthenticateToken, adminRouter());
   app.use("/api", LandingRouter());
   app.use("/api", interviewexpertLandingRouter());
   app.use("/api/interviewer", authenticateToken, interviwerRouter());
-  app.use("/api/company/chat", chatRouter());
   app.use("/api/message", messageRouter());
 };
 

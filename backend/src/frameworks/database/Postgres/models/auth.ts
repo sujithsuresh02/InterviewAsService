@@ -4,8 +4,8 @@ export const initCompanyModel = (sequelize: Sequelize) => {
   return sequelize.define('companies', {
 
     id: {
-      type: DataTypes.BIGINT,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
       primaryKey: true,
     },
     name: {
@@ -66,8 +66,8 @@ export const initInterviewerModel = (sequelize: Sequelize) => {
   return sequelize.define('interviewers', {
 
     id: {
-      type: DataTypes.BIGINT,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue:UUIDV4,
       primaryKey: true,
     },
     name: {

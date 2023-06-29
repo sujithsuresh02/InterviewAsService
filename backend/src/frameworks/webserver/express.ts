@@ -4,28 +4,26 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import bodyParser, { OptionsJson } from "body-parser";
 
-
 // import configKeys from "../../config";
 // import mongoSanitize from 'express-mongo-sanitize'
 
-
 const expressConfig = (app: Application) => {
   // Development logging
- 
-// Set up CORS headers
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  next();
-});
 
-app.use(
-  cors({
-    origin: ['https://www.interviewxperts.online', 'https://interviewxperts.online'],
-      methods: 'GET, POST, PUT, PATCH, DELETE',
+  // Set up CORS headers
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
+    next();
+  });
+
+  app.use(
+    cors({
+      origin: ['https://www.interviewxperts.online', 'https://interviewxperts.online'],
+      methods: "GET, POST, PUT, PATCH, DELETE",
       credentials: true,
-  })
-);
+    })
+  );
 
   app.use(morgan("dev"));
   app.use(bodyParser.json());

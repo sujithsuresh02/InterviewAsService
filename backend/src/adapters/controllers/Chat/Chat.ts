@@ -16,6 +16,8 @@ const chatController = (
   const chatDbRepository = chatDbInterface(chatDbImplementation());
 
   const createChat = asyncHandler(async (req: Request, res: Response) => {
+    console.log(req.body,"body");
+    
     const { senderId } = req.body;
     const newChat = await chatCreate(senderId, chatDbRepository);
     console.log(newChat, "newchat");

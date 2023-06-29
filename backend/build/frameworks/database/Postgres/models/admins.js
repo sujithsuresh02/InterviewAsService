@@ -6,8 +6,8 @@ const { v4: uuidv4 } = require("uuid");
 const initAdminModel = (sequelize) => {
     return sequelize.define('admins', {
         id: {
-            type: sequelize_1.DataTypes.BIGINT,
-            autoIncrement: true,
+            type: sequelize_1.DataTypes.UUID,
+            defaultValue: uuidv4,
             primaryKey: true,
         },
         name: {

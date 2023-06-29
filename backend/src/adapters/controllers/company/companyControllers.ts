@@ -100,12 +100,12 @@ const companyController = (
       CompanyDbRepository,
       CompanyServiceRepository
     );
-    
+
     console.log(result);
-      res.json({
-        TotalUploadedCv: result,
-      });
-      console.log("nncontroller final");
+    res.json({
+      TotalUploadedCv: result,
+    });
+    console.log("nncontroller final");
   });
 
   const postDemo = asyncHandler(async (req: Request, res: Response) => {
@@ -200,7 +200,9 @@ const companyController = (
       companyId,
       CompanyDbRepository
     );
-    if (editResponse) {
+    console.log(editResponse, "profile resposne");
+
+    if (editResponse === true) {
       res.json({
         message: "Profile Edited Successfully",
       });
@@ -210,12 +212,12 @@ const companyController = (
   const getCompanyDetails = asyncHandler(
     async (req: Request, res: Response) => {
       const companyId: string = (req as any).id;
-      const response = await getSignupdata(companyId, CompanyDbRepository);
-      if (response) {
-        res.json({
-          response,
-        });
-      }
+      const response: any = await getSignupdata(companyId, CompanyDbRepository);
+      console.log(response, "response");
+
+      res.json({
+        response,
+      });
     }
   );
 

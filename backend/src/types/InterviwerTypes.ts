@@ -1,5 +1,5 @@
 export interface Timeslot {
-  newdate: Date;
+  newdate: string;
   dayOfWeek: string;
   times: any[];
   interviewerId: string;

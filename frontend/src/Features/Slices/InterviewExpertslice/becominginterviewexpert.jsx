@@ -57,7 +57,7 @@ export const sentInterviewerRejectionmail = createAsyncThunk(
 );
 const initialState = {
   interviewExperts: [],
-  getAllRequest: {},
+  getAllRequest: [],
   confirmationResponse: {},
   rejectionResponse: {},
 };

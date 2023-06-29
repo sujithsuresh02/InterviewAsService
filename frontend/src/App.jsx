@@ -24,6 +24,7 @@ import { LoadingPage } from "./Components/Loading/Loadingpage";
 import { lazy, Suspense } from "react";
 import Companychat from "./Components/Companychat/Chat/Companychat";
 import Chats from "./Components/Companychat/Chat/Companychat";
+import Chatpage from "./Pages/Chatpage/Chatpage";
 // import ChatWidget from "./Components/Companychat/Chat/Companychat";
 const LazyLandingpage = lazy(() => import("./Pages/Landingpage/Landingpage"));
 const LazyBecomeInterViwer = lazy(() =>
@@ -70,6 +71,8 @@ function App() {
                 <ScrollToTop />
                 <ScrollButton />
                 <Routes>
+      <Route path="/chat" element={<Chatpage/>} />
+
                   <Route
                     exact
                     path="/interview_as_service"
@@ -92,7 +95,7 @@ function App() {
                   />
                   <Route
                     exact
-                    path="/signup/:token"
+                    path="/signup"
                     expect
                     element={<SignupForm />}
                   />
