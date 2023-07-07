@@ -28,6 +28,5 @@ const expressConfig = (app) => {
     app.use(express_1.default.json());
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cookie_parser_1.default)());
-    // app.use(mongoSanitize())
 };
 exports.default = expressConfig;
