@@ -11,11 +11,11 @@ import {
   createMessage,
   getMessage,
 } from "../../Features/Slices/Chat/ChatSlice";
-
+let Id=null
 const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const dispatch = useDispatch();
   const client = useSelector(
-    (state) => state?.Login?.loginDetails?.matchedAccount
+    (state) => state?.commonLogin?.loginDetails?.matchedAccount
   );
   const admin = useSelector((state) => state?.adminLogin?.loginDetails);
   console.log(currentUser, "currentuser");
@@ -67,7 +67,6 @@ console.log(chat,"in chatbox");
       message: newMessage,
       chatId: chat.id,
     };
-    let Id = null;
     console.log(message, "message");
     console.log(chat, "chatboxchat");
     if (client?.role === "company") {
