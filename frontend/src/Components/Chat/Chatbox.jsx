@@ -27,9 +27,9 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
-
+console.log(chat,"in chatbox");
   useEffect(() => {
-    if (receivedMessage !== null && receivedMessage.chatId === chat?.id) {
+    if (receivedMessage !== null && receivedMessage.chatId === chat?.chatId) {
       setMessages([...messages, receivedMessage]);
     }
   }, [receivedMessage]);
@@ -83,7 +83,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
 
       console.log(data, "create data");
 
-      setMessages([...messages, data.payload?.messages]);
+      setMessages([...messages, data?.payload?.messages]);
       setNewMessage("");
     } catch {
       console.log("error");
