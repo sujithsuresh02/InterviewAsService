@@ -77,6 +77,7 @@ console.log(chat,"in chatbox");
       Id = chat.clientId;
     }
     const receiverId = Id;
+    console.log(message, "from chatbox");
     setSendMessage({ ...message, receiverId });
     try {
       const data = await dispatch(createMessage(message));

@@ -46,6 +46,7 @@ const Chat = () => {
     });
 
     socket.current.on("receive-message", (data) => {
+      console.log("currentChat",data);
       setReceiveMessage(data);
     });
 
@@ -58,6 +59,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (sendMessage !== null) {
+      console.log(sendMessage,"sendmessgae");
       socket.current.emit("send-message", sendMessage);
     }
   }, [sendMessage]);
