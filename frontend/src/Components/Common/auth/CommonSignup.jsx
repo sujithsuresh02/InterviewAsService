@@ -38,7 +38,7 @@ const SignupForm = () => {
     dispatch(validateSignupToken(token));
   }, [validateInterviewerSignup, dispatch, validateSignupToken]);
 
-const InterviewerTokens = useSelector((state) => state?.commonSignup.validateInterviewerSignup);
+const InterviewerTokens = useSelector((state) => state?.commonSignup?.validateInterviewerSignup);
 const demoTokens = useSelector((state) => state?.commonSignup?.validateSignup);
 const isLoading = useSelector((state) => state?.commonSignup?.isLoading);
 

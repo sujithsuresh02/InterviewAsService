@@ -127,7 +127,7 @@ export const companyDbRepositoryImplementation = () => {
 
   const validateSignupPage = async (token: string) => {
     try {
-      const query = `SELECT "ValidationToken" FROM "demos" `;
+      const query = `SELECT "ValidationToken" FROM "demos" WHERE "ValidationToken"=:token `;
       const result: any = await sequelize.query(query, {
         replacements: { token },
         type: QueryTypes.SELECT,
@@ -141,7 +141,7 @@ export const companyDbRepositoryImplementation = () => {
 
   const interviewerSignupValidation = async (token: string) => {
     try {
-      const query = `SELECT "Token" FROM "becominterviewexperts" `;
+      const query = `SELECT "Token" FROM "becominterviewexperts" WHERE "Token" =:token `;
       const result: any = await sequelize.query(query, {
         replacements: { token },
         type: QueryTypes.SELECT,

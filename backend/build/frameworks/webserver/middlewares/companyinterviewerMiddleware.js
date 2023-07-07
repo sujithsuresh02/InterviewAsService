@@ -10,8 +10,8 @@ const authenticateToken = async (req, res, next) => {
     if (!authHeader) {
         console.log("Access token not found");
     }
-    const accessToken = authHeader.split("access_token=")[1].split(",")[0];
-    const refreshToken = authHeader.split("refresh_token=")[1].split(",")[0];
+    const accessToken = authHeader?.split("access_token=")[1].split(",")[0];
+    const refreshToken = authHeader?.split("refresh_token=")[1].split(",")[0];
     console.log(accessToken, refreshToken, "-----------------------------------------------------------");
     if (!accessToken) {
         console.log("Access token not found");

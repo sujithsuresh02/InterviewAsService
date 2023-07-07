@@ -109,7 +109,7 @@ const companyDbRepositoryImplementation = () => {
     };
     const validateSignupPage = async (token) => {
         try {
-            const query = `SELECT "ValidationToken" FROM "demos" `;
+            const query = `SELECT "ValidationToken" FROM "demos" WHERE "ValidationToken"=:token `;
             const result = await connection_1.sequelize.query(query, {
                 replacements: { token },
                 type: sequelize_1.QueryTypes.SELECT,
@@ -123,7 +123,7 @@ const companyDbRepositoryImplementation = () => {
     };
     const interviewerSignupValidation = async (token) => {
         try {
-            const query = `SELECT "Token" FROM "becominterviewexperts" `;
+            const query = `SELECT "Token" FROM "becominterviewexperts" WHERE "Token" =:token `;
             const result = await connection_1.sequelize.query(query, {
                 replacements: { token },
                 type: sequelize_1.QueryTypes.SELECT,
