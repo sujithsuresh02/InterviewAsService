@@ -17,8 +17,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    // origin:['https://interviewxperts.online', 'https://www.interviewxperts.online'],
-    origin:['http://localhost:5173'],
+    origin:['https://interviewxperts.online', 'https://www.interviewxperts.online'],
+    // origin:['http://localhost:5173'],
     methods: ["GET", "POST"],
   },
 });

@@ -67,9 +67,9 @@ export const authServiceImplementation = () => {
       <p>Dear ${name},</p>
       <p>We have received a request to change your password for your InterviewXperts account. If you did not make this request, please ignore this email.</p>
       <p>To change your password, please click on the following link:</p>
-      <p><a href="http://localhost:5173/change_password/${id}">Change Password</a></p>
+      <p><a href="https://interviewxperts.online/change_password/${id}">Change Password</a></p>
       <p>If the link doesn't work, you can copy and paste the following URL into your web browser:</p>
-      <p>http://localhost:5173/change_password/${id}</p>
+      <p>https://interviewxperts.online/change_password/${id}</p>
       <p>Please note that this link is valid for a limited time. After that, you'll need to request a new password change.</p>
       <p>If you have any questions or need further assistance, please contact our support team.</p>
       <p>Best regards,<br/>Sujith S<br/>InterviewXperts Team</p>
