@@ -39,7 +39,12 @@ const authServiceImplementation = () => {
         }
     };
     const verifyRefreshToken = (token) => {
-        return jsonwebtoken_1.default.verify(token, config_1.default.JWT_SECRET);
+        try {
+            return jsonwebtoken_1.default.verify(token, config_1.default.JWT_SECRET);
+        }
+        catch (error) {
+            console.log(error);
+        }
     };
     const emailverificationofForgotPassword = async (name, email, id) => {
         try {

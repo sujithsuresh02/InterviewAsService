@@ -10,7 +10,7 @@ interface MyRequest extends Request {
   id?: string;
 }
 
-export const authenticateToken = async(
+export const authenticateToken = async (
   req: MyRequest,
   res: Response,
   next: NextFunction
@@ -18,39 +18,49 @@ export const authenticateToken = async(
   const authHeader: any = req.headers.authorization;
 
   console.log(authHeader);
-  
+
   if (!authHeader) {
     console.log("Access token not found");
   }
 
-
   const accessToken = authHeader.split("access_token=")[1].split(",")[0];
   const refreshToken = authHeader.split("refresh_token=")[1].split(",")[0];
-console.log(accessToken,refreshToken,"-----------------------------------------------------------");
+  console.log(
+    accessToken,
+    refreshToken,
+    "-----------------------------------------------------------"
+  );
 
   if (!accessToken) {
     console.log("Access token not found");
   }
 
-  const decoded: any = authservicemiddleware.verifyAccessToken(accessToken);
+  const decoded: any = await authservicemiddleware.verifyAccessToken(
+    accessToken
+  );
 
   if (!decoded) {
     console.log("Invalid access token");
 
-    
-    console.log("jlop");
-
     if (!refreshToken) {
-      
-     res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+      res.json({
+        refreshTokenErr: true,
+        message:
+          "Your Session Period Has Expired. Please Login To Continue...!",
+      });
     }
     console.log("hlo");
-    
 
-    const refreshDecoded: any = authservicemiddleware.verifyRefereshToken(refreshToken);
+    const refreshDecoded: any = await authservicemiddleware.verifyRefereshToken(
+      refreshToken
+    );
 
     if (!refreshDecoded) {
-     res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+      res.json({
+        refreshTokenErr: true,
+        message:
+          "Your Session Period Has Expired. Please Login To Continue...!",
+      });
     }
 
     const { name, role, id } = refreshDecoded;
@@ -59,8 +69,12 @@ console.log(accessToken,refreshToken,"------------------------------------------
     req.role = role;
     req.id = id;
 
-    const newAccessToken = authservicemiddleware.generateAcessesToken({ name, role, id });
-console.log(newAccessToken,"newAccessToken");
+    const newAccessToken = await authservicemiddleware.generateAcessesToken({
+      name,
+      role,
+      id,
+    });
+    console.log(newAccessToken, "newAccessToken");
 
     res.setHeader("Authorization", `Bearer ${newAccessToken}`);
     next();
@@ -71,20 +85,30 @@ console.log(newAccessToken,"newAccessToken");
       if (decoded.exp && decoded.exp < currentTime) {
         console.log("Token has expired");
 
-        const refreshToken = authHeader.split("refresh_token=")[1].split(",")[0];
+        const refreshToken = authHeader
+          .split("refresh_token=")[1]
+          .split(",")[0];
 
         if (!refreshToken) {
-           res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+          res.json({
+            refreshTokenErr: true,
+            message:
+              "Your Session Period Has Expired. Please Login To Continue...!",
+          });
         }
 
-        const refreshDecoded: any = await authservicemiddleware.verifyRefereshToken(refreshToken);
-        console.log(refreshDecoded,"refreshDecoded");
-        
+        const refreshDecoded: any =
+          await authservicemiddleware.verifyRefereshToken(refreshToken);
+        console.log(refreshDecoded, "refreshDecoded");
 
         if (!refreshDecoded) {
           console.log("refresh tojken expired");
-        
-          res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+
+          res.json({
+            refreshTokenErr: true,
+            message:
+              "Your Session Period Has Expired. Please Login To Continue...!",
+          });
         }
 
         const { name, role, id } = refreshDecoded;
@@ -93,7 +117,9 @@ console.log(newAccessToken,"newAccessToken");
         req.role = role;
         req.id = id;
 
-        const newAccessToken = authservicemiddleware.generateAcessesToken({ name, role, id });
+        const newAccessToken = await authservicemiddleware.generateAcessesToken(
+          { name, role, id }
+        );
 
         res.setHeader("authorization", `Bearer ${newAccessToken}`);
         next();
@@ -103,7 +129,11 @@ console.log(newAccessToken,"newAccessToken");
         next();
       }
     } else {
-    res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+      res.json({
+        refreshTokenErr: true,
+        message:
+          "Your Session Period Has Expired. Please Login To Continue...!",
+      });
     }
   }
 };

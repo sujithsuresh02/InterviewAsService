@@ -16,23 +16,32 @@ const authenticateToken = async (req, res, next) => {
     if (!accessToken) {
         console.log("Access token not found");
     }
-    const decoded = authservicemiddleware.verifyAccessToken(accessToken);
+    const decoded = await authservicemiddleware.verifyAccessToken(accessToken);
     if (!decoded) {
         console.log("Invalid access token");
-        console.log("jlop");
         if (!refreshToken) {
-            res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+            res.json({
+                refreshTokenErr: true,
+                message: "Your Session Period Has Expired. Please Login To Continue...!",
+            });
         }
         console.log("hlo");
-        const refreshDecoded = authservicemiddleware.verifyRefereshToken(refreshToken);
+        const refreshDecoded = await authservicemiddleware.verifyRefereshToken(refreshToken);
         if (!refreshDecoded) {
-            res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+            res.json({
+                refreshTokenErr: true,
+                message: "Your Session Period Has Expired. Please Login To Continue...!",
+            });
         }
         const { name, role, id } = refreshDecoded;
         req.name = name;
         req.role = role;
         req.id = id;
-        const newAccessToken = authservicemiddleware.generateAcessesToken({ name, role, id });
+        const newAccessToken = await authservicemiddleware.generateAcessesToken({
+            name,
+            role,
+            id,
+        });
         console.log(newAccessToken, "newAccessToken");
         res.setHeader("Authorization", `Bearer ${newAccessToken}`);
         next();
@@ -42,21 +51,29 @@ const authenticateToken = async (req, res, next) => {
             const currentTime = Math.floor(Date.now() / 1000);
             if (decoded.exp && decoded.exp < currentTime) {
                 console.log("Token has expired");
-                const refreshToken = authHeader.split("refresh_token=")[1].split(",")[0];
+                const refreshToken = authHeader
+                    .split("refresh_token=")[1]
+                    .split(",")[0];
                 if (!refreshToken) {
-                    res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+                    res.json({
+                        refreshTokenErr: true,
+                        message: "Your Session Period Has Expired. Please Login To Continue...!",
+                    });
                 }
                 const refreshDecoded = await authservicemiddleware.verifyRefereshToken(refreshToken);
                 console.log(refreshDecoded, "refreshDecoded");
                 if (!refreshDecoded) {
                     console.log("refresh tojken expired");
-                    res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+                    res.json({
+                        refreshTokenErr: true,
+                        message: "Your Session Period Has Expired. Please Login To Continue...!",
+                    });
                 }
                 const { name, role, id } = refreshDecoded;
                 req.name = name;
                 req.role = role;
                 req.id = id;
-                const newAccessToken = authservicemiddleware.generateAcessesToken({ name, role, id });
+                const newAccessToken = await authservicemiddleware.generateAcessesToken({ name, role, id });
                 res.setHeader("authorization", `Bearer ${newAccessToken}`);
                 next();
             }
@@ -67,7 +84,10 @@ const authenticateToken = async (req, res, next) => {
             }
         }
         else {
-            res.json({ refreshTokenErr: true, message: "Your Session Period Has Expired. Please Login To Continue...!" });
+            res.json({
+                refreshTokenErr: true,
+                message: "Your Session Period Has Expired. Please Login To Continue...!",
+            });
         }
     }
 };

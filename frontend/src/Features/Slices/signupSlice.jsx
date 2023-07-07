@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import myAxios from "../../api/authapi";
-import landingApi from "../../api/LandingPage/Demo"
 import { SignInWithGoogle } from "../../Firebase/Firebase";
 export const postSignup = createAsyncThunk(
   "company/Register",

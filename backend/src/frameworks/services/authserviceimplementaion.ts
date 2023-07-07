@@ -39,16 +39,20 @@ export const authServiceImplementation = () => {
     }
   };
   const verifyRefreshToken = (token: any) => {
-    return Jwt.verify(token, configKeys.JWT_SECRET);
+    try {
+      return Jwt.verify(token, configKeys.JWT_SECRET);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const emailverificationofForgotPassword =async (
+  const emailverificationofForgotPassword = async (
     name: string,
     email: string,
     id: string
   ) => {
     try {
-      console.log(name,email,id);
-      
+      console.log(name, email, id);
+
       const transporter: Transporter = nodemailer.createTransport({
         service: "gmail",
         host: "smtp.gmail.com",
@@ -76,13 +80,13 @@ export const authServiceImplementation = () => {
     `,
       };
 
-     const info=await transporter.sendMail(mailOptions)
-        if (info) {
-          console.log("Email sent:", info.response);
-          console.log(info.resposne);
+      const info = await transporter.sendMail(mailOptions);
+      if (info) {
+        console.log("Email sent:", info.response);
+        console.log(info.resposne);
 
-          return true;
-        }
+        return true;
+      }
     } catch (error) {
       console.log(error);
     }
