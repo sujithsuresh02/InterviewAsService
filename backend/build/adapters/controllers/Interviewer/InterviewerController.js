@@ -40,6 +40,7 @@ const interviwerController = (interviwerDbInterface, interviwerDbImplementation)
     const getAllSchedulledInterviews = (0, express_async_handler_1.default)(async (req, res) => {
         const interviewerId = req.id;
         const resposne = await (0, Interviewer_1.getInterviews)(interviewerId, interviwerDbRepositort);
+        console.log(resposne);
         if (resposne) {
             res.json({
                 resposne,
@@ -86,11 +87,10 @@ const interviwerController = (interviwerDbInterface, interviwerDbImplementation)
     const getIntreviewerData = (0, express_async_handler_1.default)(async (req, res) => {
         const interviewerId = req.id;
         const result = await (0, Interviewer_1.interviewerDetails)(interviewerId, interviwerDbRepositort);
-        if (result) {
-            res.json({
-                result,
-            });
-        }
+        console.log(result);
+        res.json({
+            result,
+        });
     });
     const editProfile = (0, express_async_handler_1.default)(async (req, res) => {
         const { username, changeEmail } = req.body;

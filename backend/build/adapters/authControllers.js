@@ -24,7 +24,7 @@ const authcontroller = (authServiceInterface, authServiceImplementation, Company
             res.json({
                 status: "success",
                 message: " Registered  Successfully",
-                result
+                result,
             });
         }
     });
@@ -52,23 +52,67 @@ const authcontroller = (authServiceInterface, authServiceImplementation, Company
         console.log(user);
         const token = await (0, auth_1.googleUserLogin)(user, dbRepositoryCompany, authService);
         res.json({
-            status: 'success',
-            message: 'user verified',
+            status: "success",
+            message: "user verified",
             token,
         });
     });
     const valiadteSignup = (0, express_async_handler_1.default)(async (req, res) => {
         const token = req.params.token;
-        const validationToken = (0, auth_1.signupPageValidation)(token, dbRepositoryCompany);
+        const validationToken = await (0, auth_1.signupPageValidation)(token, dbRepositoryCompany);
+        console.log(validationToken, "validation token");
         res.json({
-            validationToken: validationToken
+            validationToken: validationToken,
         });
     });
+    const valiadteInterviewerSignup = (0, express_async_handler_1.default)(async (req, res) => {
+        const token = req.params.token;
+        const validationToken = await (0, auth_1.interviewerSignupValidation)(token, dbRepositoryCompany);
+        console.log(validationToken, "validation token");
+        res.json({
+            validationToken: validationToken,
+        });
+    });
+    const forgotPassword = async (req, res) => {
+        console.log(req.body);
+        const { email } = req.body;
+        console.log(email, "from controller");
+        const response = await (0, auth_1.forgottingPassword)(email, dbRepositoryCompany, authService);
+        if (response === true) {
+            res.json({
+                message: "For Changing The Password The Link Has Sent To Registread Email  Successfully",
+            });
+        }
+    };
+    const changePassword = async (req, res) => {
+        console.log(req.body);
+        const { newPassword, email, role } = req.body;
+        const response = await (0, auth_1.changingPasssword)(newPassword, email, role, dbRepositoryCompany, authService);
+        if (response) {
+            res.json({
+                message: "Your Password Is Changed Successfully ",
+            });
+        }
+    };
+    const valiadateForgotpassword = async (req, res) => {
+        const token = req.params.token;
+        const response = await (0, auth_1.forgotPasswordValidation)(token, dbRepositoryCompany);
+        console.log(response);
+        if (response) {
+            res.json({
+                response,
+            });
+        }
+    };
     return {
         registerCompany,
         login,
         loginWithGoogle,
-        valiadteSignup
+        valiadteSignup,
+        valiadteInterviewerSignup,
+        forgotPassword,
+        changePassword,
+        valiadateForgotpassword,
     };
 };
 exports.default = authcontroller;

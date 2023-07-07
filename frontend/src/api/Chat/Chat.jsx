@@ -11,7 +11,7 @@ myAxios.interceptors.request.use(
   (config) => {
     const state = localStorage.getItem("reduxState");
 const reduxState = JSON.parse(state);
-const token = reduxState.Login.loginDetails;
+const token = reduxState.commonLogin.loginDetails;
 
     config.headers[
       "Authorization"

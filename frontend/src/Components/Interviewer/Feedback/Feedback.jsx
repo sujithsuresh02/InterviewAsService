@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Box, Button, Typography, styled } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Typography, styled,Stack,Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -53,22 +53,39 @@ const StyledButton = styled(Button)(({ theme }) => ({
 const StudentTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const scheduledInterveiws = useSelector(
-    (state) => state?.interviwer?.interviewerScheduledInterviews?.resposne
-  );
-
+  
   useEffect(() => {
     dispatch(getAllScheduledInterviews());
   }, [getAllScheduledInterviews, dispatch]);
-
+  
   const handleAddFeedback = (interviewId) => {
     navigate(`/interviewer/add_feedback/${interviewId}`);
   };
-
+  
+  const scheduledInterveiws = useSelector(
+    (state) => state?.interviwer?.interviewerScheduledInterviews?.resposne
+  );
   const handleStartMeeting = (interviewToken) => {
     navigate(`/meeting/${interviewToken}`);
   };
+
+  
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedData = scheduledInterveiws?.slice(
+    (page - 1) * rowsPerPage,
+    (page - 1) * rowsPerPage + rowsPerPage
+  );
+
+  
+
   return (
+    <Box>
     <StyledTableContainer component={Paper}>
       <Typography variant="h4" textAlign={"center"}>
         Upcoming Interviews
@@ -87,8 +104,8 @@ const StudentTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {scheduledInterveiws?.length > 0 ? (
-            scheduledInterveiws?.map((interview) => (
+          {paginatedData?.length > 0 ? (
+            paginatedData?.map((interview) => (
               <StyledTableRow key={interview?.interview_id}>
                 <StyledTableCell>{interview?.interview_id}</StyledTableCell>
                 <StyledTableCell>{interview?.student_name}</StyledTableCell>
@@ -132,6 +149,19 @@ const StudentTable = () => {
         </TableBody>
       </Table>
     </StyledTableContainer>
+     <Stack
+     spacing={2}
+     style={{ marginTop: "2rem", display: "flex", alignItems: "center" }}
+   >
+     <Pagination
+       count={Math.ceil(scheduledInterveiws?.length / rowsPerPage)}
+       shape="roundedpage"
+       color="primary"
+       variant="outlined"
+       onChange={handleChangePage}
+     />
+   </Stack>
+   </Box>
   );
 };
 

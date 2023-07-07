@@ -26,7 +26,7 @@ import {
 import { CVDetails } from "../../../types/companyInterfaceTypes";
 import { CompanyDbServiceInterface } from "../../../application/services/companyServiceInterface";
 import { companyDbServiceImplementation } from "../../../frameworks/services/companyService";
-import { companyDbRepository } from "../../../application/repositories/companyRepositoriesInterface";
+import { companyDbRepository } from "../../../application/repositories/authInterface";
 const companyController = (
   companyDbInterface: CompanysDbInterface,
   companiesDbImplementation: companyImplementation,

@@ -10,7 +10,7 @@ import { CompanyDbServiceInterface } from "../../services/companyServiceInterfac
 import { demoDetails } from "../../../types/companyInterfaceTypes";
 import { adminDbInterface } from "../../../application/repositories/Admin/adminRepostories";
 import { response } from "express";
-import { companyDbRepository } from "../../repositories/companyRepositoriesInterface";
+import { companyDbRepository } from "../../repositories/authInterface";
 import { companyServiceImplementation } from "../../../frameworks/services/companyService";
 
 export const postRequest = async (

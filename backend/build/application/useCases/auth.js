@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signupPageValidation = exports.googleUserLogin = exports.performLogin = exports.companyRegister = void 0;
+exports.forgotPasswordValidation = exports.changingPasssword = exports.forgottingPassword = exports.interviewerSignupValidation = exports.signupPageValidation = exports.googleUserLogin = exports.performLogin = exports.companyRegister = void 0;
 const httpStatus_1 = require("../../types/httpStatus");
 const appError_1 = __importDefault(require("../../utils/appError"));
-const companyRegister = async (signupDetails, companyRepository, authService) => {
+const companyRegister = async (signupDetails, authRepository, authService) => {
     signupDetails.email = signupDetails.email.toLowerCase();
-    const isExistingEmail = await companyRepository.getByEmailSignup(signupDetails.email, signupDetails.role);
+    const isExistingEmail = await authRepository.getByEmailSignup(signupDetails.email, signupDetails.role);
     if (isExistingEmail.length > 0) {
         console.log("existing email: ");
         throw new appError_1.default("existing email", httpStatus_1.HttpStatus.UNAUTHORIZED);
@@ -18,15 +18,15 @@ const companyRegister = async (signupDetails, companyRepository, authService) =>
         throw new appError_1.default("Password Empty", httpStatus_1.HttpStatus.BAD_REQUEST);
     }
     signupDetails.password = await authService.encryptPassword(signupDetails.password);
-    const registerResponse = await companyRepository.registerCompany(signupDetails);
+    const registerResponse = await authRepository.registerCompany(signupDetails);
     console.log("controllers usecase ");
     return {
         registerResponse,
     };
 };
 exports.companyRegister = companyRegister;
-const performLogin = async (loginDetails, companyRepository, authService) => {
-    const signupedperson = await companyRepository.getByEmail(loginDetails.email);
+const performLogin = async (loginDetails, authRepository, authService) => {
+    const signupedperson = await authRepository.getByEmail(loginDetails.email);
     console.log(signupedperson);
     console.log("signupedperson");
     console.log(signupedperson === null);
@@ -97,3 +97,25 @@ const signupPageValidation = async (toekn, authRepository) => {
     return await authRepository.signupvaliadtion(toekn);
 };
 exports.signupPageValidation = signupPageValidation;
+const interviewerSignupValidation = async (token, authRepository) => {
+    return await authRepository.validateInterviewerSignup(token);
+};
+exports.interviewerSignupValidation = interviewerSignupValidation;
+const forgottingPassword = async (email, authRepository, authService) => {
+    const resposne = await authRepository.getByEmail(email);
+    console.log(resposne, "from auth usecase");
+    return await authService.forgotPasswordEmailVerification(resposne[0]?.name, resposne[0]?.email, resposne[0]?.id);
+};
+exports.forgottingPassword = forgottingPassword;
+const changingPasssword = async (newPassword, email, role, authRepository, authService) => {
+    const hashedPasword = await authService.encryptPassword(newPassword);
+    console.log(hashedPasword, "hasges");
+    if (hashedPasword) {
+        return await authRepository.changePassword(hashedPasword, email, role);
+    }
+};
+exports.changingPasssword = changingPasssword;
+const forgotPasswordValidation = async (token, authRepository) => {
+    return await authRepository.validateForgotPassword(token);
+};
+exports.forgotPasswordValidation = forgotPasswordValidation;

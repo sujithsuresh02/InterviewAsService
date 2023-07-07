@@ -11,6 +11,8 @@ export const authServiceInterface=(service:AuthServiceImple) => {
     const generateRefreshTokenToken = (payload:any) => service.generateRefreshTokenToken(payload);
     const verifyAccessToken = (token:any) => service.verifyAccessToken(token)
     const verifyRefereshToken = (token:any) => service.verifyRefreshToken(token)
+    const forgotPasswordEmailVerification = (name :string,email:string,id:string) =>{ 
+      return  service.emailverificationofForgotPassword(name,email,id)}
 
     return {
       encryptPassword,
@@ -19,6 +21,7 @@ export const authServiceInterface=(service:AuthServiceImple) => {
       generateRefreshTokenToken,
       verifyAccessToken,
       verifyRefereshToken,
+      forgotPasswordEmailVerification
     };
 
    

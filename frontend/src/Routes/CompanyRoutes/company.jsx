@@ -10,10 +10,9 @@ import Transactionpage from "../../Pages/Company/Transactionpage";
 import Editprofilepage from "../../Pages/Company/Editprofilepage";
 import ResetpasswordPage from "../../Pages/Company/resetpassword";
 import Feedbackpage from "../../Pages/Company/Feedbackpage";
-import Chat from "../../Pages/Chatpage/Chat";
-import Chatpage from "../../Pages/Chatpage/Chatpage";
+import Pdf from "../../Components/Common/Pdf";
 function CompanyRoutes() {
-  const refreshToken = useSelector((state) => state?.Login?.refreshToken);
+  const refreshToken = useSelector((state) => state?.commonLogin?.refreshToken);
   console.log(refreshToken, "router");
   return (
     <Routes>
@@ -58,8 +57,10 @@ function CompanyRoutes() {
         path="/feedback/:studentId"
         element={refreshToken ? <Feedbackpage /> : <Navigate to="/" />}
       />
-
-
+      {/* <Route
+        path="/pdf"
+        element={refreshToken ? <Pdf /> : <Navigate to="/" />}
+      /> */}
     </Routes>
   );
 }

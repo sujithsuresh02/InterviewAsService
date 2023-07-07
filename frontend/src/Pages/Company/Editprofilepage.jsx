@@ -5,10 +5,21 @@ import Footer from "../../Components/Common/Footer/Footer";
 import Profilesidebar from "../../Components/Company/Profile/ProfileSidebar";
 export default function Editprofilepage() {
   return (
-    <React.Fragment>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <Header />
-      <Profilesidebar pages={<Editprofile />} />
-      <Footer/>
-    </React.Fragment>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          minHeight: "calc(100vh - 8rem)",
+        }}
+      >
+        <Profilesidebar pages={<Editprofile />} />
+      </div>
+      <Footer />
+    </div>
   );
 }

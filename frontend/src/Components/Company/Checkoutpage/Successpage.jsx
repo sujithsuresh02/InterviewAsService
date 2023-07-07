@@ -17,7 +17,7 @@ export default   function  SuccessPage()  {
         Order details:
         {/* Display order details here */}
       </Typography>
-      <Button variant="contained" component={Link} to="/payment-history" sx={{ marginTop: '2rem' }}>
+      <Button variant="contained" component={Link} to="/company/subscription_history" sx={{ marginTop: '2rem' }}>
         View Payment History
       </Button>
     </Container>

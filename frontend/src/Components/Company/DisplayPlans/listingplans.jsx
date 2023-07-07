@@ -17,6 +17,8 @@ import {
 import { FullPlans } from "../../../Features/Slices/companySlice/Subscriptionplans";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Logo from "../../../Images/interviewXpertslogo.png";
+
 const PlanCard = ({ plan }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -109,19 +111,20 @@ const PlanModal = ({ plan, isOpen, handleClose }) => {
           Close
         </Button>
 
-        <Box display="flex" alignItems="center" mb={2}>
+        <Box display="flex" alignItems="spce-around" mb={2}>
           <img
-            src="https://yaksha.com/wp-content/uploads/2022/09/Yaksha-Logo-PNG.png"
+            src={Logo}
             alt=""
-            style={{ marginRight: "16px" }}
+            style={{ height: "50px", width: "100px" }}
           />
-          <Typography variant="h5" fontWeight="bold">
+          <Typography variant="h5" fontWeight="bold" >
             ₹ {plan.price} Pack
           </Typography>
         </Box>
 
         <Typography
           variant="body1"
+          mt={3}
           sx={{ position: "relative", bottom: "52px", left: "196px" }}
         >
           For {plan.validity} Validity

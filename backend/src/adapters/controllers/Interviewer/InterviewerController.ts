@@ -13,6 +13,7 @@ import {
   interviewerDetails,
   editProfileDetails,
 } from "../../../application/useCases/Interviewer/Interviewer";
+import { get } from "http";
 const interviwerController = (
   interviwerDbInterface: InterviwerDbInterface,
   interviwerDbImplementation: InterviweImplementation
@@ -68,6 +69,9 @@ const interviwerController = (
         interviewerId,
         interviwerDbRepositort
       );
+      
+      console.log(resposne);
+      
       if (resposne) {
         res.json({
           resposne,
@@ -145,11 +149,12 @@ const interviwerController = (
         interviewerId,
         interviwerDbRepositort
       );
-      if (result) {
+      console.log(result);
+      
+     
         res.json({
           result,
         });
-      }
     }
   );
   const editProfile = asyncHandler(async (req: Request, res: Response) => {

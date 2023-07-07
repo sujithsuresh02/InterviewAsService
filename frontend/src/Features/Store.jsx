@@ -46,8 +46,8 @@ const saveState = (state) => {
 const persistedState = loadState();
 const store = configureStore({
   reducer: {
-    CommonSignup: Signup,
-    Login: postLogin,
+    commonSignup: Signup,
+    commonLogin: postLogin,
     addrequest: addRequests,
     adminSignup: Adminsignup,
     adminLogin: AdminLogin,

@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import bodyParser, { OptionsJson } from "body-parser";
 
 // import configKeys from "../../config";
-// import mongoSanitize from 'express-mongo-sanitize'
 
 const expressConfig = (app: Application) => {
   // Development logging
@@ -19,9 +18,10 @@ const expressConfig = (app: Application) => {
 
   app.use(
     cors({
-      origin: ['https://www.interviewxperts.online', 'https://interviewxperts.online'],
+      // origin: ['https://www.interviewxperts.online', 'https://interviewxperts.online'],
+      origin: ["http://localhost:5173"],
       methods: "GET, POST, PUT, PATCH, DELETE",
-      credentials: true,
+      exposedHeaders: ["Authorization", "X-My-Custom-Header"],
     })
   );
 

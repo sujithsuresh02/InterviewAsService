@@ -20,7 +20,8 @@ const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: ['https://interviewxperts.online', 'https://www.interviewxperts.online'],
+        // origin:['https://interviewxperts.online', 'https://www.interviewxperts.online'],
+        origin: ['http://localhost:5173'],
         methods: ["GET", "POST"],
     },
 });

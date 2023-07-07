@@ -8,6 +8,9 @@ const authServiceInterface = (service) => {
     const generateRefreshTokenToken = (payload) => service.generateRefreshTokenToken(payload);
     const verifyAccessToken = (token) => service.verifyAccessToken(token);
     const verifyRefereshToken = (token) => service.verifyRefreshToken(token);
+    const forgotPasswordEmailVerification = (name, email, id) => {
+        return service.emailverificationofForgotPassword(name, email, id);
+    };
     return {
         encryptPassword,
         comparePassword,
@@ -15,6 +18,7 @@ const authServiceInterface = (service) => {
         generateRefreshTokenToken,
         verifyAccessToken,
         verifyRefereshToken,
+        forgotPasswordEmailVerification
     };
 };
 exports.authServiceInterface = authServiceInterface;

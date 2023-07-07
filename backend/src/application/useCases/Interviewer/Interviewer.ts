@@ -46,11 +46,11 @@ export const interviewsCompleted = (
   return InterviewerDbRepository.interviewCompleted(interviewerId);
 };
 
-export const interviewerDetails = (
+export const interviewerDetails = async(
   interviewerId: string,
   InterviewerDbRepository: ReturnType<InterviwerDbInterface>
 ) => {
-  return InterviewerDbRepository.getInterviewDetails(interviewerId);
+  return  await InterviewerDbRepository.getInterviewDetails(interviewerId);
 };
 
 export const editProfileDetails = async (

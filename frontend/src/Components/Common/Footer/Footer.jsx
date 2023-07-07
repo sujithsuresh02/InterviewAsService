@@ -190,7 +190,7 @@ const Footer = () => {
               </li>
               <li>
                 <Typography variant="body2">
-                  Email: verisync@gmail.com
+                  Email: interviewxperts.com
                 </Typography>
               </li>
             </ul>

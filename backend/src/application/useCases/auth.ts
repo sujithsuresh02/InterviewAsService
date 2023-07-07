@@ -1,7 +1,9 @@
 import { HttpStatus } from "../../types/httpStatus";
 import AppError from "../../utils/appError";
 import { AuthServiceInterface } from "../services/authserviceinterface";
-import { CompanyDbInterface } from "../repositories/companyRepositoriesInterface";
+import { CompanyDbInterface } from "../repositories/authInterface";
+import { response } from "express";
+import { ClickAwayListener } from "@mui/material";
 export const companyRegister = async (
   signupDetails: {
     role: string;
@@ -9,11 +11,11 @@ export const companyRegister = async (
     email: string;
     password: string;
   },
-  companyRepository: ReturnType<CompanyDbInterface>,
+  authRepository: ReturnType<CompanyDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
   signupDetails.email = signupDetails.email.toLowerCase();
-  const isExistingEmail = await companyRepository.getByEmailSignup(
+  const isExistingEmail = await authRepository.getByEmailSignup(
     signupDetails.email,
     signupDetails.role
   );
@@ -29,7 +31,7 @@ export const companyRegister = async (
   signupDetails.password = await authService.encryptPassword(
     signupDetails.password
   );
-  const registerResponse = await companyRepository.registerCompany(
+  const registerResponse = await authRepository.registerCompany(
     signupDetails
   );
   console.log("controllers usecase ");
@@ -44,10 +46,10 @@ export const performLogin = async (
     email: any;
     password: any;
   },
-  companyRepository: ReturnType<CompanyDbInterface>,
+  authRepository: ReturnType<CompanyDbInterface>,
   authService: ReturnType<AuthServiceInterface>
 ) => {
-  const signupedperson: any = await companyRepository.getByEmail(
+  const signupedperson: any = await authRepository.getByEmail(
     loginDetails.email
   );
   console.log(signupedperson);
@@ -155,4 +157,49 @@ export const signupPageValidation= async(toekn:string,
 )=>{
 
 return await authRepository.signupvaliadtion(toekn)
+}
+
+export const interviewerSignupValidation= async(
+  token:string,
+  authRepository: ReturnType<CompanyDbInterface>,
+)=>{
+return await authRepository.validateInterviewerSignup(token)
+}
+
+export  const forgottingPassword=async(
+  email:string,
+  authRepository: ReturnType<CompanyDbInterface>,
+  authService: ReturnType<AuthServiceInterface>
+
+  )=>{
+const resposne:any= await authRepository.getByEmail(email)
+console.log(resposne,"from auth usecase");
+
+ return await authService.forgotPasswordEmailVerification(resposne[0]?.name,resposne[0]?.email,resposne[0]?.id)
+ 
+}
+
+export const changingPasssword=async(
+  newPassword:string,
+  email:string,
+  role:string,
+  authRepository: ReturnType<CompanyDbInterface>,
+  authService: ReturnType<AuthServiceInterface>
+)=>{
+
+  const hashedPasword= await  authService.encryptPassword(newPassword)
+console.log(hashedPasword,"hasges");
+if(hashedPasword){
+
+  return await  authRepository.changePassword(hashedPasword,email,role)
+}
+
+}
+
+export const forgotPasswordValidation=async(
+  token:string,
+  authRepository: ReturnType<CompanyDbInterface>,
+)=>{
+
+  return await authRepository.validateForgotPassword(token)
 }

@@ -21,13 +21,20 @@ import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
-import AddIcon from "@mui/icons-material/Add";
 function Homepage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(FullPlans());
-  }, []);
+  }, [FullPlans,dispatch]);
+
+  useEffect(() => {
+    dispatch(totalNumberOfCvCount());
+  }, [totalNumberOfCvCount,dispatch]);
+
+  useEffect(() => {
+    dispatch(paymentHistory());
+  }, [dispatch,paymentHistory]);
 
   const Plans = useSelector((state) => state?.plans?.plans);
   console.log(Plans, "plans");
@@ -46,13 +53,7 @@ function Homepage() {
   );
   console.log(totalCvCount, "totalcvcount");
   const cvCount = totalCvCount ? totalCvCount : 0;
-  useEffect(() => {
-    dispatch(totalNumberOfCvCount());
-  }, [totalNumberOfCvCount]);
 
-  useEffect(() => {
-    dispatch(paymentHistory());
-  }, [dispatch]);
 
   const currentDate = new Date().getTime();
   let currentSubscription = null;
@@ -321,7 +322,7 @@ function Homepage() {
                 xs={12}
                 sm={6}
                 md={6}
-                sx={{ display: "flex", justifyContent: "space-between" }}
+                sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Cards
                   transition={false}
@@ -341,6 +342,8 @@ function Homepage() {
                   transition={false}
                   Icon={CreditCardOutlinedIcon}
                   description="Payment Details"
+                  path="/company/subscription_history"
+
                 />
                  
               </Grid>

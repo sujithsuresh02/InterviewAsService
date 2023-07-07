@@ -12,7 +12,7 @@ import { Navigate } from "react-router-dom";
 import Editfeedbackpage from "../../Pages/Interviewer/Editfeedbackpage";
 import Editprofilepage from "../../Pages/Interviewer/Editprofilepage";
 export default function Interviwer() {
-  const refreshToken = useSelector((state) => state?.Login?.refreshToken);
+  const refreshToken = useSelector((state) => state?.commonLogin?.refreshToken);
   console.log(refreshToken, "router");
 
   return (

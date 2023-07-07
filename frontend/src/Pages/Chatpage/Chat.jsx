@@ -158,7 +158,7 @@ let online = null;
 const Chat = () => {
   const dispatch = useDispatch();
   const socket = useRef();
-  const client = useSelector((state) => state?.Login?.loginDetails?.matchedAccount);
+  const client = useSelector((state) => state?.commonLogin?.loginDetails?.matchedAccount);
   const admin = useSelector((state) => state?.adminLogin?.loginDetails);
 
   const [chats, setChats] = useState([]);
@@ -177,7 +177,7 @@ const Chat = () => {
   }
 
   useEffect(() => {
-    socket.current = io("https://api.interviewxperts.online");
+    socket.current = io("http://localhost:5000");
     socket.current.emit("new-user-add", Id);
     socket.current.on("get-users", (users) => {
       console.log(users,"socket users");
@@ -263,7 +263,7 @@ const Chat = () => {
                   onClick={() => {
                     setCurrentChat(chat);
                   }}
-                  key={chat.id}
+                  key={chat?.id}
                 >
                   <Conversation data={chat} online={online} />
                 </div>

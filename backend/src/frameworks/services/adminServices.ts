@@ -70,7 +70,7 @@ export const adminServiceImplementation = () => {
       <p>Thank you for your interest in InterviewXperts. We appreciate your time and consideration in requesting a demo. We are excited to have the opportunity to showcase our services and help you excel in your interviews.</p>
       <p>At InterviewXperts, we are committed to providing you with the best resources and support to enhance your interview skills and boost your confidence. We believe that our comprehensive platform can make a significant difference in your interview performance.</p>
       <p>To get started, please follow the link below to sign up for an account:</p>
-      <p><a href="https://interviewxperts.online/signup/${response[0].ValidationToken}">Sign Up</a></p>
+      <p><a href="http://localhost:5173/signup/${response[0].ValidationToken}">Sign Up</a></p>
       <p>If you have any questions or need further assistance, feel free to reach out to us. We look forward to assisting you on your journey to interview success!</p>
       <p>Best regards,<br/>[Sujith S]<br/>InterviewXperts Team</p>`,
       };

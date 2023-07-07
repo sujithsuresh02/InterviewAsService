@@ -7,17 +7,19 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
+  Box
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginSlice, { postLogin } from "../../../Features/Slices/loginSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SignInWithGoogle } from "../../../Firebase/Firebase";
 import { googleSignIn } from "../../../Features/Slices/loginSlice";
+import whyIV1 from "../../../Images/whyIV1.svg"
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,7 +77,7 @@ const LoginForm = () => {
       <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={"8rem"}>
         {/* Image container */}
         <img
-          src="https://interviewvector.com/images/services/whyIV1.svg"
+          src={whyIV1}
           alt="Login Image"
           style={{ width: "100%" }}
         />
@@ -107,7 +109,7 @@ const LoginForm = () => {
               error={formik.touched.email && formik.errors.email}
               helperText={formik.touched.email && formik.errors.email}
             />
-            <TextField
+            <TextField 
               label="Password"
               variant="outlined"
               margin="normal"
@@ -117,6 +119,7 @@ const LoginForm = () => {
               error={formik.touched.password && formik.errors.password}
               helperText={formik.touched.password && formik.errors.password}
             />
+            <Box sx={{display:'flex',justifyContent:'space-between'}}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -127,6 +130,10 @@ const LoginForm = () => {
               }
               label="Show Password"
             />
+            <Link to={'/forgotpassword'} style={{textDecoration:"none",color:"black"}}>
+            <Typography variant="body1" mt={1.5}>Forgotpassword ?</Typography>
+            </Link>
+            </Box>
             <Grid container direction="column" spacing={1} marginTop={3}>
               <Grid item>
                 <Button

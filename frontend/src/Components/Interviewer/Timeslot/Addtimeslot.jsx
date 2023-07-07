@@ -13,6 +13,8 @@ import {
   Paper,
   Grid,
   useMediaQuery,
+  Stack,
+  Pagination,
 } from "@mui/material";
 import { styled } from "@mui/material";
 import DatePicker from "react-datepicker";
@@ -113,6 +115,18 @@ const InterviewerAvailability = () => {
     return timeSlots;
   };
 
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedData = avilableTimeslots?.slice(
+    (page - 1) * rowsPerPage,
+    (page - 1) * rowsPerPage + rowsPerPage
+  );
+
   return (
     <Container sx={{ marginTop: "10rem" }}>
       <Grid container spacing={2}>
@@ -144,11 +158,7 @@ const InterviewerAvailability = () => {
                     <Typography variant="subtitle1" gutterBottom>
                       Select Time Slots:
                     </Typography>
-                    <Box
-                      display="flex"
-                      justifyContent="center"
-                      flexWrap="wrap"
-                    >
+                    <Box display="flex" justifyContent="center" flexWrap="wrap">
                       {renderTimeSlots()}
                     </Box>
                     <Button variant="contained" type="submit" mt={2}>
@@ -181,10 +191,13 @@ const InterviewerAvailability = () => {
             </Box>
           </Box>
         </Grid>
+ 
         <Grid item xs={12} sm={12} md={6} lg={6}>
+
           <Typography variant="h5" textAlign="center">
             Available Timeslots
           </Typography>
+          <Box>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -196,8 +209,8 @@ const InterviewerAvailability = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {avilableTimeslots &&
-                  avilableTimeslots.map((Times) => (
+                {paginatedData &&
+                  paginatedData?.map((Times) => (
                     <TableRow key={Times.id}>
                       <TableCell>{Times.id}</TableCell>
                       <TableCell>{Times.date}</TableCell>
@@ -207,8 +220,23 @@ const InterviewerAvailability = () => {
                   ))}
               </TableBody>
             </Table>
+        
           </TableContainer>
+          <Stack
+          spacing={2}
+          style={{ marginTop: "2rem", display: "flex", alignItems: "center" }}
+        >
+          <Pagination
+            count={Math.ceil(avilableTimeslots?.length / rowsPerPage)}
+            shape="roundedpage"
+            color="primary"
+            variant="outlined"
+            onChange={handleChangePage}
+          />
+        </Stack>
+        </Box>
         </Grid>
+      
       </Grid>
     </Container>
   );

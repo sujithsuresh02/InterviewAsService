@@ -39,7 +39,7 @@ function Landingpage() {
               variant="h1"
               component="h1"
               sx={{
-                fontSize: "3.5rem",
+                fontSize: isSmallScreen?"2.5rem":"3.5rem",
                 fontWeight: "600",
                 color: "#080a3c",
                 fontFamily: "Poppins, sans-serif",

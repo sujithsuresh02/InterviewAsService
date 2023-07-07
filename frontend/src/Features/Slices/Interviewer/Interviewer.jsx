@@ -6,6 +6,8 @@ export const addAvabilityTimeSlot = createAsyncThunk(
   async (values) => {
     try {
       const response = await addtimeslotapi.post("/addtime_slot", values);
+     
+
       return response;
     } catch (error) {
       console.log(error);
@@ -30,6 +32,9 @@ export const getAllScheduledInterviews = createAsyncThunk(
   async () => {
     try {
       const response = await addtimeslotapi.get("/view_interviews");
+     
+  
+      console.log(authorizationHeader,"authorizationHeader");
       return response;
     } catch (error) {
       console.log(error);
@@ -99,10 +104,10 @@ export const editProfile = createAsyncThunk("editProfile", async (values) => {
 const initialState = {
   addTimeSlot: {},
   getallTimeslots: {},
-  interviewerScheduledInterviews: {},
+  interviewerScheduledInterviews: [],
   updateFeedback: {},
   datewiseInterviews: {},
-  completedInterveiws: {},
+  completedInterveiws: [],
   interviewerDetails: {},
   editProfile: {},
 };
@@ -110,7 +115,9 @@ const initialState = {
 const InterviwerSlice = createSlice({
   name: "interviwer",
   initialState,
-  reducers: {},
+  reducers: {
+   
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addAvabilityTimeSlot.pending, (state, action) => {

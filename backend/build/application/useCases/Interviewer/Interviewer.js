@@ -27,8 +27,8 @@ const interviewsCompleted = (interviewerId, InterviewerDbRepository) => {
     return InterviewerDbRepository.interviewCompleted(interviewerId);
 };
 exports.interviewsCompleted = interviewsCompleted;
-const interviewerDetails = (interviewerId, InterviewerDbRepository) => {
-    return InterviewerDbRepository.getInterviewDetails(interviewerId);
+const interviewerDetails = async (interviewerId, InterviewerDbRepository) => {
+    return await InterviewerDbRepository.getInterviewDetails(interviewerId);
 };
 exports.interviewerDetails = interviewerDetails;
 const editProfileDetails = async (userName, changedEmail, interviewerId, InterviewerDbRepository) => {

@@ -11,6 +11,11 @@ import {
 const EditProfile = () => {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getInterviewerDetails());
+  }, [dispatch, getInterviewerDetails]);
+
+
   let interviewerDetails = useSelector(
     (state) => state?.interviwer?.interviewerDetails?.result
   );
@@ -18,7 +23,10 @@ const EditProfile = () => {
   const handleSubmit = async (values) => {
     console.log(values); // Handle form submission
     dispatch(editProfile(values)).then((resposne) => {
-      toast.success(resposne?.payload?.data?.message);
+      if (resposne?.payload?.data?.message) {
+        toast.success(resposne?.payload?.data?.message);
+      }
+      dispatch(getInterviewerDetails())
     });
   };
 
@@ -33,10 +41,8 @@ const EditProfile = () => {
   //   );
   // };
 
-  useEffect(() => {
-    dispatch(getInterviewerDetails());
-  }, [dispatch,getInterviewerDetails]);
-  console.log(interviewerDetails,"iterview");
+
+  console.log(interviewerDetails, "iterview");
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),

@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   useTheme,
   Box,
+  Tooltip,
 } from "@mui/material";
 import Drawercomp from "./Drawer";
 import { useNavigate } from "react-router-dom";
@@ -17,38 +18,80 @@ import { Link } from "react-router-dom";
 import { logout } from "../../../Features/Slices/loginSlice";
 import Logo from "../../../Images/interviewXpertslogo.png";
 import ChatIcon from "@mui/icons-material/Chat";
-import { getSignupData } from "../../../Features/Slices/companySlice/Companyprofile";
+import {
+  editProfile,
+  getSignupData,
+  paymentHistory,
+} from "../../../Features/Slices/companySlice/Companyprofile";
 import { initateChat } from "../../../Features/Slices/companySlice/companySlice";
-let roles=null
+import EditProfile from "../../Interviewer/profile/Editprofile";
+import { getInterviewerDetails } from "../../../Features/Slices/Interviewer/Interviewer";
+let roles = null;
+let subscriptionHistory = null;
+let isSubscriptionActive=null
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [value, setValue] = useState(0);
-  const refreshToken = useSelector((state) => state?.Login?.refreshToken);
+  const refreshToken = useSelector((state) => state?.commonLogin?.refreshToken);
   const role = useSelector(
-    (state) => state?.Login?.loginDetails?.matchedAccount?.role
-  );
-  roles = useSelector(
-    (state) => state?.Login?.loginDetails?.matchedAccount?.name
+    (state) => state?.commonLogin?.loginDetails?.matchedAccount?.role
   );
 
- 
-   const companyId=  useSelector(
-    (state) => state?.Login?.loginDetails?.matchedAccount?.id
+  roles = useSelector(
+    (state) => state?.commonLogin?.loginDetails?.matchedAccount?.name
   );
-  console.log(companyId,"companyId");
+
+  if (role === "company") {
+    useEffect(() => {
+      dispatch(getSignupData());
+    }, [getSignupData]);
+    roles = useSelector((state) => state?.profile?.getSignupData[0]?.name);
+  }
+  if (role === "interviewer") {
+    useEffect(() => {
+      dispatch(getInterviewerDetails());
+    }, [getInterviewerDetails]);
+    roles = useSelector(
+      (state) => state?.interviwer?.interviewerDetails?.result?.name
+    );
+  }
+
+  const companyId = useSelector(
+    (state) => state?.commonLogin?.loginDetails?.matchedAccount?.id
+  );
+  console.log(companyId, "companyId");
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
+  useEffect(() => {
+    dispatch(paymentHistory());
+  }, [dispatch, paymentHistory]);
+
+  subscriptionHistory = useSelector((state) => state?.profile?.paymentHistory);
+
   const handleChatIconClick = () => {
-    dispatch(initateChat({senderId:companyId}))
+    dispatch(initateChat({ senderId: companyId }));
     navigate("/chat");
   };
   const getPages = () => {
     if (role === "company" && refreshToken) {
+      isSubscriptionActive = subscriptionHistory?.length > 0;
+      console.log(isSubscriptionActive, "is");
       return [
         { label: "Home", path: "/company" },
-        { label: "Add Request", path: "/company/add_request" },
+        {
+          label: "Add Request",
+          path: "/company/add_request",
+          style: {
+            color: isSubscriptionActive ? "inherit" : "rgba(0, 0, 0, 0.5)",
+            cursor: isSubscriptionActive===true ? "pointer" : "not-allowed",
+            pointerEvents: isSubscriptionActive ? "auto" : "none"
+          
+          },
+          disabled:isSubscriptionActive,
+
+        },
         { label: "Feedback", path: "/company/student_details" },
         { label: "Plans", path: "/company/plans" },
       ];
@@ -88,7 +131,7 @@ const Header = () => {
             <Drawercomp />
           ) : (
             <>
-              <Tabs
+               <Tabs
                 value={value}
                 indicatorColor="secondary"
                 onChange={(_, newValue) => setValue(newValue)}
@@ -105,28 +148,50 @@ const Header = () => {
                 }}
               >
                 {getPages()?.map((page, index) => (
-                  <Link key={index} to={page.path}>
-                    <Tab label={page.label} />
-                  </Link>
+                  <React.Fragment key={index}>
+                    {page.path === "/company/add_request" && !isSubscriptionActive ? (
+                      <Tooltip title="Add Request is disabled">
+                        <span>
+                          <Tab
+                            label={page.label}
+                            style={{
+                              color: "rgba(0, 0, 0, 0.5)",
+                              cursor: "not-allowed",
+                              pointerEvents: "none",
+                            }}
+                          />
+                        </span>
+                      </Tooltip>
+                    ) : (
+                      <Link to={page.path}>
+                        <Tab label={page.label} />
+                      </Link>
+                    )}
+                  </React.Fragment>
                 ))}
               </Tabs>
               {refreshToken && role === "company" && (
                 <Box sx={{ marginLeft: "auto", marginRight: "3rem" }}>
-                  <ChatIcon color="primary" onClick={()=>handleChatIconClick(companyId)} />
+                  <Tooltip title="chat">
+                    <ChatIcon
+                      color="primary"
+                      onClick={() => handleChatIconClick(companyId)}
+                    />
+                  </Tooltip>
                 </Box>
               )}
               <div>
                 {refreshToken && role === "company" && (
                   <Link to="/company/profile">
                     <Button variant="contained" sx={{ marginLeft: "auto" }}>
-                      {roles}
+                      {refreshToken && role ? roles : "login"}
                     </Button>
                   </Link>
                 )}
                 {refreshToken && role === "interviewer" && (
                   <Link to="/interviewer/profile">
                     <Button variant="contained" sx={{ marginLeft: "auto" }}>
-                      {roles}
+                      {refreshToken && role ? roles : "login"}
                     </Button>
                   </Link>
                 )}
