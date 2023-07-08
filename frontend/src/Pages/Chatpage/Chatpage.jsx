@@ -5,7 +5,7 @@ import Header from "../../Components/Common/Header/Header";
 import { useSelector } from "react-redux";
 
 export default function Chatpage() {
-  const client = useSelector((state) => state?.Login?.loginDetails?.matchedAccount);
+  const client = useSelector((state) => state?.commonLogin?.loginDetails?.matchedAccount);
   const admin = useSelector((state) => state?.adminLogin?.loginDetails);
   console.log(admin, client, "chatsssssssssssssssssssss");
 
