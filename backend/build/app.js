@@ -28,7 +28,7 @@ const io = new socket_io_1.Server(server, {
 (0, Socket_1.default)(io);
 (0, connection_1.default)();
 (0, express_2.default)(app);
-app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "../public/uploads")));
+app.use("public/uploads", express_1.default.static(path_1.default.join(__dirname, "../public/uploads")));
 // routes for each endpoint
 (0, routes_1.default)(app);
 app.use(errorHandlingMiddleware_1.default);
