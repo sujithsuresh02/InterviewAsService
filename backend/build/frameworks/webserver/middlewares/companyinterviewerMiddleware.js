@@ -5,7 +5,7 @@ const authserviceinterface_1 = require("../../../application/services/authservic
 const authserviceimplementaion_1 = require("../../services/authserviceimplementaion");
 const authservicemiddleware = (0, authserviceinterface_1.authServiceInterface)((0, authserviceimplementaion_1.authServiceImplementation)());
 const authenticateToken = async (req, res, next) => {
-    const authHeader = req.headers.authorization;
+    const authHeader = req?.headers?.authorization;
     console.log(authHeader);
     if (!authHeader) {
         console.log("Access token not found");

@@ -15,7 +15,7 @@ export const authenticateToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader: any = req.headers.authorization;
+  const authHeader: any = req?.headers?.authorization;
 
   console.log(authHeader);
 
@@ -97,8 +97,7 @@ export const authenticateToken = async (
           });
         }
 
-        const refreshDecoded: any =
-          await authservicemiddleware.verifyRefereshToken(refreshToken);
+        const refreshDecoded: any = await authservicemiddleware.verifyRefereshToken(refreshToken);
         console.log(refreshDecoded, "refreshDecoded");
 
         if (!refreshDecoded) {

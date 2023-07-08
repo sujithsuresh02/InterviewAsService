@@ -11,7 +11,7 @@ import { becomeInterviewexpertsDbInterface } from "../../repositories/Landingpag
   InterviewExpertDbRepository: ReturnType<becomeInterviewexpertsDbInterface>,
 
  )=>{
-  const response= InterviewExpertDbRepository.becomeInterviewExperts(formData)
+  const response= await InterviewExpertDbRepository.becomeInterviewExperts(formData)
   return response
  } 
 
