@@ -21,7 +21,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { becomeInterviewExpert } from "../../../Features/Slices/InterviewExpertslice/becominginterviewexpert";
-import Applynow from "../../../Images/apply-now.svg"
+import Applynow from "../../../Images/apply-now.svg";
 
 const domainExpertiseOptions = [
   { label: "Front-end Development" },
@@ -34,7 +34,8 @@ const domainExpertiseOptions = [
   { label: "Cloud Computing" },
   { label: "DevOps" },
   { label: "Artificial Intelligence" },
-  { label: "Machine Learning" },];
+  { label: "Machine Learning" },
+];
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required("Full Name is required"),
@@ -86,9 +87,9 @@ export default function InterviewExpertForm() {
       formData.append("graduationYear", values.graduationYear);
       formData.append("domainExpertise", values.domainExpertise);
       formData.append("message", values.message);
-            console.log(formData,"sented successfully");
+      console.log(formData, "sented successfully");
       const response = await dispatch(becomeInterviewExpert(formData));
-             
+
       if (response?.payload?.data?.message) {
         toast.success(response?.payload?.data?.message);
         formik.resetForm();
@@ -99,7 +100,7 @@ export default function InterviewExpertForm() {
 
   const resetFileInput = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; 
+      fileInputRef.current.value = "";
     }
   };
 
@@ -116,11 +117,7 @@ export default function InterviewExpertForm() {
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <img
-            src={Applynow}
-            style={{ maxWidth: "100%" }}
-            alt=""
-          />
+          <img src={Applynow} style={{ maxWidth: "100%" }} alt="" />
         </Box>
         <Grid item sm={12} xs={12} md={12} lg={12}>
           <Typography

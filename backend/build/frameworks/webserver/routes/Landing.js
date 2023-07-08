@@ -16,7 +16,6 @@ const LandingRouter = () => {
     const router = express_1.default.Router();
     const controller = (0, companyControllers_1.default)(companyRepostories_2.companyDbInterface, companyRepostories_1.companiesDbImplementation, companyServiceInterface_1.companyServiceInterface, companyService_1.companyServiceImplementation, adminRepostories_1.adminRepositoryInterface, adminImplementation_1.adminRepositoryImplementation);
     router.post("/demo", controller.postDemo);
-    //  router.post("/become_interviewexperts",interviewExpertUpload.single('cv'),controller.postDemo)
     return router;
 };
 exports.default = LandingRouter;

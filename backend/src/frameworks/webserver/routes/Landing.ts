@@ -7,26 +7,20 @@ import { companyServiceInterface } from "../../../application/services/companySe
 import { adminRepositoryImplementation } from "../../database/Postgres/repositories/Admin/adminImplementation";
 import { adminRepositoryInterface } from "../../../application/repositories/Admin/adminRepostories";
 import { interviewExpertUpload } from "../../services/multer";
-adminRepositoryImplementation
+adminRepositoryImplementation;
 const LandingRouter = () => {
   const router = express.Router();
 
-  const controller =companyController(
+  const controller = companyController(
     companyDbInterface,
     companiesDbImplementation,
     companyServiceInterface,
     companyServiceImplementation,
     adminRepositoryInterface,
-    adminRepositoryImplementation,
- 
+    adminRepositoryImplementation
+  );
 
- )
-
- 
-   router.post("/demo",controller.postDemo)
-  //  router.post("/become_interviewexperts",interviewExpertUpload.single('cv'),controller.postDemo)
-   
-
+  router.post("/demo", controller.postDemo);
   return router;
 };
 export default LandingRouter;
