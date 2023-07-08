@@ -11,7 +11,7 @@ import {
   createMessage,
   getMessage,
 } from "../../Features/Slices/Chat/ChatSlice";
-let Id=null
+let Id = null;
 const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const dispatch = useDispatch();
   const client = useSelector(
@@ -27,9 +27,10 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
-console.log(chat,"in chatbox");
+  console.log(receivedMessage,"recievedMessages");
+  console.log(chat, "in chatbox");
   useEffect(() => {
-    if (receivedMessage !== null && receivedMessage.chatId === chat?.chatId) {
+    if (receivedMessage !== null && receivedMessage.chatId === chat?.id) {
       setMessages([...messages, receivedMessage]);
     }
   }, [receivedMessage]);
