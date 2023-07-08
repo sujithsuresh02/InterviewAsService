@@ -52,13 +52,11 @@ const interviewexpertsController = (
       );
       console.log(Tokens);
 
-      if (Object.keys(Tokens).length > 0) {
         res.json({
           message: "Form Submitted Successfully!!",
           Tokens: Tokens,
           status: "success",
         });
-      }
     }
   );
 
