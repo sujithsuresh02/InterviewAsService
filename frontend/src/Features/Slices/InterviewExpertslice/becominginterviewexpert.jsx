@@ -72,6 +72,7 @@ const interviewExpertSlice = createSlice({
         console.log(action);
       })
       .addCase(becomeInterviewExpert.fulfilled, (state, action) => {
+        console.log(action,"action");
         const results = action?.payload?.data?.Tokens;
         state.interviewExperts.push(results);
       })

@@ -28,11 +28,13 @@ const interviewexpertsController = (becomeExpertInterface, becomeExpertsImplemen
         };
         const Tokens = await (0, becomeExperts_1.interviewExperts)(formData, interviewExpertsDbRepository);
         console.log(Tokens);
-        res.json({
-            message: "Form Submitted Successfully!!",
-            Tokens: Tokens,
-            status: "success",
-        });
+        if (Tokens) {
+            res.json({
+                message: "Form Submitted Successfully!!",
+                Tokens: Tokens,
+                status: "success",
+            });
+        }
     });
     const validateInterviewToken = (0, express_async_handler_1.default)(async (req, res) => {
         const interviewToken = req.params.token;

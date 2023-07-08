@@ -51,12 +51,13 @@ const interviewexpertsController = (
         interviewExpertsDbRepository
       );
       console.log(Tokens);
-
+      if (Tokens) {
         res.json({
           message: "Form Submitted Successfully!!",
           Tokens: Tokens,
           status: "success",
         });
+      }
     }
   );
 
@@ -64,7 +65,7 @@ const interviewexpertsController = (
     async (req: Request, res: Response) => {
       const interviewToken = req.params.token;
       console.log(interviewToken);
-      
+
       const resposne = await authenticateInterviewToken(
         interviewToken,
         interviewExpertsDbRepository

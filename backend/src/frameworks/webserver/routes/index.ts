@@ -16,8 +16,8 @@ const routes = (app: Application) => {
   app.use("/api/company", authenticateToken, companyRouter());
   app.use("/api/admin/auth", adminAuthRouter());
   app.use("/api/admin", adminauthenticateToken, adminRouter());
-  app.use("/api", LandingRouter());
   app.use("/api", interviewexpertLandingRouter());
+  app.use("/api", LandingRouter());
   app.use("/api/interviewer", authenticateToken, interviwerRouter());
   app.use("/api/message", messageRouter());
 };

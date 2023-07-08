@@ -20,8 +20,8 @@ const routes = (app) => {
     app.use("/api/company", companyinterviewerMiddleware_1.authenticateToken, (0, company_1.default)());
     app.use("/api/admin/auth", (0, adminAuthRoute_1.default)());
     app.use("/api/admin", adminMiddleware_1.adminauthenticateToken, (0, admin_1.default)());
-    app.use("/api", (0, Landing_1.default)());
     app.use("/api", (0, interviewExpertLanding_1.default)());
+    app.use("/api", (0, Landing_1.default)());
     app.use("/api/interviewer", companyinterviewerMiddleware_1.authenticateToken, (0, Interviewer_1.default)());
     app.use("/api/message", (0, message_1.default)());
 };
