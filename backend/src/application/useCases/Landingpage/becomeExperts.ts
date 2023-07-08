@@ -11,8 +11,8 @@ import { becomeInterviewexpertsDbInterface } from "../../repositories/Landingpag
   InterviewExpertDbRepository: ReturnType<becomeInterviewexpertsDbInterface>,
 
  )=>{
-  const response= await InterviewExpertDbRepository.becomeInterviewExperts(formData)
-  return response
+  return await InterviewExpertDbRepository.becomeInterviewExperts(formData)
+  
  } 
 
  export const  authenticateInterviewToken =async(interviewToken:string,InterviewExpertDbRepository: ReturnType<becomeInterviewexpertsDbInterface>)=>{
