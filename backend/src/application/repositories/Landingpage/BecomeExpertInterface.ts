@@ -5,7 +5,7 @@ export const becomeexpertsDbInterface= (
 ) => {
 
   const becomeInterviewExperts= async(formData:FormValues)=>{
-    return implementationRepository.postInterviewExpert(formData)
+    return  await implementationRepository.postInterviewExpert(formData)
   }
   const valiadteToken=async(interviewToken:string)=>{
     return await implementationRepository.validateinterviewToken(interviewToken);
