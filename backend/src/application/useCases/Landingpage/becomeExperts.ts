@@ -17,6 +17,6 @@ import { becomeInterviewexpertsDbInterface } from "../../repositories/Landingpag
 
  export const  authenticateInterviewToken =async(interviewToken:string,InterviewExpertDbRepository: ReturnType<becomeInterviewexpertsDbInterface>)=>{
 
-    return InterviewExpertDbRepository.valiadteToken(interviewToken)
+    return  await InterviewExpertDbRepository.valiadteToken(interviewToken)
 
  }

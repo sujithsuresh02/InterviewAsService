@@ -6,6 +6,6 @@ const interviewExperts = async (formData, InterviewExpertDbRepository) => {
 };
 exports.interviewExperts = interviewExperts;
 const authenticateInterviewToken = async (interviewToken, InterviewExpertDbRepository) => {
-    return InterviewExpertDbRepository.valiadteToken(interviewToken);
+    return await InterviewExpertDbRepository.valiadteToken(interviewToken);
 };
 exports.authenticateInterviewToken = authenticateInterviewToken;

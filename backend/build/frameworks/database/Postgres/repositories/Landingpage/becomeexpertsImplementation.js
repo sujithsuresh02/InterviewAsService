@@ -31,6 +31,8 @@ const becomeExpertsImplementation = () => {
             });
             const name = result.dataValues.fullName;
             const Token = result.dataValues.Token;
+            console.log(name, "name");
+            console.log(Token, "token");
             return { name, Token };
         }
         catch (error) {
