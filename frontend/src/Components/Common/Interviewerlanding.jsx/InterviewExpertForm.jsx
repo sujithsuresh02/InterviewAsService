@@ -77,6 +77,7 @@ export default function InterviewExpertForm() {
     onSubmit: async (values) => {
       console.log(values.cvFile[0]);
       const formData = new FormData();
+      console.log(values.fullName,values.phoneNumber,values.email,values.linkedIn,values.cvFile[0],values.currentEmployer, values.experience,values.graduationYear,values.domainExpertise,values.domainExpertise, values.message);
       formData.append("fullName", values.fullName);
       formData.append("phoneNumber", values.phoneNumber);
       formData.append("email", values.email);
