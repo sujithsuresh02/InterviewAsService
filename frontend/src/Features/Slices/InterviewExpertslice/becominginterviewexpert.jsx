@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Demoapi from "../../../api/LandingPage/Demo";
 import myAxios from "../../../api/Admin/admin";
 export const becomeInterviewExpert = createAsyncThunk(
-  "/demo",
+  "/become_interviewexpert",
   async (values) => {
     try {
       const response = await Demoapi.post("/become_interviewexpert", values);
