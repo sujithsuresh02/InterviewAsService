@@ -29,8 +29,8 @@ const becomeExpertsImplementation = () => {
             const result = await interviewexperts.create(data, {
                 returning: true,
             });
-            const name = result.dataValues.fullName;
-            const Token = result.dataValues.Token;
+            const name = result?.dataValues?.fullName;
+            const Token = result?.dataValues?.Token;
             console.log(name, "name");
             console.log(Token, "token");
             return { name, Token };

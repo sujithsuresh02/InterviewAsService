@@ -34,8 +34,7 @@ const domainExpertiseOptions = [
   { label: "Cloud Computing" },
   { label: "DevOps" },
   { label: "Artificial Intelligence" },
-  { label: "Machine Learning" },
-];
+  { label: "Machine Learning" },];
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required("Full Name is required"),
@@ -87,9 +86,9 @@ export default function InterviewExpertForm() {
       formData.append("graduationYear", values.graduationYear);
       formData.append("domainExpertise", values.domainExpertise);
       formData.append("message", values.message);
-
+            console.log(formData,"sented successfully");
       const response = await dispatch(becomeInterviewExpert(formData));
-
+             
       if (response?.payload?.data?.message) {
         toast.success(response?.payload?.data?.message);
         formik.resetForm();
@@ -100,7 +99,7 @@ export default function InterviewExpertForm() {
 
   const resetFileInput = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Reset the value of the file input field
+      fileInputRef.current.value = ""; 
     }
   };
 

@@ -24,7 +24,7 @@ const LandingRouter = () => {
 
  
    router.post("/demo",controller.postDemo)
-   router.post("/become_interviewexperts",interviewExpertUpload.single('cv'),controller.postDemo)
+  //  router.post("/become_interviewexperts",interviewExpertUpload.single('cv'),controller.postDemo)
    
 
   return router;
