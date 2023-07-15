@@ -204,8 +204,8 @@ export const ListingPlansPage = () => {
   };
 
   const filteredPlans = Plans?.filter((plan) => {
-    const isValidityMatch = filterValidity.length === 0 || filterValidity.includes(plan.validity);
-    const isSearchMatch = searchValue === "" || (plan.planName && plan.planName.toLowerCase().includes(searchValue.toLowerCase()));
+    const isValidityMatch = filterValidity.length === 0 || filterValidity?.includes(plan.validity);
+    const isSearchMatch = searchValue === "" || (plan?.planName && plan?.planName.toLowerCase().includes(searchValue.toLowerCase()));
     console.log('Validity Match:', isValidityMatch);
     console.log('Search Match:', isSearchMatch);
     return isValidityMatch  && isSearchMatch;
@@ -258,7 +258,7 @@ export const ListingPlansPage = () => {
         <Grid item xs={12} md={9}>
           <Paper sx={{ p: 2, boxShadow: "none" }}>
             {paginatedData.length>0?
-              paginatedData.map((plan, index) => <PlanCard key={index} plan={plan} />):
+              paginatedData?.map((plan, index) => <PlanCard key={index} plan={plan} />):
               <Box  display={"flex"} justifyContent={"start"}>
               <Typography variant="h4" >No Results Found</Typography >
               </Box>}

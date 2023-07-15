@@ -17,6 +17,9 @@ const configKeys = {
     EMAIL: process.env.EMAIL || "",
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || "",
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID || "",
-    PAYPAL_CLIENT_SECRET: process.env.PAYPAL_CLIENT_SECRET || ""
+    PAYPAL_CLIENT_SECRET: process.env.PAYPAL_CLIENT_SECRET || "",
+    cloud_name: process.env.cloud_name || "",
+    api_key: process.env.api_key || "",
+    api_secret: process.env.api_secret || ""
 };
 exports.default = configKeys;

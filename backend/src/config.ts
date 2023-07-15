@@ -14,7 +14,10 @@ interface ConfigKeys {
   EMAIL:string,
   EMAIL_PASSWORD:string,
   PAYPAL_CLIENT_ID:string,
-  PAYPAL_CLIENT_SECRET:string
+  PAYPAL_CLIENT_SECRET:string,
+  cloud_name:string, 
+  api_key:string,
+  api_secret:string
 }
 const configKeys: ConfigKeys = {
   database: process.env.database || 'defaultDatabaseName',
@@ -28,7 +31,10 @@ const configKeys: ConfigKeys = {
   EMAIL:process.env.EMAIL||"",
   EMAIL_PASSWORD:process.env.EMAIL_PASSWORD||"",
   PAYPAL_CLIENT_ID:process.env. PAYPAL_CLIENT_ID||"",
-  PAYPAL_CLIENT_SECRET:process.env.PAYPAL_CLIENT_SECRET||""
+  PAYPAL_CLIENT_SECRET:process.env.PAYPAL_CLIENT_SECRET||"",
+  cloud_name:process.env.cloud_name||"",
+  api_key:process.env.api_key||"",
+  api_secret:process.env.api_secret||""
 
 };
 
