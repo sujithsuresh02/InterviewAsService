@@ -28,7 +28,7 @@ import EditProfile from "../../Interviewer/profile/Editprofile";
 import { getInterviewerDetails } from "../../../Features/Slices/Interviewer/Interviewer";
 let roles = null;
 let subscriptionHistory = null;
-let isSubscriptionActive=null
+let isSubscriptionActive = null;
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const Header = () => {
     useEffect(() => {
       dispatch(getSignupData());
     }, [getSignupData]);
-    roles = useSelector((state) => state?.profile?.getSignupData[0]?.name);
+    // roles = useSelector((state) => state?.profile?.getSignupData[0]?.name);
   }
   if (role === "interviewer") {
     useEffect(() => {
@@ -85,12 +85,10 @@ const Header = () => {
           path: "/company/add_request",
           style: {
             color: isSubscriptionActive ? "inherit" : "rgba(0, 0, 0, 0.5)",
-            cursor: isSubscriptionActive===true ? "pointer" : "not-allowed",
-            pointerEvents: isSubscriptionActive ? "auto" : "none"
-          
+            cursor: isSubscriptionActive === true ? "pointer" : "not-allowed",
+            pointerEvents: isSubscriptionActive ? "auto" : "none",
           },
-          disabled:isSubscriptionActive,
-
+          disabled: isSubscriptionActive,
         },
         { label: "Feedback", path: "/company/student_details" },
         { label: "Plans", path: "/company/plans" },
@@ -131,7 +129,7 @@ const Header = () => {
             <Drawercomp />
           ) : (
             <>
-               <Tabs
+              <Tabs
                 value={value}
                 indicatorColor="secondary"
                 onChange={(_, newValue) => setValue(newValue)}
@@ -149,7 +147,8 @@ const Header = () => {
               >
                 {getPages()?.map((page, index) => (
                   <React.Fragment key={index}>
-                    {page.path === "/company/add_request" && !isSubscriptionActive ? (
+                    {page.path === "/company/add_request" &&
+                    !isSubscriptionActive ? (
                       <Tooltip title="Add Request is disabled">
                         <span>
                           <Tab
