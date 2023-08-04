@@ -131,7 +131,7 @@ const LoginForm = () => {
               label="Show Password"
             />
             <Link to={'/forgotpassword'} style={{textDecoration:"none",color:"black"}}>
-            <Typography variant="body1" mt={1.5}>Forgotpassword ?</Typography>
+            <Typography variant="body1" mt={1.5}>Forgot Password?</Typography>
             </Link>
             </Box>
             <Grid container direction="column" spacing={1} marginTop={3}>
@@ -145,7 +145,7 @@ const LoginForm = () => {
                   Login
                 </Button>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <Typography variant="p" marginLeft={"12rem"}>
                   OR
                 </Typography>
@@ -159,7 +159,7 @@ const LoginForm = () => {
                 >
                   Login with Google
                 </Button>
-              </Grid>
+              </Grid> */}
             </Grid>
           </form>
         </Paper>

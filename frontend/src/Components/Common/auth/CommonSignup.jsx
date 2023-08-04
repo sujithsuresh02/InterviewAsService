@@ -25,7 +25,7 @@ import {
   validateInterviewerSignup,
   validateSignupToken,
 } from "../../../Features/Slices/signupSlice";
-import { googleSignIn } from "../../../Features/Slices/loginSlice";
+// import { googleSignIn } from "../../../Features/Slices/loginSlice";
 import { LoadingPage } from "../../Loading/Loadingpage";
 let Tokens = null;
 const SignupForm = () => {
@@ -36,19 +36,16 @@ const SignupForm = () => {
   useEffect(() => {
     dispatch(validateInterviewerSignup(token));
     dispatch(validateSignupToken(token));
-  }, [validateInterviewerSignup, dispatch, validateSignupToken]);
+  }, [token,dispatch]);
 
 const InterviewerTokens = useSelector((state) => state?.commonSignup?.validateInterviewerSignup);
 const demoTokens = useSelector((state) => state?.commonSignup?.validateSignup);
 const isLoading = useSelector((state) => state?.commonSignup?.isLoading);
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+  
   console.log(InterviewerTokens,"interviewerToken");
 
   const tokenMatch = (token,Tokens) => {
-    console.log(Tokens,"tokensssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
     const matchFound = Tokens?.some((obj) => obj?.validationToken === token);
     if (!matchFound) {
       navigate("/");
@@ -115,23 +112,22 @@ const isLoading = useSelector((state) => state?.commonSignup?.isLoading);
     },
   });
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const userDetails = await SignInWithGoogle();
-      console.log("details");
-      // const result = await dispatch(googleSignIn(userDetails));
-      //  console.log(result);
-      // Handle the authentication result here
-    } catch (error) {
-      console.log(error);
-      // Handle any errors that occurred during sign-in
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     const userDetails = await SignInWithGoogle();
+  //     console.log("details");
+  //     // const result = await dispatch(googleSignIn(userDetails));
+  //     //  console.log(result);
+  //     // Handle the authentication result here
+  //   } catch (error) {
+  //     console.log(error);
+  //     // Handle any errors that occurred during sign-in
+  //   }
+  // };
 
   return (
     <>
-      {/* {tokenMatch
-        ? tokenMatch( */}
+
       <Grid
         container
         justifyContent="center"
@@ -242,28 +238,27 @@ const isLoading = useSelector((state) => state?.commonSignup?.isLoading);
                     Signup
                   </Button>
                 </Grid>
-                <Grid item>
+                {/* <Grid item>
                   <Typography variant="p" marginLeft={"12rem"}>
                     OR
                   </Typography>
-                </Grid>
-                <Grid item>
+                </Grid> */}
+                {/* <Grid item>
                   <Button
                     variant="contained"
                     startIcon={<GoogleIcon />}
                     fullWidth
-                    onClick={handleGoogleSignIn}
+                    // onClick={handleGoogleSignIn}
                   >
                     Signup with Google
                   </Button>
-                </Grid>
+                </Grid> */}
               </Grid>
             </form>
           </Paper>
         </Grid>
       </Grid>
-      {/* )
-        : navigate("/")} */}
+      
     </>
   );
 };

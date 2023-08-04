@@ -33,6 +33,7 @@ const companyController = (companyDbInterface, companiesDbImplementation, compan
     const uploadCv = (0, express_async_handler_1.default)(async (req, res) => {
         const { addrequestId } = req.body;
         const companyId = req.id;
+        console.log(req.file);
         const filetype = req.file?.mimetype;
         const cvPath = req.file?.path;
         const cv = req.file?.originalname;

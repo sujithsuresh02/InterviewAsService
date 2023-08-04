@@ -43,8 +43,8 @@ const ForgotPasswordPage = () => {
   const response=await dispatch(forgotPassword({email:email}))
     console.log(response,"from the ");
     if(response?.payload?.message){
-      navigate('/login')
       toast.success(response?.payload?.message)
+      navigate('/login')
     }
   };
 

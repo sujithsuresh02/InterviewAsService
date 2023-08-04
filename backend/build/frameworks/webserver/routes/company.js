@@ -16,7 +16,7 @@ const companyRouter = () => {
     const router = express_1.default.Router();
     const controller = (0, companyControllers_1.default)(companyRepostories_2.companyDbInterface, companyRepostories_1.companiesDbImplementation, companyServiceInterface_1.companyServiceInterface, companyService_1.companyServiceImplementation, adminRepostories_1.adminRepositoryInterface, adminImplementation_1.adminRepositoryImplementation);
     router.post("/add_request", controller.addRequest);
-    router.post("/upload_cv", multer_1.upload.single("cv"), controller.uploadCv);
+    router.post("/upload_cv", multer_1.uploadCv, controller.uploadCv);
     router.get("/plans", controller.getFullPlans);
     router.post("/create-paypal-subscription", controller.subscriptions);
     router.get("/capture-paypal-subscription/:id", controller.capturpayment);

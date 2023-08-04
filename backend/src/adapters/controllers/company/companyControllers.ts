@@ -83,7 +83,8 @@ const companyController = (
   const uploadCv = asyncHandler(async (req: Request, res: Response) => {
     const { addrequestId } = req.body;
     const companyId: string = (req as any).id;
-
+  console.log(req.file);
+  
     const filetype = req.file?.mimetype;
     const cvPath = req.file?.path;
     const cv = req.file?.originalname;

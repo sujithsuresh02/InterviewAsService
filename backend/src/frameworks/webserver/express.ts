@@ -18,7 +18,8 @@ const expressConfig = (app: Application) => {
 
   app.use(
     cors({
-      origin: ['https://www.interviewxperts.online','https://interviewxperts.online'],
+      // origin: ['https://www.interviewxperts.online','https://interviewxperts.online'],
+      origin: ['http://localhost:5173'],
       methods: "GET, POST, PUT, PATCH, DELETE",
       exposedHeaders: ["Authorization", "X-My-Custom-Header"],
     })

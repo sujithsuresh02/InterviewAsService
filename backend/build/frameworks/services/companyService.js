@@ -9,14 +9,22 @@ const pdf_1 = require("pdfjs-dist/legacy/build/pdf");
 const openai_1 = require("openai");
 const config_1 = __importDefault(require("../../config"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const axios_1 = __importDefault(require("axios"));
 const appError_1 = __importDefault(require("../../utils/appError"));
 const httpStatus_1 = require("../../types/httpStatus");
 const checkout_server_sdk_1 = __importDefault(require("@paypal/checkout-server-sdk"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const companyServiceImplementation = () => {
     const extractData = async (path) => {
+        console.log(path, "path");
         try {
-            const pdf = await (0, pdf_1.getDocument)(path).promise;
+            const response = await axios_1.default.get(path, { responseType: 'arraybuffer' });
+            console.log(response);
+            const pdfData = response.data;
+            console.log(pdfData, "pdf");
+            // Create a PDF document using pdfjs-dist
+            const loadingTask = (0, pdf_1.getDocument)({ data: pdfData });
+            const pdf = await loadingTask.promise;
             const numPages = pdf.numPages;
             let fullText = "";
             for (let pageNum = 1; pageNum <= numPages; pageNum++) {
@@ -34,6 +42,7 @@ const companyServiceImplementation = () => {
             });
         }
         catch (error) {
+            console.log(error, "error");
             throw new appError_1.default(error, httpStatus_1.HttpStatus.BAD_REQUEST);
         }
         return;

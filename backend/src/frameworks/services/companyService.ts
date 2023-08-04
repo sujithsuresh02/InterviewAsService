@@ -3,6 +3,7 @@ import { getDocument } from "pdfjs-dist/legacy/build/pdf";
 import { Configuration, OpenAIApi } from "openai";
 import configKeys from "../../config";
 import bcrypt, { compare } from "bcryptjs";
+import axios from "axios"
 import {
   SubscriptionDetails,
   studentDetails,
@@ -14,9 +15,22 @@ import { FloatDataType } from "sequelize";
 import { PayPalHttpClient } from "@paypal/checkout-server-sdk/lib/core/paypal_http_client";
 import nodemailer, { Transporter } from "nodemailer";
 export const companyServiceImplementation = () => {
+
+
+
   const extractData = async (path: string) => {
+    console.log(path,"path");
+    
     try {
-      const pdf = await getDocument(path).promise;
+      const response = await axios.get(path, { responseType: 'arraybuffer' });
+      console.log(response);
+      
+    const pdfData = response.data;
+   console.log(pdfData,"pdf");
+   
+      // Create a PDF document using pdfjs-dist
+      const loadingTask = getDocument({ data: pdfData });
+      const pdf = await loadingTask.promise;
       const numPages = pdf.numPages;
 
       let fullText = "";
@@ -35,6 +49,8 @@ export const companyServiceImplementation = () => {
         return result;
       });
     } catch (error: any) {
+      console.log(error,"error");
+      
       throw new AppError(error, HttpStatus.BAD_REQUEST);
     }
     return;

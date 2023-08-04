@@ -11,7 +11,7 @@ const BecomeExpertInterface_1 = require("../../../application/repositories/Landi
 const interviewexpertLandingRouter = () => {
     const router = express_1.default.Router();
     const controller = (0, Becomeinterviewexperts_1.default)(BecomeExpertInterface_1.becomeexpertsDbInterface, becomeexpertsImplementation_1.becomeExpertsImplementation);
-    router.post("/become_interviewexpert", multer_1.interviewExpertUpload.single('cvFile'), controller.postInterviewExpert);
+    router.post("/become_interviewexpert", multer_1.upload, controller.postInterviewExpert);
     router.get("/validate_interviewToken/:token", controller.validateInterviewToken);
     return router;
 };
