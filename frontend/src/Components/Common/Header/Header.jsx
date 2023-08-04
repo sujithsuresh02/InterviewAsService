@@ -46,7 +46,7 @@ const Header = () => {
     useEffect(() => {
       dispatch(getSignupData());
     }, [getSignupData]);
-    // roles = useSelector((state) => state?.profile?.getSignupData[0]?.name);
+
   }
   if (role === "interviewer") {
     useEffect(() => {
